@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class KeySlot : Interactable3D, IItemReceiver
 {
@@ -13,6 +14,9 @@ public class KeySlot : Interactable3D, IItemReceiver
 
     public KeySlotState State => state;
     public ItemSO StoredKeyItem => storedKeyItem;
+
+
+    public UnityEvent OnSolved;
 
     public override void Interact()
     {
@@ -68,10 +72,15 @@ public class KeySlot : Interactable3D, IItemReceiver
         }
 
         if (solveIfCorrect)
+        {   
             SetState(KeySlotState.Solved);
+            OnSolved?.Invoke();
+        }
         else
+        {
             state = KeySlotState.CorrectKey;
-    }
+        }
+}
 
     public void SetState(KeySlotState newState)
     {

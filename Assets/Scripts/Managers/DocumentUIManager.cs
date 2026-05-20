@@ -25,8 +25,7 @@ public class DocumentUIManager : MonoBehaviour
         _currentPage = Instantiate(docItemPagePrefab, docContent);
         documentUIPanel.SetActive(true);
 
-        PlayerCore.Instance?.SetMovementEnabled(false);
-        PlayerCore.Instance?.SetInteractionEnabled(false);
+        ScreenManager.Instance?.ChangeScreen(Screens.DocPage);
     }
 
     public void CloseDoc()
@@ -38,8 +37,6 @@ public class DocumentUIManager : MonoBehaviour
         }
 
         documentUIPanel.SetActive(false);
-
-        PlayerCore.Instance?.SetMovementEnabled(true);
-        PlayerCore.Instance?.SetInteractionEnabled(true);
+        ScreenManager.Instance?.ChangeScreen(Screens.Gameplay);
     }
 }

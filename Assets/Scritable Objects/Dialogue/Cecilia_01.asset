@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34cb700044bfc44095f38ecf036596f, type: 3}
+  m_Name: Cecilia_01
+  m_EditorClassIdentifier: Assembly-CSharp::SODialogue
+  sentences:
+  - talker: 1
+    sentenceText: "Ol\xE1 Cecilia! Estou testando o sistema de Dialogo!"
+    sentenceAction: {fileID: 0}
+  - talker: 2
+    sentenceText: "Que? Impossivel j\xE1 estar funcionando..."
+    sentenceAction: {fileID: 0}
+  - talker: 1
+    sentenceText: "O Claude \xE9 foda!!!"
+    sentenceAction: {fileID: 0}
+  nextDialogue: {fileID: 11400000, guid: b744a673e36baba4fb389e7392aaef7a, type: 2}
