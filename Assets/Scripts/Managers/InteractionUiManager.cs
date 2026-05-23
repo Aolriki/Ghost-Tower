@@ -1,7 +1,13 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
+/// <summary>
+/// Singleton de CENA (sem DontDestroyOnLoad).
+/// Morre e renasce a cada cena de gameplay.
+/// Props e NPCs continuam acessando via InteractionUIManager.Instance —
+/// a diferença é que a instância agora é local da cena.
+/// </summary>
 public class InteractionUIManager : MonoBehaviour
 {
     public static InteractionUIManager Instance { get; private set; }
@@ -14,16 +20,15 @@ public class InteractionUIManager : MonoBehaviour
     private Coroutine fadeCoroutine;
     private Camera mainCamera;
     private Transform currentTarget;
-
     private Vector3 currentOffset;
 
+    // ── Unity ─────────────────────────────────────────────────────────────────
 
     private void Awake()
     {
-        // Singleton
+        // Sem DontDestroyOnLoad — singleton local de cena
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
 
         mainCamera = Camera.main;
 
@@ -35,40 +40,43 @@ public class InteractionUIManager : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
+
+    // ── Public API ────────────────────────────────────────────────────────────
+
     public void ShowAt(Transform target, Vector3 uiOffset)
     {
         currentTarget = target;
-        currentOffset = uiOffset; //salva o offset
+        currentOffset = uiOffset;
         interactionCanvas.transform.position = target.position + uiOffset;
         SetCanvasVisible(true);
         StartFloatEffect(uiOffset);
     }
 
-    private void LateUpdate()
-    {
-        if (interactionCanvas == null || !interactionCanvas.gameObject.activeSelf) return;
-
-        // O FloatStep j� cuida da posi��o enquanto anima
-        // LateUpdate s� precisa cuidar da rota��o
-        interactionCanvas.transform.LookAt(
-            interactionCanvas.transform.position + mainCamera.transform.rotation * Vector3.forward,
-            mainCamera.transform.rotation * Vector3.up
-        );
-    }
-
-
-
-    // Chamado pelo prop quando o jogador sai do range
     public void Hide(Transform target)
     {
-        // S� esconde se o pedido vem do prop que est� ativo no momento
         if (currentTarget != target) return;
         currentTarget = null;
         SetCanvasVisible(false);
         StopFloatEffect();
     }
 
-    //Float
+    // ── LateUpdate ────────────────────────────────────────────────────────────
+
+    private void LateUpdate()
+    {
+        if (interactionCanvas == null || !interactionCanvas.gameObject.activeSelf) return;
+
+        interactionCanvas.transform.LookAt(
+            interactionCanvas.transform.position + mainCamera.transform.rotation * Vector3.forward,
+            mainCamera.transform.rotation * Vector3.up
+        );
+    }
+
+    // ── Float ─────────────────────────────────────────────────────────────────
 
     private void StartFloatEffect(Vector3 uiOffset)
     {
@@ -101,13 +109,12 @@ public class InteractionUIManager : MonoBehaviour
             t += Time.deltaTime;
             if (currentTarget == null) yield break;
             float ease = Mathf.SmoothStep(0f, 1f, t / duration);
-            // Aplica o offset SOMADO � posi��o world do target
             interactionCanvas.transform.position = currentTarget.position + Vector3.Lerp(fromOffset, toOffset, ease);
             yield return null;
         }
     }
 
-    //Fade
+    // ── Fade ──────────────────────────────────────────────────────────────────
 
     private void SetCanvasVisible(bool visible, bool instant = false)
     {

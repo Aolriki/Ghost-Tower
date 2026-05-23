@@ -1,47 +1,39 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Singleton que gerencia o modo CodeProp:
-///   - Transicao de camera e ocultacao da personagem
-///   - UI compartilhada: cursores/pinos e legenda de comandos
-///   - Ponto de entrada do input do Action Map "CodeProp",
-///     repassado para o CodeSlotController que estiver ativo
+/// Singleton de CENA (sem DontDestroyOnLoad).
+/// Morre e renasce a cada cena de gameplay.
+/// Lógica interna idêntica à versão anterior.
 /// </summary>
 public class CodePropInteractionManager : MonoBehaviour
 {
     public static CodePropInteractionManager Instance { get; private set; }
-
-    // Inspector
 
     [Header("Camera Transition")]
     [Range(1f, 20f)]
     public float cameraMoveSpeed = 8f;
 
     [Header("Player Body")]
-    [Tooltip("Renderer(s) do corpo da personagem ocultados durante a interacao.")]
     public Renderer[] playerBodyRenderers;
 
-    [Header("Cursors (pinos indicadores de slot ativo)")]
+    [Header("Cursors")]
     public CanvasGroup cursorLeft;
     public CanvasGroup cursorMiddle;
     public CanvasGroup cursorRight;
 
-    [Tooltip("Velocidade de piscada dos pinos.")]
     public float cursorBlinkSpeed = 3f;
 
     [Header("HUD")]
     public GameObject commandsLegend;
 
-    // Private - camera
+    // Private
 
     private Transform _mainCameraTransform;
     private Vector3 _savedCamPosition;
     private Quaternion _savedCamRotation;
     private Coroutine _camMoveCoroutine;
-
-    // Private - UI e input
 
     private CodeSlotController _activeController;
     private int _selectedSlot;
@@ -51,10 +43,11 @@ public class CodePropInteractionManager : MonoBehaviour
     private Vector2 _heldInput;
     private bool _inputHeld;
 
-    // Unity
+    // ── Unity ─────────────────────────────────────────────────────────────────
 
     void Awake()
     {
+        // Sem DontDestroyOnLoad — singleton local de cena
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
 
@@ -63,6 +56,11 @@ public class CodePropInteractionManager : MonoBehaviour
 
         HideAllCursors();
         if (commandsLegend != null) commandsLegend.SetActive(false);
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 
     void Update()
@@ -74,7 +72,7 @@ public class CodePropInteractionManager : MonoBehaviour
             _activeController.HandleNavigate(_heldInput, isHeld: true);
     }
 
-    // Public API - Camera
+    // ── Public API — Camera ───────────────────────────────────────────────────
 
     public void EnterPropView(Transform camAnchor)
     {
@@ -82,7 +80,7 @@ public class CodePropInteractionManager : MonoBehaviour
 
         if (camAnchor == null)
         {
-            Debug.LogWarning("[CodePropInteractionManager] camAnchor nao atribuido no CodeSlot.");
+            Debug.LogWarning("[CodePropInteractionManager] camAnchor não atribuído.");
             return;
         }
 
@@ -110,7 +108,7 @@ public class CodePropInteractionManager : MonoBehaviour
         SetPlayerBodyVisible(true);
     }
 
-    // Public API - UI e controller ativo
+    // ── Public API — Controller ativo ────────────────────────────────────────
 
     public void Activate(CodeSlotController controller)
     {
@@ -138,7 +136,7 @@ public class CodePropInteractionManager : MonoBehaviour
         ResetCursorBlink();
     }
 
-    // Input Callbacks (Action Map: CodeProp - Invoke Unity Events)
+    // ── Input Callbacks ───────────────────────────────────────────────────────
 
     public void OnCodeNavigate(InputAction.CallbackContext context)
     {
@@ -174,7 +172,7 @@ public class CodePropInteractionManager : MonoBehaviour
         _activeController.HandleExit();
     }
 
-    // Camera - internal
+    // ── Camera internal ───────────────────────────────────────────────────────
 
     private IEnumerator MoveCameraTo(Vector3 targetPos, Quaternion targetRot,
                                      System.Action onComplete = null)
@@ -204,7 +202,7 @@ public class CodePropInteractionManager : MonoBehaviour
         if (follow != null) follow.enabled = enabled;
     }
 
-    // Cursor Blink - internal
+    // ── Cursor Blink internal ─────────────────────────────────────────────────
 
     private void UpdateCursorBlink()
     {
@@ -216,10 +214,7 @@ public class CodePropInteractionManager : MonoBehaviour
         if (cursorRight != null) cursorRight.alpha = _selectedSlot == 2 ? alpha : 0f;
     }
 
-    private void ResetCursorBlink()
-    {
-        _blinkPhase = 0.25f;
-    }
+    private void ResetCursorBlink() => _blinkPhase = 0.25f;
 
     private void HideAllCursors()
     {

@@ -43,6 +43,6 @@ public class DocSlot : Interactable3D
             return;
         }
 
-        DocumentUIManager.Instance?.OpenDoc(docItemPagePrefab);
+        ScreenManager.Instance?.OpenDoc(docItemPagePrefab);
     }
 }

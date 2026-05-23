@@ -6,7 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/DevMap.unity
+    path: Assets/Scenes/Boot (DevMap).unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 8033a641fed627948a14eb4a36940059
+  - enabled: 1
+    path: Assets/Scenes/Stage01.unity
+    guid: e969bddd744d6154bbea98b7e0d4a116
+  - enabled: 1
+    path: Assets/Scenes/Stage02.unity
+    guid: 44e6c11423c13c042bf2168c71d0be95
+  - enabled: 1
+    path: Assets/Scenes/Stage03.unity
+    guid: 650cc31bd64aa0b4b8df575a0a0f3dbb
+  - enabled: 1
+    path: Assets/Scenes/Cutscene.unity
+    guid: 456599f2e1b06c7438171978ed13c173
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

@@ -5,10 +5,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Struct de posicionamento
-// ─────────────────────────────────────────────────────────────────────────────
-
 [System.Serializable]
 public struct CharacterDialogueData
 {
@@ -22,10 +18,6 @@ public struct CharacterDialogueData
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Entrada de prefab por personagem
-// ─────────────────────────────────────────────────────────────────────────────
-
 [System.Serializable]
 public class CharacterBalloonEntry
 {
@@ -33,53 +25,26 @@ public class CharacterBalloonEntry
     public DialogueBalloon balloonPrefab;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DialogueManager
-// ─────────────────────────────────────────────────────────────────────────────
-
 /// <summary>
-/// Singleton que exibe blocos de diálogo sequencialmente.
-///
-/// Prefab por personagem:
-///   Cada CharacterName pode ter seu próprio prefab de balão.
-///   Configure em "Balloon Prefabs" no Inspector.
-///   Se o personagem não tiver entrada, usa o "Default Balloon Prefab".
-///
-/// Último bloco executado:
-///   Ao fim de um diálogo encadeado (nextDialogue), o DialogueManager
-///   expõe LastPlayedDialogue — o NPCInteractable usa isso para saber
-///   qual bloco repetir nas próximas interações.
+/// Singleton de CENA (sem DontDestroyOnLoad).
+/// Morre e renasce a cada cena de gameplay.
+/// Lógica interna idêntica à versão anterior.
 /// </summary>
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
 
-    // ── Inspector ─────────────────────────────────────────────────────────────
-
     [Header("Balloon Prefabs")]
-    [Tooltip("Prefab padrão usado quando o personagem não tem entrada específica.")]
     public DialogueBalloon defaultBalloonPrefab;
-
-    [Tooltip("Prefab de balão específico por personagem. " +
-             "Adicione uma entrada para cada CharacterName que precisar de visual diferente.")]
     public List<CharacterBalloonEntry> balloonPrefabs = new();
 
     [Header("Events")]
-    [Tooltip("Disparado quando o diálogo começa.\nLigue: DialogueHUD → GameObject.SetActive (true)")]
     public UnityEvent OnDialogueStart;
-
-    [Tooltip("Disparado quando o diálogo termina.\nLigue: DialogueHUD → GameObject.SetActive (false)")]
     public UnityEvent OnDialogueEnd;
 
     // ── State ─────────────────────────────────────────────────────────────────
 
     public bool IsActive { get; private set; }
-
-    /// <summary>
-    /// Último SODialogue executado antes do diálogo terminar.
-    /// O NPCInteractable lê isso no HandleDialogueEnded para memorizar
-    /// qual bloco repetir nas próximas interações.
-    /// </summary>
     public SODialogue LastPlayedDialogue { get; private set; }
 
     private SODialogue _currentDialogue;
@@ -92,17 +57,18 @@ public class DialogueManager : MonoBehaviour
 
     void Awake()
     {
+        // Sem DontDestroyOnLoad — singleton local de cena
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 
     // ── Public API ────────────────────────────────────────────────────────────
 
-    /// <summary>
-    /// Inicia um bloco de diálogo a partir de um SODialogue.
-    /// Chamado pelo NPCInteractable.
-    /// </summary>
     public void StartDialogue(SODialogue dialogue, List<CharacterDialogueData> charactersData)
     {
         if (dialogue == null || dialogue.sentences.Length == 0)
@@ -126,9 +92,6 @@ public class DialogueManager : MonoBehaviour
         ShowCurrentSentence();
     }
 
-    /// <summary>
-    /// Avança o diálogo: skip do typewriter OU próxima frase.
-    /// </summary>
     public void Advance()
     {
         if (!IsActive) return;
@@ -142,9 +105,6 @@ public class DialogueManager : MonoBehaviour
         NextSentence();
     }
 
-    /// <summary>
-    /// Encerra o diálogo imediatamente.
-    /// </summary>
     public void EndDialogue()
     {
         StopAutoNext();
@@ -154,7 +114,7 @@ public class DialogueManager : MonoBehaviour
         OnDialogueEnd?.Invoke();
     }
 
-    // ── Input callbacks (PlayerInput – Invoke Unity Events) ───────────────────
+    // ── Input callbacks ───────────────────────────────────────────────────────
 
     public void OnDialogueNext(InputAction.CallbackContext context)
     {
@@ -217,9 +177,7 @@ public class DialogueManager : MonoBehaviour
 
     private void PositionBalloon(Vector3 worldPosition, CharacterName talker)
     {
-        // Destrói o balão anterior (pode ser de outro personagem com prefab diferente)
         DestroyBalloon();
-
         DialogueBalloon prefab = GetPrefabFor(talker);
         _currentBalloon = Instantiate(prefab);
         _currentBalloon.transform.position = worldPosition;

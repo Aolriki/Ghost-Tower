@@ -1,7 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public enum Screens
 {
@@ -15,6 +14,17 @@ public enum Screens
     CodeProp,
 }
 
+/// <summary>
+/// Singleton global (DontDestroyOnLoad).
+/// Responsabilidades:
+///   - Gerenciar painéis e transições de tela
+///   - Executar fades de blackscreen
+///   - Abrir e fechar o painel de documento
+///
+/// Regra: este script NUNCA referencia sistemas de cena
+/// (PlayerCore, InventoryManager, etc.).
+/// Navegação entre cenas e QuitGame pertencem ao GameManager.
+/// </summary>
 public class ScreenManager : MonoBehaviour
 {
     public static ScreenManager Instance { get; private set; }
@@ -34,6 +44,7 @@ public class ScreenManager : MonoBehaviour
 
     [Header("Doc Page")]
     [SerializeField] private GameObject docPagePanel;
+    [SerializeField] private Transform docContent;
 
     [Header("Pause")]
     [SerializeField] private GameObject pausePanel;
@@ -48,6 +59,10 @@ public class ScreenManager : MonoBehaviour
     [Header("Loading")]
     [SerializeField] private GameObject loadingPanel;
 
+    private GameObject _currentDocPage;
+
+    // ── Unity ─────────────────────────────────────────────────────────────────
+
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -56,22 +71,32 @@ public class ScreenManager : MonoBehaviour
 
         blackScreenPanel?.gameObject.SetActive(false);
         loadingPanel?.SetActive(false);
+        docPagePanel?.SetActive(false);
     }
 
-    void Start()
+    void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+    void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        int scene = SceneManager.GetActiveScene().buildIndex;
-        //ChangeScreen(scene == 0 ? Screens.MainMenu : Screens.Gameplay);  Importante descomentar quando for buildar o jogo.
-        ChangeScreen(Screens.Gameplay);
+        if (GameManager.Instance == null) return;
+
+        GameManager gm = GameManager.Instance;
+        int idx = scene.buildIndex;
+
+        if (idx == gm.sceneMenu)
+            ChangeScreen(Screens.MainMenu);
+        else if (idx == gm.sceneBoot)
+        { /* Boot não precisa de tela */ }
+        else
+            ChangeScreen(Screens.Gameplay);
     }
 
-    // ?? Public ????????????????????????????????????????????????????????????????
+    // ── Painéis ───────────────────────────────────────────────────────────────
 
     public void ChangeScreen(Screens screen)
     {
-        Screens previous = CurrentScreen;
         CurrentScreen = screen;
-
         DeactivateAllPanels();
 
         switch (screen)
@@ -89,7 +114,7 @@ public class ScreenManager : MonoBehaviour
                 break;
 
             case Screens.DocPage:
-                hudPanel?.SetActive(true);   // HUD continua vis�vel por baixo
+                hudPanel?.SetActive(true);
                 docPagePanel?.SetActive(true);
                 InputManager.Instance?.SwitchToUI();
                 Time.timeScale = 0f;
@@ -108,25 +133,32 @@ public class ScreenManager : MonoBehaviour
                 break;
 
             case Screens.Dialogue:
-                hudPanel?.SetActive(true);   // HUD de gameplay continua vis�vel
+                hudPanel?.SetActive(true);
                 InputManager.Instance?.SwitchToUI();
-                Time.timeScale = 1f;         // jogo n�o pausa durante di�logo
+                Time.timeScale = 1f;
                 break;
 
             case Screens.CodeProp:
-                // HUD fica oculto � o CodePropController gerencia o painel pr�prio
                 codePropPanel?.SetActive(true);
                 InputManager.Instance?.SwitchToCodeProp();
-                Time.timeScale = 1f;   // roda em tempo real para anima��es do prop
+                Time.timeScale = 1f;
                 break;
         }
     }
 
-    // Atalhos convenientes para bot�es de UI via UnityEvent
+    // ── Atalhos para UnityEvent ───────────────────────────────────────────────
+
     public void GoToMainMenu() => ChangeScreen(Screens.MainMenu);
     public void GoToGameplay() => ChangeScreen(Screens.Gameplay);
     public void GoToPause() => ChangeScreen(Screens.Pause);
     public void GoToDialogue() => ChangeScreen(Screens.Dialogue);
+
+    /// <summary>
+    /// Re-aplica o Action Map do InputManager para a tela atual.
+    /// Chamado pelo SceneInputRegistrar após registrar o PlayerInput,
+    /// garantindo que a troca de mapa aconteça com o PlayerInput já disponível.
+    /// </summary>
+    public void ReapplyCurrentScreen() => ChangeScreen(CurrentScreen);
 
     public void TogglePause()
     {
@@ -134,22 +166,36 @@ public class ScreenManager : MonoBehaviour
         else if (CurrentScreen == Screens.Pause) ChangeScreen(Screens.Gameplay);
     }
 
-    public void QuitGame()
+    // ── Doc Page ──────────────────────────────────────────────────────────────
+
+    public void OpenDoc(GameObject docPagePrefab)
     {
-        StartCoroutine(QuitDelayed());
+        if (docContent == null || docPagePrefab == null) return;
+
+        if (_currentDocPage != null)
+            Destroy(_currentDocPage);
+
+        _currentDocPage = Instantiate(docPagePrefab, docContent);
+        ChangeScreen(Screens.DocPage);
     }
 
-    public void LoadScene(int buildIndex)
+    public void CloseDoc()
     {
-        StartCoroutine(LoadSceneRoutine(buildIndex));
+        if (_currentDocPage != null)
+        {
+            Destroy(_currentDocPage);
+            _currentDocPage = null;
+        }
+
+        ChangeScreen(Screens.Gameplay);
     }
 
-    // ?? Black Screen ??????????????????????????????????????????????????????????
+    // ── Fade (chamado pelo GameManager) ───────────────────────────────────────
 
     public void FadeToBlack(System.Action onComplete = null) => StartCoroutine(FadeRoutine(1f, onComplete));
     public void FadeFromBlack(System.Action onComplete = null) => StartCoroutine(FadeRoutine(0f, onComplete));
 
-    // ?? Internal ??????????????????????????????????????????????????????????????
+    // ── Internal ──────────────────────────────────────────────────────────────
 
     private void DeactivateAllPanels()
     {
@@ -158,28 +204,22 @@ public class ScreenManager : MonoBehaviour
         docPagePanel?.SetActive(false);
         pausePanel?.SetActive(false);
         codePropPanel?.SetActive(false);
-    }
-
-    private IEnumerator LoadSceneRoutine(int buildIndex)
-    {
-        ChangeScreen(Screens.Loading);
-        FadeToBlack();
-        yield return new WaitForSecondsRealtime(1f);
-
-        AsyncOperation op = SceneManager.LoadSceneAsync(buildIndex);
-        while (!op.isDone) yield return null;
-
-        FadeFromBlack();
-        yield return new WaitForSecondsRealtime(blackScreenFadeDuration);
-        ChangeScreen(buildIndex == 0 ? Screens.MainMenu : Screens.Gameplay);
+        loadingPanel?.SetActive(false);
     }
 
     private IEnumerator FadeRoutine(float target, System.Action onComplete)
     {
-        if (blackScreenPanel == null) yield break;
+        if (blackScreenPanel == null)
+        {
+            onComplete?.Invoke();
+            yield break;
+        }
+
+        float start = target == 1f ? 0f : 1f;
+
+        blackScreenPanel.alpha = start;
         blackScreenPanel.gameObject.SetActive(true);
 
-        float start = blackScreenPanel.alpha;
         float elapsed = 0f;
 
         while (elapsed < blackScreenFadeDuration)
@@ -195,12 +235,5 @@ public class ScreenManager : MonoBehaviour
             blackScreenPanel.gameObject.SetActive(false);
 
         onComplete?.Invoke();
-    }
-
-    private IEnumerator QuitDelayed()
-    {
-        FadeToBlack();
-        yield return new WaitForSecondsRealtime(blackScreenFadeDuration + 0.5f);
-        Application.Quit();
     }
 }
