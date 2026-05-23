@@ -1,43 +1,57 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
-/// Gerencia a transição de cena ao abrir/fechar um CodeProp:
-///   • Move a câmera para um ponto de vista dedicado do prop
-///   • Oculta o corpo da personagem
-///   • Restaura tudo ao fechar
-///
-/// É um singleton leve. Vive no mesmo GameObject do CodePropController
-/// ou em um GameObject separado na cena.
+/// Singleton que gerencia o modo CodeProp:
+///   - Transicao de camera e ocultacao da personagem
+///   - UI compartilhada: cursores/pinos e legenda de comandos
+///   - Ponto de entrada do input do Action Map "CodeProp",
+///     repassado para o CodeSlotController que estiver ativo
 /// </summary>
 public class CodePropInteractionManager : MonoBehaviour
 {
     public static CodePropInteractionManager Instance { get; private set; }
 
-    // ── Inspector ─────────────────────────────────────────────────────────────
+    // Inspector
 
     [Header("Camera Transition")]
-    [Tooltip("Transform para onde a câmera vai durante a interação com o CodeProp.\n" +
-             "Crie um GameObject vazio na cena chamado 'CodePropCamAnchor' e posicione-o.")]
-    public Transform codePropCameraAnchor;
-
-    [Tooltip("Velocidade de interpolação da câmera (Lerp por frame).")]
     [Range(1f, 20f)]
     public float cameraMoveSpeed = 8f;
 
     [Header("Player Body")]
-    [Tooltip("Renderer(s) do corpo da personagem que serão ocultados durante a interação.")]
+    [Tooltip("Renderer(s) do corpo da personagem ocultados durante a interacao.")]
     public Renderer[] playerBodyRenderers;
 
-    // ── Private ───────────────────────────────────────────────────────────────
+    [Header("Cursors (pinos indicadores de slot ativo)")]
+    public CanvasGroup cursorLeft;
+    public CanvasGroup cursorMiddle;
+    public CanvasGroup cursorRight;
+
+    [Tooltip("Velocidade de piscada dos pinos.")]
+    public float cursorBlinkSpeed = 3f;
+
+    [Header("HUD")]
+    public GameObject commandsLegend;
+
+    // Private - camera
 
     private Transform _mainCameraTransform;
-    private Vector3   _savedCamPosition;
+    private Vector3 _savedCamPosition;
     private Quaternion _savedCamRotation;
-
     private Coroutine _camMoveCoroutine;
 
-    // ── Unity ─────────────────────────────────────────────────────────────────
+    // Private - UI e input
+
+    private CodeSlotController _activeController;
+    private int _selectedSlot;
+    private float _blinkPhase;
+    private bool _isActive;
+
+    private Vector2 _heldInput;
+    private bool _inputHeld;
+
+    // Unity
 
     void Awake()
     {
@@ -46,57 +60,121 @@ public class CodePropInteractionManager : MonoBehaviour
 
         if (Camera.main != null)
             _mainCameraTransform = Camera.main.transform;
+
+        HideAllCursors();
+        if (commandsLegend != null) commandsLegend.SetActive(false);
     }
 
-    // ── Public API ────────────────────────────────────────────────────────────
+    void Update()
+    {
+        if (!_isActive) return;
+        UpdateCursorBlink();
 
-    /// <summary>
-    /// Prepara a cena para a interação:
-    /// salva a câmera, move para o anchor e oculta a personagem.
-    /// </summary>
-    public void EnterPropView(Transform propAnchorOverride = null)
+        if (_inputHeld && _activeController != null)
+            _activeController.HandleNavigate(_heldInput, isHeld: true);
+    }
+
+    // Public API - Camera
+
+    public void EnterPropView(Transform camAnchor)
     {
         if (_mainCameraTransform == null) return;
 
-        // Salva estado atual da câmera
+        if (camAnchor == null)
+        {
+            Debug.LogWarning("[CodePropInteractionManager] camAnchor nao atribuido no CodeSlot.");
+            return;
+        }
+
         _savedCamPosition = _mainCameraTransform.position;
         _savedCamRotation = _mainCameraTransform.rotation;
 
-        // Desabilita o CameraFollow para não brigar com o Lerp
         SetCameraFollowEnabled(false);
 
-        // Move a câmera para o anchor
-        Transform target = propAnchorOverride != null ? propAnchorOverride : codePropCameraAnchor;
-        if (target != null)
-        {
-            if (_camMoveCoroutine != null) StopCoroutine(_camMoveCoroutine);
-            _camMoveCoroutine = StartCoroutine(MoveCameraTo(target.position, target.rotation));
-        }
+        if (_camMoveCoroutine != null) StopCoroutine(_camMoveCoroutine);
+        _camMoveCoroutine = StartCoroutine(MoveCameraTo(camAnchor.position, camAnchor.rotation));
 
-        // Oculta corpo da personagem
         SetPlayerBodyVisible(false);
     }
 
-    /// <summary>
-    /// Restaura a cena ao estado de Gameplay:
-    /// câmera volta para a posição salva e o corpo reaparece.
-    /// </summary>
     public void ExitPropView()
     {
         if (_mainCameraTransform == null) return;
 
         if (_camMoveCoroutine != null) StopCoroutine(_camMoveCoroutine);
         _camMoveCoroutine = StartCoroutine(
-            MoveCameraTo(_savedCamPosition, _savedCamRotation, onComplete: () =>
-            {
-                SetCameraFollowEnabled(true);
-            })
+            MoveCameraTo(_savedCamPosition, _savedCamRotation,
+                onComplete: () => SetCameraFollowEnabled(true))
         );
 
         SetPlayerBodyVisible(true);
     }
 
-    // ── Internal ──────────────────────────────────────────────────────────────
+    // Public API - UI e controller ativo
+
+    public void Activate(CodeSlotController controller)
+    {
+        _activeController = controller;
+        _selectedSlot = 0;
+        _isActive = true;
+
+        ResetCursorBlink();
+        if (commandsLegend != null) commandsLegend.SetActive(true);
+    }
+
+    public void Deactivate()
+    {
+        _activeController = null;
+        _isActive = false;
+        _inputHeld = false;
+
+        HideAllCursors();
+        if (commandsLegend != null) commandsLegend.SetActive(false);
+    }
+
+    public void OnSlotChanged(int newSlot)
+    {
+        _selectedSlot = newSlot;
+        ResetCursorBlink();
+    }
+
+    // Input Callbacks (Action Map: CodeProp - Invoke Unity Events)
+
+    public void OnCodeNavigate(InputAction.CallbackContext context)
+    {
+        if (!_isActive || _activeController == null) return;
+
+        if (context.started)
+        {
+            _heldInput = context.ReadValue<Vector2>();
+            _inputHeld = false;
+            _activeController.HandleNavigate(_heldInput, isHeld: false);
+        }
+        else if (context.performed)
+        {
+            _heldInput = context.ReadValue<Vector2>();
+            _inputHeld = true;
+        }
+        else if (context.canceled)
+        {
+            _heldInput = Vector2.zero;
+            _inputHeld = false;
+        }
+    }
+
+    public void OnCodeConfirm(InputAction.CallbackContext context)
+    {
+        if (!_isActive || !context.performed || _activeController == null) return;
+        _activeController.HandleConfirm();
+    }
+
+    public void OnCodeExit(InputAction.CallbackContext context)
+    {
+        if (!_isActive || !context.performed || _activeController == null) return;
+        _activeController.HandleExit();
+    }
+
+    // Camera - internal
 
     private IEnumerator MoveCameraTo(Vector3 targetPos, Quaternion targetRot,
                                      System.Action onComplete = null)
@@ -122,8 +200,31 @@ public class CodePropInteractionManager : MonoBehaviour
 
     private void SetCameraFollowEnabled(bool enabled)
     {
-        // CameraFollow vive no mesmo GameObject que Camera.main normalmente
         CameraFollow follow = _mainCameraTransform?.GetComponent<CameraFollow>();
         if (follow != null) follow.enabled = enabled;
+    }
+
+    // Cursor Blink - internal
+
+    private void UpdateCursorBlink()
+    {
+        _blinkPhase += Time.deltaTime * cursorBlinkSpeed;
+        float alpha = (Mathf.Sin(_blinkPhase * Mathf.PI * 2f) + 1f) * 0.5f;
+
+        if (cursorLeft != null) cursorLeft.alpha = _selectedSlot == 0 ? alpha : 0f;
+        if (cursorMiddle != null) cursorMiddle.alpha = _selectedSlot == 1 ? alpha : 0f;
+        if (cursorRight != null) cursorRight.alpha = _selectedSlot == 2 ? alpha : 0f;
+    }
+
+    private void ResetCursorBlink()
+    {
+        _blinkPhase = 0.25f;
+    }
+
+    private void HideAllCursors()
+    {
+        if (cursorLeft != null) cursorLeft.alpha = 0f;
+        if (cursorMiddle != null) cursorMiddle.alpha = 0f;
+        if (cursorRight != null) cursorRight.alpha = 0f;
     }
 }
