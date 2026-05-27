@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DocSlot : Interactable3D
+public class DocSlot : Interactable
 {
     [Header("Doc Item")]
     public ItemSO item;

@@ -1,8 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+// Lives on the global ScreenManager GameObject.
+// Reconnects to the scene-local InventoryManager via OnSceneReady each time a scene loads.
 public class InventoryUI : MonoBehaviour
 {
+    public static InventoryUI Instance { get; private set; }
+
     [Header("References")]
     public GameObject slotPrefab;
     public Transform slotsContainer;
@@ -17,20 +21,41 @@ public class InventoryUI : MonoBehaviour
     private Outline[] _slotOutlines = new Outline[8];
     private int _selectedIndex = -1;
 
-    void Start()
+    // Cached reference to the scene-local InventoryManager.
+    private InventoryManager _inventoryManager;
+
+    void Awake()
     {
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        Instance = this;
+
         BuildSlots();
-
-        if (InventoryManager.Instance != null)
-            InventoryManager.Instance.OnInventoryChanged += Refresh;
-
-        Refresh();
     }
 
     void OnDestroy()
     {
-        if (InventoryManager.Instance != null)
-            InventoryManager.Instance.OnInventoryChanged -= Refresh;
+        if (Instance == this) Instance = null;
+        Unsubscribe();
+    }
+
+    // Called by the scene-local InventoryManager.Start() after it registers itself.
+    public void OnSceneReady()
+    {
+        Unsubscribe();
+
+        _inventoryManager = InventoryManager.Instance;
+
+        if (_inventoryManager == null) return;
+
+        _inventoryManager.OnInventoryChanged += Refresh;
+        Refresh();
+    }
+
+    // Called by PlayerHandItem when the selected slot changes.
+    public void SetSelected(int index)
+    {
+        _selectedIndex = index;
+        ApplySelection();
     }
 
     private void BuildSlots()
@@ -47,7 +72,9 @@ public class InventoryUI : MonoBehaviour
 
     private void Refresh()
     {
-        var items = InventoryManager.Instance.Items;
+        if (_inventoryManager == null) return;
+
+        var items = _inventoryManager.Items;
 
         for (int i = 0; i < 8; i++)
         {
@@ -72,12 +99,14 @@ public class InventoryUI : MonoBehaviour
 
     private void CenterContainer()
     {
+        if (_inventoryManager == null) return;
+
         RectTransform rt = slotsContainer.GetComponent<RectTransform>();
         if (rt == null) return;
 
         HorizontalLayoutGroup hlg = slotsContainer.GetComponent<HorizontalLayoutGroup>();
         float spacing = hlg != null ? hlg.spacing : 0f;
-        int count = InventoryManager.Instance.Items.Count;
+        int count = _inventoryManager.Items.Count;
         if (count == 0) count = 1;
 
         float width = (slotSize * count) + (spacing * (count - 1));
@@ -85,15 +114,11 @@ public class InventoryUI : MonoBehaviour
         rt.anchoredPosition = new Vector2(0f, rt.anchoredPosition.y);
     }
 
-    public void SetSelected(int index)
-    {
-        _selectedIndex = index;
-        ApplySelection();
-    }
-
     private void ApplySelection()
     {
-        var items = InventoryManager.Instance.Items;
+        if (_inventoryManager == null) return;
+
+        var items = _inventoryManager.Items;
 
         for (int i = 0; i < 8; i++)
         {
@@ -109,5 +134,12 @@ public class InventoryUI : MonoBehaviour
                     : items[i].icon;
             }
         }
+    }
+
+    private void Unsubscribe()
+    {
+        if (_inventoryManager == null) return;
+        _inventoryManager.OnInventoryChanged -= Refresh;
+        _inventoryManager = null;
     }
 }

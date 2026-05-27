@@ -14,17 +14,9 @@ public enum Screens
     CodeProp,
 }
 
-/// <summary>
-/// Singleton global (DontDestroyOnLoad).
-/// Responsabilidades:
-///   - Gerenciar painéis e transições de tela
-///   - Executar fades de blackscreen
-///   - Abrir e fechar o painel de documento
-///
-/// Regra: este script NUNCA referencia sistemas de cena
-/// (PlayerCore, InventoryManager, etc.).
-/// Navegação entre cenas e QuitGame pertencem ao GameManager.
-/// </summary>
+// Global singleton (DontDestroyOnLoad).
+// Manages panels, screen transitions, fade, doc pages and the floor map.
+// Rule: this script never references scene-local systems directly.
 public class ScreenManager : MonoBehaviour
 {
     public static ScreenManager Instance { get; private set; }
@@ -48,6 +40,7 @@ public class ScreenManager : MonoBehaviour
 
     [Header("Pause")]
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private Transform mapContent;
 
     [Header("Code Prop")]
     [SerializeField] private GameObject codePropPanel;
@@ -60,8 +53,7 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private GameObject loadingPanel;
 
     private GameObject _currentDocPage;
-
-    // ── Unity ─────────────────────────────────────────────────────────────────
+    private GameObject _currentMapInstance;
 
     void Awake()
     {
@@ -81,19 +73,20 @@ public class ScreenManager : MonoBehaviour
     {
         if (GameManager.Instance == null) return;
 
+        UnloadMap();
+
         GameManager gm = GameManager.Instance;
         int idx = scene.buildIndex;
 
         if (idx == gm.sceneMenu)
             ChangeScreen(Screens.MainMenu);
         else if (idx == gm.sceneBoot)
-        { /* Boot não precisa de tela */ }
+        { /* Boot does not need a screen. */ }
         else
             ChangeScreen(Screens.Gameplay);
     }
 
-    // ── Painéis ───────────────────────────────────────────────────────────────
-
+    // Manages which panels are active and which input map is in use.
     public void ChangeScreen(Screens screen)
     {
         CurrentScreen = screen;
@@ -146,18 +139,13 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
-    // ── Atalhos para UnityEvent ───────────────────────────────────────────────
-
+    // Shortcut methods for UnityEvents.
     public void GoToMainMenu() => ChangeScreen(Screens.MainMenu);
     public void GoToGameplay() => ChangeScreen(Screens.Gameplay);
     public void GoToPause() => ChangeScreen(Screens.Pause);
     public void GoToDialogue() => ChangeScreen(Screens.Dialogue);
 
-    /// <summary>
-    /// Re-aplica o Action Map do InputManager para a tela atual.
-    /// Chamado pelo SceneInputRegistrar após registrar o PlayerInput,
-    /// garantindo que a troca de mapa aconteça com o PlayerInput já disponível.
-    /// </summary>
+    // Reapplies the correct input map after PlayerInputRegister registers the local PlayerInput.
     public void ReapplyCurrentScreen() => ChangeScreen(CurrentScreen);
 
     public void TogglePause()
@@ -166,8 +154,7 @@ public class ScreenManager : MonoBehaviour
         else if (CurrentScreen == Screens.Pause) ChangeScreen(Screens.Gameplay);
     }
 
-    // ── Doc Page ──────────────────────────────────────────────────────────────
-
+    // Opens a document page prefab inside the doc content area.
     public void OpenDoc(GameObject docPagePrefab)
     {
         if (docContent == null || docPagePrefab == null) return;
@@ -190,12 +177,36 @@ public class ScreenManager : MonoBehaviour
         ChangeScreen(Screens.Gameplay);
     }
 
-    // ── Fade (chamado pelo GameManager) ───────────────────────────────────────
+    // Instantiates the floor map prefab inside the pause panel map area.
+    public GameObject LoadMap(GameObject mapPrefab)
+    {
+        if (mapContent == null)
+        {
+            Debug.LogWarning("[ScreenManager] mapContent is not assigned.");
+            return null;
+        }
+
+        if (mapPrefab == null) return null;
+
+        if (_currentMapInstance != null)
+            Destroy(_currentMapInstance);
+
+        _currentMapInstance = Instantiate(mapPrefab, mapContent);
+        return _currentMapInstance;
+    }
+
+    // Destroys the current map instance. Called automatically on scene change.
+    public void UnloadMap()
+    {
+        if (_currentMapInstance != null)
+        {
+            Destroy(_currentMapInstance);
+            _currentMapInstance = null;
+        }
+    }
 
     public void FadeToBlack(System.Action onComplete = null) => StartCoroutine(FadeRoutine(1f, onComplete));
     public void FadeFromBlack(System.Action onComplete = null) => StartCoroutine(FadeRoutine(0f, onComplete));
-
-    // ── Internal ──────────────────────────────────────────────────────────────
 
     private void DeactivateAllPanels()
     {

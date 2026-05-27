@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Collectable : Interactable3D
+public class Collectable : Interactable
 {
     [Header("Item")]
     public ItemSO item;

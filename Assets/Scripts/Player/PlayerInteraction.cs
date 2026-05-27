@@ -2,14 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Detects the nearest Interactable and forwards inputs by channel.
 public class PlayerInteraction : MonoBehaviour
 {
-    // Configuração
-
-
     [SerializeField] private Transform playerRoot;
-
-    // Estado público
 
     public bool CanInteract
     {
@@ -25,16 +21,12 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    // Privados
-
+    // Exposed so PlayerContext can read the nearest interactable without polling.
+    public Interactable NearestInteractable => _nearest;
 
     private bool _canInteract = true;
-    private readonly List<Interactable3D> _interactables = new List<Interactable3D>();
-    private Interactable3D _nearest;
-
-
-    // Inicialização
-
+    private readonly List<Interactable> _interactables = new List<Interactable>();
+    private Interactable _nearest;
 
     void Awake()
     {
@@ -42,31 +34,25 @@ public class PlayerInteraction : MonoBehaviour
             playerRoot = transform.parent != null ? transform.parent : transform;
     }
 
-
-    // Callback de Input (chamado pelo PlayerInput em modo Invoke Unity Events)
-    // Registre este método no evento Interact do PlayerInput no Inspector.
-
-
+    // Register this method on the Interact event of PlayerInput in the Inspector.
     public void OnInteract(InputAction.CallbackContext context)
     {
-        Debug.Log($"OnInteract called | phase: {context.phase}");
-        if (!_canInteract) return;
-
-        if (context.performed && _nearest != null)
-            _nearest.Interact();
+        if (!_canInteract || !context.performed || _nearest == null) return;
+        _nearest.ReceiveInput("Interact");
     }
 
-    // Update
-
+    // Register this method on the Talk event of PlayerInput in the Inspector.
+    public void OnTalk(InputAction.CallbackContext context)
+    {
+        if (!_canInteract || !context.performed || _nearest == null) return;
+        _nearest.ReceiveInput("Talk");
+    }
 
     void Update()
     {
         if (!_canInteract) return;
         RefreshNearest();
     }
-
-
-    // Lógica interna
 
     private void RefreshNearest()
     {
@@ -77,7 +63,7 @@ public class PlayerInteraction : MonoBehaviour
         }
 
         float minDist = float.MaxValue;
-        Interactable3D closest = null;
+        Interactable closest = null;
         Vector3 playerPos = playerRoot.position;
 
         for (int i = _interactables.Count - 1; i >= 0; i--)
@@ -115,19 +101,16 @@ public class PlayerInteraction : MonoBehaviour
         _nearest = null;
     }
 
-
-    // Trigger (detecção de range)
-
     void OnTriggerEnter(Collider other)
     {
-        var interactable = other.GetComponent<Interactable3D>();
+        var interactable = other.GetComponent<Interactable>();
         if (interactable != null && !_interactables.Contains(interactable))
             _interactables.Add(interactable);
     }
 
     void OnTriggerExit(Collider other)
     {
-        var interactable = other.GetComponent<Interactable3D>();
+        var interactable = other.GetComponent<Interactable>();
         if (interactable == null) return;
 
         if (_nearest == interactable)

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
+// Manages the player item list for the current scene.
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance { get; private set; }
@@ -17,6 +17,20 @@ public class InventoryManager : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+    }
+
+    void Start()
+    {
+        // Notify the global HUD systems that a new scene is ready.
+        // InventoryUI reconnects here because it lives on the global ScreenManager object
+        // and cannot rely on Start() ordering relative to this scene-local component.
+        InventoryUI.Instance?.OnSceneReady();
+        HUDIcons.Instance?.OnSceneReady();
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 
     public bool AddItem(ItemSO item)

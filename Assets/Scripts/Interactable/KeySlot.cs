@@ -1,7 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class KeySlot : Interactable3D, IItemReceiver
+// Slot de chave. Aceita qualquer chave por padrao.
+// Com isLocker = true, bloqueia itens errados e exibe o painel via KeySlotLockedUI.Instance.
+public class KeySlot : Interactable, IItemReceiver
 {
     public enum KeySlotState { Null, WrongKey, CorrectKey, Solved }
 
@@ -12,9 +14,15 @@ public class KeySlot : Interactable3D, IItemReceiver
     [SerializeField] private KeySlotState state = KeySlotState.Null;
     public bool solveIfCorrect = true;
 
+    [Header("Locker")]
+    [Tooltip("Quando true, so aceita o correctKeyItem. Itens errados e maos vazias exibem o painel de bloqueio.")]
+    public bool isLocker = false;
+
+    [Tooltip("Offset do painel de bloqueio em relacao ao KeySlot.")]
+    public Vector3 lockedUIOffset = new Vector3(0f, 1.8f, 0f);
+
     public KeySlotState State => state;
     public ItemSO StoredKeyItem => storedKeyItem;
-
 
     public UnityEvent OnSolved;
 
@@ -22,22 +30,39 @@ public class KeySlot : Interactable3D, IItemReceiver
     {
         if (!canInteract) return;
 
-        ItemSO selectedItem = PlayerItem.Instance?.SelectedItem;
+        ItemSO selectedItem = PlayerHandItem.Instance?.SelectedItem;
 
-        if (selectedItem == null)
+        // Locker: rejeita mao vazia e itens que nao sejam o correto.
+        if (isLocker)
         {
-            if (storedKeyItem != null)
+            bool isCorrectItem = selectedItem != null
+                                 && selectedItem.type == ItemType.Key
+                                 && selectedItem == correctKeyItem;
+
+            if (!isCorrectItem)
             {
-                InventoryManager.Instance.AddItem(storedKeyItem);
-                storedKeyItem = null;
-                state = KeySlotState.Null;
+                KeySlotLockedUI.Instance?.Show(transform.position + lockedUIOffset);
+                return;
             }
-            return;
+        }
+        else
+        {
+            // Sem locker: mao vazia devolve o item guardado.
+            if (selectedItem == null)
+            {
+                if (storedKeyItem != null)
+                {
+                    InventoryManager.Instance.AddItem(storedKeyItem);
+                    storedKeyItem = null;
+                    state = KeySlotState.Null;
+                }
+                return;
+            }
+
+            if (selectedItem.type != ItemType.Key) return;
         }
 
-        if (selectedItem.type != ItemType.Key) return;
-
-        PlayerItem.Instance.DeliverTo(this);
+        PlayerHandItem.Instance.DeliverTo(this);
     }
 
     public void ReceiveItem(ItemSO item)
@@ -72,7 +97,7 @@ public class KeySlot : Interactable3D, IItemReceiver
         }
 
         if (solveIfCorrect)
-        {   
+        {
             SetState(KeySlotState.Solved);
             OnSolved?.Invoke();
         }
@@ -80,7 +105,7 @@ public class KeySlot : Interactable3D, IItemReceiver
         {
             state = KeySlotState.CorrectKey;
         }
-}
+    }
 
     public void SetState(KeySlotState newState)
     {
