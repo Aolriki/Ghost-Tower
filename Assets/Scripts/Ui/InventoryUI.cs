@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-// Lives on the global ScreenManager GameObject.
-// Reconnects to the scene-local InventoryManager via OnSceneReady each time a scene loads.
+// Renders the player inventory slots and keeps the container centered.
 public class InventoryUI : MonoBehaviour
 {
     public static InventoryUI Instance { get; private set; }
@@ -14,14 +13,10 @@ public class InventoryUI : MonoBehaviour
     [Header("Settings")]
     public float slotSize = 120f;
     public float selectedScale = 1.2f;
-    public Color borderColor = Color.white;
-    public float borderThickness = 3f;
 
     private Image[] _slotIcons = new Image[8];
-    private Outline[] _slotOutlines = new Outline[8];
     private int _selectedIndex = -1;
 
-    // Cached reference to the scene-local InventoryManager.
     private InventoryManager _inventoryManager;
 
     void Awake()
@@ -38,7 +33,6 @@ public class InventoryUI : MonoBehaviour
         Unsubscribe();
     }
 
-    // Called by the scene-local InventoryManager.Start() after it registers itself.
     public void OnSceneReady()
     {
         Unsubscribe();
@@ -51,7 +45,6 @@ public class InventoryUI : MonoBehaviour
         Refresh();
     }
 
-    // Called by PlayerHandItem when the selected slot changes.
     public void SetSelected(int index)
     {
         _selectedIndex = index;
@@ -106,10 +99,13 @@ public class InventoryUI : MonoBehaviour
 
         HorizontalLayoutGroup hlg = slotsContainer.GetComponent<HorizontalLayoutGroup>();
         float spacing = hlg != null ? hlg.spacing : 0f;
+        float paddingLeft = hlg != null ? hlg.padding.left : 0f;
+        float paddingRight = hlg != null ? hlg.padding.right : 0f;
+
         int count = _inventoryManager.Items.Count;
         if (count == 0) count = 1;
 
-        float width = (slotSize * count) + (spacing * (count - 1));
+        float width = (slotSize * count) + (spacing * (count - 1)) + paddingLeft + paddingRight;
         rt.sizeDelta = new Vector2(width, rt.sizeDelta.y);
         rt.anchoredPosition = new Vector2(0f, rt.anchoredPosition.y);
     }

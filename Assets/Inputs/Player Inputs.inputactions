@@ -413,7 +413,7 @@
                 {
                     "name": "",
                     "id": "507c0a8b-6081-4d28-b7d5-9739dcd29a86",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -457,7 +457,7 @@
                 {
                     "name": "",
                     "id": "a7a8e25e-7baa-475e-b8fa-93c9bd66b266",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -468,7 +468,7 @@
                 {
                     "name": "",
                     "id": "c7c81ba7-d031-426c-9f9d-3bdf65481b48",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/t",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -510,7 +510,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ClosePause",
+                    "name": "ClosePanel",
                     "type": "Button",
                     "id": "00362e35-15b9-4afc-ab37-56ddd86499f6",
                     "expectedControlType": "",
@@ -522,15 +522,6 @@
                     "name": "Next",
                     "type": "Button",
                     "id": "256b0c85-3187-442a-bc5c-13678cdb914e",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Skip",
-                    "type": "Button",
-                    "id": "429fdd4d-6b50-461e-8af2-b93303e36788",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -838,22 +829,22 @@
                 {
                     "name": "",
                     "id": "1fb659c8-1d03-4257-a74a-259378d69fa7",
-                    "path": "<Gamepad>/start",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ClosePause",
+                    "action": "ClosePanel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "bdf28d2d-199f-4185-b35e-3d4588a03c0a",
-                    "path": "<Keyboard>/tab",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ClosePause",
+                    "action": "ClosePanel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -871,7 +862,7 @@
                 {
                     "name": "",
                     "id": "bdca9151-d5a8-4f20-9fce-456b0a586119",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -882,44 +873,11 @@
                 {
                     "name": "",
                     "id": "0a17adcd-b287-4bf4-9b14-6a12def3c160",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Next",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e5f28476-7a43-4aaf-820b-e8fb7308fe7d",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skip",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1498369b-92bf-495f-897d-954a82669400",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skip",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "10af7cb6-298d-48c3-83a7-5a7afaea7397",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -1071,7 +1029,7 @@
                 {
                     "name": "",
                     "id": "d2e982d6-b65e-4bdb-a322-ed3775ce3511",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

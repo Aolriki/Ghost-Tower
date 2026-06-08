@@ -25,11 +25,7 @@ public class CharacterBalloonEntry
     public DialogueBalloon balloonPrefab;
 }
 
-/// <summary>
-/// Singleton de CENA (sem DontDestroyOnLoad).
-/// Morre e renasce a cada cena de gameplay.
-/// Lógica interna idêntica à versão anterior.
-/// </summary>
+// Scene singleton. Manages dialogue flow, balloon lifecycle and input callbacks.
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
@@ -42,8 +38,6 @@ public class DialogueManager : MonoBehaviour
     public UnityEvent OnDialogueStart;
     public UnityEvent OnDialogueEnd;
 
-    // ── State ─────────────────────────────────────────────────────────────────
-
     public bool IsActive { get; private set; }
     public SODialogue LastPlayedDialogue { get; private set; }
 
@@ -53,11 +47,8 @@ public class DialogueManager : MonoBehaviour
     private DialogueBalloon _currentBalloon;
     private Coroutine _autoNextCoroutine;
 
-    // ── Unity ─────────────────────────────────────────────────────────────────
-
     void Awake()
     {
-        // Sem DontDestroyOnLoad — singleton local de cena
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
     }
@@ -73,7 +64,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (dialogue == null || dialogue.sentences.Length == 0)
         {
-            Debug.LogWarning("[DialogueManager] SODialogue nulo ou sem sentences.");
+            Debug.LogWarning("[DialogueManager] SODialogue null or empty.");
             return;
         }
 
@@ -107,6 +98,7 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
+        if (!IsActive) return;
         StopAutoNext();
         LastPlayedDialogue = _currentDialogue;
         DestroyBalloon();
@@ -120,12 +112,6 @@ public class DialogueManager : MonoBehaviour
     {
         if (!context.performed) return;
         Advance();
-    }
-
-    public void OnDialogueSkip(InputAction.CallbackContext context)
-    {
-        if (!context.performed) return;
-        EndDialogue();
     }
 
     // ── Internal flow ─────────────────────────────────────────────────────────

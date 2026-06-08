@@ -38,6 +38,9 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private GameObject docPagePanel;
     [SerializeField] private Transform docContent;
 
+    [Header("Dialogue")]
+    [SerializeField] private GameObject dialoguePanel;
+
     [Header("Pause")]
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private Transform mapContent;
@@ -86,7 +89,8 @@ public class ScreenManager : MonoBehaviour
             ChangeScreen(Screens.Gameplay);
     }
 
-    // Manages which panels are active and which input map is in use.
+    // ── Screen control ────────────────────────────────────────────────────────
+
     public void ChangeScreen(Screens screen)
     {
         CurrentScreen = screen;
@@ -107,14 +111,12 @@ public class ScreenManager : MonoBehaviour
                 break;
 
             case Screens.DocPage:
-                hudPanel?.SetActive(true);
                 docPagePanel?.SetActive(true);
                 InputManager.Instance?.SwitchToUI();
                 Time.timeScale = 0f;
                 break;
 
             case Screens.Pause:
-                hudPanel?.SetActive(true);
                 pausePanel?.SetActive(true);
                 InputManager.Instance?.SwitchToUI();
                 Time.timeScale = 0f;
@@ -126,7 +128,7 @@ public class ScreenManager : MonoBehaviour
                 break;
 
             case Screens.Dialogue:
-                hudPanel?.SetActive(true);
+                dialoguePanel?.SetActive(true);
                 InputManager.Instance?.SwitchToUI();
                 Time.timeScale = 1f;
                 break;
@@ -139,13 +141,34 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
-    // Shortcut methods for UnityEvents.
+    // Closes the current screen and returns to gameplay.
+    // Use this as the single close/back action for all UI panels.
+    public void CloseCurrentScreen()
+    {
+        switch (CurrentScreen)
+        {
+            case Screens.Pause:
+                ChangeScreen(Screens.Gameplay);
+                break;
+
+            case Screens.DocPage:
+                CloseDoc();
+                break;
+
+            case Screens.Dialogue:
+                DialogueManager.Instance?.EndDialogue();
+                ChangeScreen(Screens.Gameplay);
+                break;
+        }
+    }
+
+    // ── Navigation shortcuts for UnityEvents ──────────────────────────────────
+
     public void GoToMainMenu() => ChangeScreen(Screens.MainMenu);
     public void GoToGameplay() => ChangeScreen(Screens.Gameplay);
     public void GoToPause() => ChangeScreen(Screens.Pause);
     public void GoToDialogue() => ChangeScreen(Screens.Dialogue);
 
-    // Reapplies the correct input map after PlayerInputRegister registers the local PlayerInput.
     public void ReapplyCurrentScreen() => ChangeScreen(CurrentScreen);
 
     public void TogglePause()
@@ -154,7 +177,8 @@ public class ScreenManager : MonoBehaviour
         else if (CurrentScreen == Screens.Pause) ChangeScreen(Screens.Gameplay);
     }
 
-    // Opens a document page prefab inside the doc content area.
+    // ── Doc Page ──────────────────────────────────────────────────────────────
+
     public void OpenDoc(GameObject docPagePrefab)
     {
         if (docContent == null || docPagePrefab == null) return;
@@ -177,7 +201,8 @@ public class ScreenManager : MonoBehaviour
         ChangeScreen(Screens.Gameplay);
     }
 
-    // Instantiates the floor map prefab inside the pause panel map area.
+    // ── Map ───────────────────────────────────────────────────────────────────
+
     public GameObject LoadMap(GameObject mapPrefab)
     {
         if (mapContent == null)
@@ -195,7 +220,6 @@ public class ScreenManager : MonoBehaviour
         return _currentMapInstance;
     }
 
-    // Destroys the current map instance. Called automatically on scene change.
     public void UnloadMap()
     {
         if (_currentMapInstance != null)
@@ -205,8 +229,12 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
+    // ── Fade ──────────────────────────────────────────────────────────────────
+
     public void FadeToBlack(System.Action onComplete = null) => StartCoroutine(FadeRoutine(1f, onComplete));
     public void FadeFromBlack(System.Action onComplete = null) => StartCoroutine(FadeRoutine(0f, onComplete));
+
+    // ── Internal ──────────────────────────────────────────────────────────────
 
     private void DeactivateAllPanels()
     {
@@ -216,6 +244,7 @@ public class ScreenManager : MonoBehaviour
         pausePanel?.SetActive(false);
         codePropPanel?.SetActive(false);
         loadingPanel?.SetActive(false);
+        dialoguePanel?.SetActive(false);
     }
 
     private IEnumerator FadeRoutine(float target, System.Action onComplete)

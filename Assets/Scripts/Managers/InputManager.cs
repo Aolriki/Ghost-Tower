@@ -1,16 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Singleton global (DontDestroyOnLoad).
-/// Ponto único de troca de Action Map.
-///
-/// NÃO é mais dono do PlayerInput — cada cena registra o seu
-/// próprio via RegisterPlayerInput() no Start do PlayerInput local.
-///
-/// Cenas de gameplay registram o PlayerInput do PlayerCore.
-/// Cenas de Menu/Cutscene registram um PlayerInput minimalista (só UI).
-/// </summary>
+// Global singleton (DontDestroyOnLoad).
+// Single point of action map switching.
+// Does not own the PlayerInput — each scene registers its own via RegisterPlayerInput().
 public class InputManager : MonoBehaviour
 {
     public static InputManager Instance { get; private set; }
@@ -20,8 +14,7 @@ public class InputManager : MonoBehaviour
     private const string MAP_CODEPROP = "CodeProp";
 
     private PlayerInput _playerInput;
-
-    // ── Unity ─────────────────────────────────────────────────────────────────
+    private Coroutine _switchCoroutine;
 
     void Awake()
     {
@@ -30,32 +23,20 @@ public class InputManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // ── Registro ──────────────────────────────────────────────────────────────
-
-    /// <summary>
-    /// Chamado pelo PlayerInput da cena atual ao nascer.
-    /// Substitui qualquer referência anterior.
-    /// </summary>
+    // Called by the scene PlayerInput on Start.
     public void RegisterPlayerInput(PlayerInput input)
     {
         _playerInput = input;
-        Debug.Log($"[InputManager] PlayerInput registrado: {input.gameObject.name}");
+        Debug.Log($"[InputManager] PlayerInput registered: {input.gameObject.name}");
     }
 
-    /// <summary>
-    /// Chamado pelo PlayerInput da cena ao ser destruído (OnDestroy).
-    /// Evita que o InputManager fique com referência morta.
-    /// </summary>
+    // Called by the scene PlayerInput on OnDestroy.
     public void UnregisterPlayerInput(PlayerInput input)
     {
-        if (_playerInput == input)
-        {
-            _playerInput = null;
-            Debug.Log("[InputManager] PlayerInput removido.");
-        }
+        if (_playerInput != input) return;
+        _playerInput = null;
+        Debug.Log("[InputManager] PlayerInput unregistered.");
     }
-
-    // ── Troca de Action Map ───────────────────────────────────────────────────
 
     public void SwitchToPlayer() => Switch(MAP_PLAYER);
     public void SwitchToUI() => Switch(MAP_UI);
@@ -66,8 +47,16 @@ public class InputManager : MonoBehaviour
     private void Switch(string mapName)
     {
         if (_playerInput == null) return;
+        if (_switchCoroutine != null) StopCoroutine(_switchCoroutine);
+        _switchCoroutine = StartCoroutine(SwitchNextFrame(mapName));
+    }
 
+    private IEnumerator SwitchNextFrame(string mapName)
+    {
+        yield return null;
+        if (_playerInput == null) yield break;
         _playerInput.SwitchCurrentActionMap(mapName);
-        Debug.Log($"[InputManager] Action Map → {mapName}");
+        _switchCoroutine = null;
+        Debug.Log($"[InputManager] Action Map -> {mapName}");
     }
 }
