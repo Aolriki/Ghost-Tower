@@ -44,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
     private float _cooldownTimer;
     private float _stamina;
 
+    private Animator _animator;
+
 
     // Inicialização
 
@@ -52,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
     {
         _cc = GetComponent<CharacterController>();
         _stamina = maxStamina;
+
+        _animator = GetComponentInChildren<Animator>();
     }
 
     // Callbacks de Input (chamados pelo PlayerInput em modo Invoke Unity Events)
@@ -168,6 +172,12 @@ public class PlayerMovement : MonoBehaviour
         _cc.Move(move * Time.deltaTime);
 
         if (input.sqrMagnitude > 0.01f)
-            transform.rotation = Quaternion.LookRotation(new Vector3(input.x, 0f, input.y));
+{
+    Quaternion targetRotation = Quaternion.LookRotation(new Vector3(input.x, 0f, input.y));
+    transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 720f * Time.deltaTime);
+}
+
+        if (_animator != null)
+            _animator.SetFloat("Speed", input.magnitude);
     }
 }
