@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,16 +8,14 @@ public enum Screens
     None,
     MainMenu,
     Gameplay,
-    DocPage,
+    UIMode,
     Pause,
     Loading,
     Dialogue,
-    CodeProp,
+    Look,
 }
 
-// Global singleton (DontDestroyOnLoad).
-// Manages panels, screen transitions, fade, doc pages and the floor map.
-// Rule: this script never references scene-local systems directly.
+// Singleton global (DontDestroyOnLoad) que gerencia paineis, transicoes de tela, fade, doc pages e o mapa.
 public class ScreenManager : MonoBehaviour
 {
     public static ScreenManager Instance { get; private set; }
@@ -33,9 +32,11 @@ public class ScreenManager : MonoBehaviour
 
     [Header("Gameplay")]
     [SerializeField] private GameObject hudPanel;
+    [Tooltip("Botao de fechar/sair, visivel em todas as telas exceto Gameplay e MainMenu.")]
+    [SerializeField] private GameObject exitGroup;
 
-    [Header("Doc Page")]
-    [SerializeField] private GameObject docPagePanel;
+    [Header("UI Mode")]
+    [SerializeField] private GameObject uiModePanel;
     [SerializeField] private Transform docContent;
 
     [Header("Dialogue")]
@@ -45,8 +46,11 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private Transform mapContent;
 
-    [Header("Code Prop")]
-    [SerializeField] private GameObject codePropPanel;
+    [Header("Look")]
+    [Tooltip("Texto exibido quando o jogador confirma uma combinacao errada no CodeSlot.")]
+    [SerializeField] private TMP_Text wrongCodeLabel;
+    [Tooltip("Mensagem padrao ao errar a senha. Edite aqui para versoes traduzidas.")]
+    [SerializeField] private string wrongCodeMessage = "Wrong combination.";
 
     [Header("Black Screen")]
     [SerializeField] private CanvasGroup blackScreenPanel;
@@ -66,7 +70,9 @@ public class ScreenManager : MonoBehaviour
 
         blackScreenPanel?.gameObject.SetActive(false);
         loadingPanel?.SetActive(false);
-        docPagePanel?.SetActive(false);
+        uiModePanel?.SetActive(false);
+        exitGroup?.SetActive(false);
+        wrongCodeLabel?.gameObject.SetActive(false);
     }
 
     void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
@@ -100,42 +106,49 @@ public class ScreenManager : MonoBehaviour
         {
             case Screens.MainMenu:
                 mainMenuPanel?.SetActive(true);
+                exitGroup?.SetActive(false);
                 InputManager.Instance?.SwitchToUI();
                 Time.timeScale = 1f;
                 break;
 
             case Screens.Gameplay:
                 hudPanel?.SetActive(true);
+                exitGroup?.SetActive(false);
                 InputManager.Instance?.SwitchToPlayer();
                 Time.timeScale = 1f;
                 break;
 
-            case Screens.DocPage:
-                docPagePanel?.SetActive(true);
+            case Screens.UIMode:
+                uiModePanel?.SetActive(true);
+                exitGroup?.SetActive(true);
                 InputManager.Instance?.SwitchToUI();
                 Time.timeScale = 0f;
                 break;
 
             case Screens.Pause:
                 pausePanel?.SetActive(true);
+                exitGroup?.SetActive(true);
                 InputManager.Instance?.SwitchToUI();
                 Time.timeScale = 0f;
                 break;
 
             case Screens.Loading:
                 loadingPanel?.SetActive(true);
+                exitGroup?.SetActive(false);
                 InputManager.Instance?.SwitchToUI();
                 break;
 
             case Screens.Dialogue:
                 dialoguePanel?.SetActive(true);
+                exitGroup?.SetActive(true);
                 InputManager.Instance?.SwitchToUI();
                 Time.timeScale = 1f;
                 break;
 
-            case Screens.CodeProp:
-                codePropPanel?.SetActive(true);
-                InputManager.Instance?.SwitchToCodeProp();
+            case Screens.Look:
+                hudPanel?.SetActive(true);
+                exitGroup?.SetActive(true);
+                InputManager.Instance?.SwitchToUI();
                 Time.timeScale = 1f;
                 break;
         }
@@ -151,7 +164,7 @@ public class ScreenManager : MonoBehaviour
                 ChangeScreen(Screens.Gameplay);
                 break;
 
-            case Screens.DocPage:
+            case Screens.UIMode:
                 CloseDoc();
                 break;
 
@@ -179,6 +192,7 @@ public class ScreenManager : MonoBehaviour
 
     // ── Doc Page ──────────────────────────────────────────────────────────────
 
+    // Abre um doc a partir de um prefab direto.
     public void OpenDoc(GameObject docPagePrefab)
     {
         if (docContent == null || docPagePrefab == null) return;
@@ -187,7 +201,21 @@ public class ScreenManager : MonoBehaviour
             Destroy(_currentDocPage);
 
         _currentDocPage = Instantiate(docPagePrefab, docContent);
-        ChangeScreen(Screens.DocPage);
+        ChangeScreen(Screens.UIMode);
+    }
+
+    // Abre um doc a partir de um ItemSO do tipo Doc.
+    // Abre um doc a partir de um DocSO.
+    public static void OpenDocItem(DocSO item)
+    {
+        if (item == null) return;
+        if (item.docPagePrefab == null)
+        {
+            Debug.LogWarning($"[ScreenManager] {item.itemName}: docPagePrefab nao atribuido no DocSO.");
+            return;
+        }
+
+        Instance?.OpenDoc(item.docPagePrefab);
     }
 
     public void CloseDoc()
@@ -229,6 +257,21 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
+    // ── Wrong Code Message ────────────────────────────────────────────────────
+
+    public void ShowWrongCodeMessage()
+    {
+        if (wrongCodeLabel == null) return;
+        wrongCodeLabel.text = wrongCodeMessage;
+        wrongCodeLabel.gameObject.SetActive(true);
+    }
+
+    public void HideWrongCodeMessage()
+    {
+        if (wrongCodeLabel == null) return;
+        wrongCodeLabel.gameObject.SetActive(false);
+    }
+
     // ── Fade ──────────────────────────────────────────────────────────────────
 
     public void FadeToBlack(System.Action onComplete = null) => StartCoroutine(FadeRoutine(1f, onComplete));
@@ -240,9 +283,8 @@ public class ScreenManager : MonoBehaviour
     {
         mainMenuPanel?.SetActive(false);
         hudPanel?.SetActive(false);
-        docPagePanel?.SetActive(false);
+        uiModePanel?.SetActive(false);
         pausePanel?.SetActive(false);
-        codePropPanel?.SetActive(false);
         loadingPanel?.SetActive(false);
         dialoguePanel?.SetActive(false);
     }

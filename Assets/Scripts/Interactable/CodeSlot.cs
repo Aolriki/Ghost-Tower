@@ -2,78 +2,85 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-/// <summary>
-/// Prop "Cadeado de Senha". Herda de Interactable.
-/// Sempre 3 slots, cada um com valores de 1 a 9 (armazenados internamente como 0 a 8).
-/// O jogador monta a combinacao, navega pelos slots e confirma via CodeMode.
-/// </summary>
-public class CodeSlot : Interactable
+// Prop criptex de senha: herda de LookProp, monta a combinacao por slots e resolve ao confirmar.
+public class CodeSlot : LookProp
 {
     public enum CodeSlotState { Null, WrongCode, CorrectCode, Solved }
+    public override InteractIcon Icon => InteractIcon.Cryptex;
 
-    // ── Numero fixo de slots e estados ────────────────────────────────────────
+    // Eixo unico de rotacao do criptex.
+    public enum RotationAxis { X, Y, Z }
+
+    // ── Slots ─────────────────────────────────────────────────────────────────────
 
     public const int SlotCount = 3;
-    public const int StatesPerSlot = 9;
 
-    // ── Inspector: Camera ─────────────────────────────────────────────────────
+    [Header("Slots")]
+    [Tooltip("Quantidade de valores possiveis por slot. Define os graus por face (360 / valor).")]
+    [Range(2, 12)] public int statesPerSlot = 9;
 
-    [Header("Camera")]
-    [Tooltip("Posicao e rotacao para onde a camera vai ao abrir este prop. " +
-             "Crie um GameObject filho 'CamAnchor' e posicione na frente do cadeado.")]
-    public Transform camAnchor;
-
-    // ── Inspector: Combinação correta ─────────────────────────────────────────
+    // ── Combinacao correta ────────────────────────────────────────────────────────
 
     [Header("Correct Combination")]
-    [Tooltip("Valor correto do Slot A. Range 1-9 (o jogador ve esse numero).")]
-    [Range(1, 9)] public int correctA = 1;
+    [Tooltip("Valor correto do Slot A. O jogador ve esse numero (1 ate statesPerSlot).")]
+    public int correctA = 1;
 
-    [Tooltip("Valor correto do Slot B. Range 1-9.")]
-    [Range(1, 9)] public int correctB = 1;
+    [Tooltip("Valor correto do Slot B.")]
+    public int correctB = 1;
 
-    [Tooltip("Valor correto do Slot C. Range 1-9.")]
-    [Range(1, 9)] public int correctC = 1;
+    [Tooltip("Valor correto do Slot C.")]
+    public int correctC = 1;
 
     [Tooltip("Se verdadeiro, vai direto para Solved ao acertar e desabilita a interacao.")]
     public bool solveIfCorrect = true;
 
-    // ── Inspector: Objetos 3D dos slots (criptex) ─────────────────────────────
+    // ── Objetos 3D dos slots (criptex) ────────────────────────────────────────────
 
     [Header("Slot Objects (3D)")]
     public Transform slotLeft;
     public Transform slotMiddle;
     public Transform slotRight;
 
-    // ── Inspector: Prop ───────────────────────────────────────────────────────
+    [Header("Shake")]
+    [Tooltip("Transform da mesh do prop. Separado do GameObject pai que contem este script.")]
+    public Transform meshTransform;
+    [Tooltip("Intensidade do shake ao errar a senha.")]
+    public float shakeMagnitude = 0.05f;
+    [Tooltip("Duracao total do shake em segundos.")]
+    public float shakeDuration = 0.4f;
 
-    [Header("Prop Object")]
-    [Tooltip("Objeto raiz do prop. Recebera a animacao de unlock no futuro.")]
-    public GameObject propRoot;
-
-    // ── Inspector: Rotação ────────────────────────────────────────────────────
+    // ── Rotacao ───────────────────────────────────────────────────────────────────
 
     [Header("Rotation Settings")]
-    [Tooltip("Graus por face do criptex. Padrao: 40 (9 faces x 40 = 360).")]
-    public float degreesPerFace = 40f;
+    [Tooltip("Eixo em torno do qual os slots giram. So um eixo por vez.")]
+    public RotationAxis rotationAxis = RotationAxis.X;
 
     [Tooltip("Duracao da animacao de rotacao entre faces.")]
     public float rotationDuration = 0.15f;
 
-    // ── Inspector: Navegação ──────────────────────────────────────────────────
+    // ── Pinos (canvas world space do proprio prop) ────────────────────────────────
 
-    [Header("Navigation Settings")]
-    [Tooltip("Intervalo minimo entre inputs repetidos ao segurar o botao.")]
-    public float inputRepeatDelay = 0.2f;
+    [Header("Cursors (pinos indicadores de slot ativo)")]
+    [Tooltip("CanvasGroup do pino do slot esquerdo.")]
+    public CanvasGroup cursorLeft;
 
-    // ── Inspector: Events ─────────────────────────────────────────────────────
+    [Tooltip("CanvasGroup do pino do slot do meio.")]
+    public CanvasGroup cursorMiddle;
+
+    [Tooltip("CanvasGroup do pino do slot direito.")]
+    public CanvasGroup cursorRight;
+
+    [Tooltip("Velocidade de piscada dos pinos.")]
+    public float cursorBlinkSpeed = 3f;
+
+    // ── Events ────────────────────────────────────────────────────────────────────
 
     [Header("Events")]
     public UnityEvent OnWrongCode;
     public UnityEvent OnCorrectCode;
     public UnityEvent OnSolved;
 
-    // ── State: combinação ─────────────────────────────────────────────────────
+    // ── State: combinacao ─────────────────────────────────────────────────────────
 
     [SerializeField] private CodeSlotState _state = CodeSlotState.Null;
     public CodeSlotState State => _state;
@@ -82,99 +89,89 @@ public class CodeSlot : Interactable
     public int ValueB { get; private set; }
     public int ValueC { get; private set; }
 
-    // ── State: navegação e input ──────────────────────────────────────────────
+    // ── State: navegacao e blink ──────────────────────────────────────────────────
 
-    private bool _isActive;
     private int _selectedSlot;
+    private float _blinkPhase;
 
-    private float _holdTimer;
+    // ── State: rotacao ────────────────────────────────────────────────────────────
 
-    // ── State: rotação ────────────────────────────────────────────────────────
+    private float _rotLeft;
+    private float _rotMiddle;
+    private float _rotRight;
 
-    private float _rotA;
-    private float _rotB;
-    private float _rotC;
+    private Coroutine _rotCoroutineLeft;
+    private Coroutine _rotCoroutineMiddle;
+    private Coroutine _rotCoroutineRight;
+    private Coroutine _shakeCoroutine;
 
-    private Coroutine _rotCoroutineA;
-    private Coroutine _rotCoroutineB;
-    private Coroutine _rotCoroutineC;
+    // Graus por face derivados do numero de possibilidades.
+    private float DegreesPerFace => 360f / statesPerSlot;
 
-    // ── Interactable override ─────────────────────────────────────────────────
+    // ── Unity ─────────────────────────────────────────────────────────────────────
 
-    public override void Interact()
+    protected override void Awake()
     {
-        if (!canInteract) return;
-        Open();
+        base.Awake();
+        HideAllCursors();
     }
 
-    // ── Open / Close ──────────────────────────────────────────────────────────
-
-    /// <summary>Abre este prop e entra no modo CodeProp.</summary>
-    public void Open()
+    void Update()
     {
-        if (_isActive) return;
+        if (!IsLooking) return;
+        UpdateCursorBlink();
+    }
 
-        _isActive = true;
+#if UNITY_EDITOR
+    void OnValidate()
+    {
+        // O atributo Range nao acompanha o statesPerSlot, entao o clamp e manual.
+        correctA = Mathf.Clamp(correctA, 1, statesPerSlot);
+        correctB = Mathf.Clamp(correctB, 1, statesPerSlot);
+        correctC = Mathf.Clamp(correctC, 1, statesPerSlot);
+    }
+#endif
+
+    // ── LookProp overrides ────────────────────────────────────────────────────────
+
+    public override void OnEnterLook()
+    {
+        base.OnEnterLook();
+
         _selectedSlot = 0;
+        ResetBlink();
+        ResetAllSlots();
 
-        ResetSlotRotations();
-
-        PlayerCore.Instance?.SetMovementEnabled(false);
-        PlayerCore.Instance?.SetInteractionEnabled(false);
-        InteractionUI.Instance?.Hide(transform);
-        CodeMode.Instance?.EnterPropView(camAnchor);
-        ScreenManager.Instance?.ChangeScreen(Screens.CodeProp);
-
-        CodeMode.Instance?.Activate(this);
+        PlayerContext.Instance?.SetLookContext(LookContext.CodeMode);
     }
 
-    /// <summary>Fecha este prop e restaura o estado de Gameplay.</summary>
-    public void Close()
+    public override void OnExitLook()
     {
-        if (!_isActive) return;
+        base.OnExitLook();
 
-        _isActive = false;
+        HideAllCursors();
 
-        CodeMode.Instance?.Deactivate();
-        CodeMode.Instance?.ExitPropView();
-        ScreenManager.Instance?.ChangeScreen(Screens.Gameplay);
-        PlayerCore.Instance?.SetMovementEnabled(true);
-        PlayerCore.Instance?.SetInteractionEnabled(true);
+        // Reseta slots ao sair, exceto quando o puzzle foi resolvido (visual permanece).
+        if (_state != CodeSlotState.Solved)
+            ResetAllSlots();
+
+        PlayerContext.Instance?.SetLookContext(LookContext.Null);
     }
 
-    // ── Input (chamado pelo CodeMode enquanto este prop estiver ativo) ─────────
-
-    public void HandleNavigate(Vector2 input, bool isHeld)
+    // Cada chamada ja e um input valido e throttled: o LookMode gerencia o hold repeat.
+    public override void OnLookNavigate(Vector2 input)
     {
-        if (!_isActive) return;
-
-        if (isHeld)
-        {
-            _holdTimer += Time.deltaTime;
-            if (_holdTimer < inputRepeatDelay) return;
-            _holdTimer = 0f;
-        }
-        else
-        {
-            _holdTimer = 0f;
-        }
-
         ApplyNavigation(input);
     }
 
-    public void HandleConfirm()
+    public override void OnLookConfirm()
     {
-        if (!_isActive) return;
         Submit();
     }
 
-    public void HandleExit()
-    {
-        if (!_isActive) return;
-        Close();
-    }
+    // OnLookCancel herdado de LookProp ja chama LookMode.Exit().
 
-    // ── Combinação ────────────────────────────────────────────────────────────
+    // ── Combinacao ────────────────────────────────────────────────────────────────
 
     public int GetValue(int slotIndex)
     {
@@ -183,7 +180,7 @@ public class CodeSlot : Interactable
 
     public void SetValue(int slotIndex, int value)
     {
-        value = Mathf.Clamp(value, 0, StatesPerSlot - 1);
+        value = Mathf.Clamp(value, 0, statesPerSlot - 1);
         switch (slotIndex)
         {
             case 0: ValueA = value; break;
@@ -192,10 +189,9 @@ public class CodeSlot : Interactable
         }
     }
 
-    /// <summary>Confirma a combinacao. Chamado pelo HandleConfirm.</summary>
+    // Confirma a combinacao. correctA/B/C sao 1-based no Inspector; valores internos sao 0-based.
     public void TrySubmit()
     {
-        // correctA/B/C sao 1-based no Inspector; valores internos sao 0-based
         bool correct = ValueA == correctA - 1 &&
                        ValueB == correctB - 1 &&
                        ValueC == correctC - 1;
@@ -211,7 +207,12 @@ public class CodeSlot : Interactable
         _state = newState;
         switch (_state)
         {
-            case CodeSlotState.WrongCode: OnWrongCode?.Invoke(); break;
+            case CodeSlotState.WrongCode:
+                HUDNotification.Instance?.Show(HUDNotification.Instance.WrongCodeMessage);
+                if (_shakeCoroutine != null) StopCoroutine(_shakeCoroutine);
+                _shakeCoroutine = StartCoroutine(ShakeRoutine());
+                OnWrongCode?.Invoke();
+                break;
             case CodeSlotState.CorrectCode: OnCorrectCode?.Invoke(); break;
             case CodeSlotState.Solved:
                 canInteract = false;
@@ -222,15 +223,14 @@ public class CodeSlot : Interactable
         Debug.Log($"[CodeSlot] {gameObject.name} -> {_state}");
     }
 
-    // ── Visual (hook para blend shape futuro) ─────────────────────────────────
-
+    // Hook para blend shape futuro.
     public void OnSlotVisualUpdate(int slotIndex, int value)
     {
-        // TODO: _skinnedMesh.SetBlendShapeWeight(slotIndex, value * (100f / (StatesPerSlot - 1)));
+        // TODO: _skinnedMesh.SetBlendShapeWeight(slotIndex, value * (100f / (statesPerSlot - 1)));
         Debug.Log($"[CodeSlot] Visual update -- {SlotName(slotIndex)} = {value + 1}");
     }
 
-    // ── Navegação interna ─────────────────────────────────────────────────────
+    // ── Navegacao interna ─────────────────────────────────────────────────────────
 
     private void ApplyNavigation(Vector2 input)
     {
@@ -238,7 +238,7 @@ public class CodeSlot : Interactable
         {
             int dir = input.x > 0f ? 1 : -1;
             _selectedSlot = Mathf.Clamp(_selectedSlot + dir, 0, SlotCount - 1);
-            CodeMode.Instance?.OnSlotChanged(_selectedSlot);
+            ResetBlink();
             return;
         }
 
@@ -246,7 +246,7 @@ public class CodeSlot : Interactable
         {
             int dir = input.y > 0f ? 1 : -1;
             int current = GetValue(_selectedSlot);
-            int next = (current + dir + StatesPerSlot) % StatesPerSlot;
+            int next = (current + dir + statesPerSlot) % statesPerSlot;
 
             SetValue(_selectedSlot, next);
             OnSlotVisualUpdate(_selectedSlot, next);
@@ -262,38 +262,38 @@ public class CodeSlot : Interactable
             StartCoroutine(SolvedSequence());
     }
 
-    // ── Rotação dos slots (criptex) ───────────────────────────────────────────
+    // ── Rotacao dos slots (criptex) ───────────────────────────────────────────────
 
     private void RotateSlot(int slotIndex, int direction)
     {
-        float delta = degreesPerFace * direction;
+        float delta = DegreesPerFace * direction;
 
         switch (slotIndex)
         {
             case 0:
-                _rotA += delta;
-                if (_rotCoroutineA != null) StopCoroutine(_rotCoroutineA);
-                _rotCoroutineA = StartCoroutine(RotateTo(slotLeft, _rotA));
+                _rotLeft += delta;
+                if (_rotCoroutineLeft != null) StopCoroutine(_rotCoroutineLeft);
+                _rotCoroutineLeft = StartCoroutine(RotateTo(slotLeft, _rotLeft));
                 break;
             case 1:
-                _rotB += delta;
-                if (_rotCoroutineB != null) StopCoroutine(_rotCoroutineB);
-                _rotCoroutineB = StartCoroutine(RotateTo(slotMiddle, _rotB));
+                _rotMiddle += delta;
+                if (_rotCoroutineMiddle != null) StopCoroutine(_rotCoroutineMiddle);
+                _rotCoroutineMiddle = StartCoroutine(RotateTo(slotMiddle, _rotMiddle));
                 break;
             case 2:
-                _rotC += delta;
-                if (_rotCoroutineC != null) StopCoroutine(_rotCoroutineC);
-                _rotCoroutineC = StartCoroutine(RotateTo(slotRight, _rotC));
+                _rotRight += delta;
+                if (_rotCoroutineRight != null) StopCoroutine(_rotCoroutineRight);
+                _rotCoroutineRight = StartCoroutine(RotateTo(slotRight, _rotRight));
                 break;
         }
     }
 
-    private IEnumerator RotateTo(Transform slot, float targetXDegrees)
+    private IEnumerator RotateTo(Transform slot, float targetDegrees)
     {
         if (slot == null) yield break;
 
         Quaternion startRot = slot.localRotation;
-        Quaternion endRot = Quaternion.Euler(targetXDegrees, 0f, 0f);
+        Quaternion endRot = Quaternion.Euler(AxisVector(targetDegrees));
         float elapsed = 0f;
 
         while (elapsed < rotationDuration)
@@ -306,29 +306,90 @@ public class CodeSlot : Interactable
         slot.localRotation = endRot;
     }
 
-    private void ResetSlotRotations()
+    // Monta o vetor de Euler colocando os graus apenas no eixo escolhido.
+    private Vector3 AxisVector(float degrees)
     {
-        _rotA = 0f; _rotB = 0f; _rotC = 0f;
+        switch (rotationAxis)
+        {
+            case RotationAxis.X: return new Vector3(degrees, 0f, 0f);
+            case RotationAxis.Y: return new Vector3(0f, degrees, 0f);
+            default: return new Vector3(0f, 0f, degrees);
+        }
+    }
+
+    // Zera valores internos, acumuladores de rotacao e Transforms dos slots.
+    // Interrompe coroutines pendentes antes de aplicar o identity para evitar que
+    // uma animacao em andamento sobrescreva o reset no frame seguinte.
+    private void ResetAllSlots()
+    {
+        ValueA = 0; ValueB = 0; ValueC = 0;
+
+        _rotLeft = 0f; _rotMiddle = 0f; _rotRight = 0f;
+
+        if (_rotCoroutineLeft != null) { StopCoroutine(_rotCoroutineLeft); _rotCoroutineLeft = null; }
+        if (_rotCoroutineMiddle != null) { StopCoroutine(_rotCoroutineMiddle); _rotCoroutineMiddle = null; }
+        if (_rotCoroutineRight != null) { StopCoroutine(_rotCoroutineRight); _rotCoroutineRight = null; }
 
         if (slotLeft != null) slotLeft.localRotation = Quaternion.identity;
         if (slotMiddle != null) slotMiddle.localRotation = Quaternion.identity;
         if (slotRight != null) slotRight.localRotation = Quaternion.identity;
     }
 
-    // ── Solved sequence ───────────────────────────────────────────────────────
+    // ── Shake ─────────────────────────────────────────────────────────────────────
+
+    private IEnumerator ShakeRoutine()
+    {
+        if (meshTransform == null) yield break;
+
+        Vector3 origin = meshTransform.localPosition;
+        float elapsed = 0f;
+
+        while (elapsed < shakeDuration)
+        {
+            elapsed += Time.deltaTime;
+            // Intensidade diminui conforme o shake chega ao fim.
+            float strength = shakeMagnitude * (1f - elapsed / shakeDuration);
+            meshTransform.localPosition = origin + Random.insideUnitSphere * strength;
+            yield return null;
+        }
+
+        meshTransform.localPosition = origin;
+        _shakeCoroutine = null;
+    }
+
+    // ── Pinos (blink do slot selecionado) ─────────────────────────────────────────
+
+    private void UpdateCursorBlink()
+    {
+        _blinkPhase += Time.deltaTime * cursorBlinkSpeed;
+        float alpha = (Mathf.Sin(_blinkPhase * Mathf.PI * 2f) + 1f) * 0.5f;
+
+        if (cursorLeft != null) cursorLeft.alpha = _selectedSlot == 0 ? alpha : 0f;
+        if (cursorMiddle != null) cursorMiddle.alpha = _selectedSlot == 1 ? alpha : 0f;
+        if (cursorRight != null) cursorRight.alpha = _selectedSlot == 2 ? alpha : 0f;
+    }
+
+    private void ResetBlink()
+    {
+        _blinkPhase = 0.25f;
+    }
+
+    private void HideAllCursors()
+    {
+        if (cursorLeft != null) cursorLeft.alpha = 0f;
+        if (cursorMiddle != null) cursorMiddle.alpha = 0f;
+        if (cursorRight != null) cursorRight.alpha = 0f;
+    }
+
+    // ── Solved sequence ───────────────────────────────────────────────────────────
 
     private IEnumerator SolvedSequence()
     {
-        // TODO: disparar animacao de unlock no propRoot
-        // Exemplo futuro:
-        //   _animator.SetTrigger("Unlock");
-        //   yield return new WaitUntil(() => _animator.GetCurrentAnimatorStateInfo(0).IsName("Unlocked"));
-
         yield return new WaitForSeconds(0.5f); // placeholder ate a animacao existir
-        Close();
+        OnLookCancel();
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
+    // ── Helpers ───────────────────────────────────────────────────────────────────
 
     private static string SlotName(int i) => i switch
     {

@@ -151,6 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   player: {fileID: 0}
-  baseOffset: {x: 0, y: 3, z: -4}
-  focusMaxDistance: 5
-  focusSmoothSpeed: 6
+  pitchAngle: 30
+  distance: 6
+  wallFadeProperty: _CameraFade
+  wallFadeMax: 1
+  wallFadeSpeed: 8

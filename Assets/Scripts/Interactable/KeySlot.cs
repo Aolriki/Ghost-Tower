@@ -1,120 +1,85 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-// Slot de chave. Aceita qualquer chave por padrao.
-// Com isLocker = true, bloqueia itens errados e exibe o painel via KeySlotLockedUI.Instance.
-public class KeySlot : Interactable, IItemReceiver
+// Prop de chave: consome a chave correta do inventario, resolve, e exibe dica no HUD em tentativas erradas.
+public class KeySlot : Interactable
 {
-    public enum KeySlotState { Null, WrongKey, CorrectKey, Solved }
+    public enum KeySlotState { Hidden, Default, Solved }
+    public override InteractIcon Icon => InteractIcon.Padlock;
 
     [Header("Key Slot")]
-    public ItemSO correctKeyItem;
+    public KeySO correctKeyItem;
 
-    [SerializeField] private ItemSO storedKeyItem;
-    [SerializeField] private KeySlotState state = KeySlotState.Null;
-    public bool solveIfCorrect = true;
+    [Tooltip("Mensagem exibida em qualquer tentativa que nao seja a chave correta. Se vazio, usa o texto padrao do HUDNotification.")]
+    [SerializeField] private string wrongKeyMessage;
 
-    [Header("Locker")]
-    [Tooltip("Quando true, so aceita o correctKeyItem. Itens errados e maos vazias exibem o painel de bloqueio.")]
-    public bool isLocker = false;
-
-    [Tooltip("Offset do painel de bloqueio em relacao ao KeySlot.")]
-    public Vector3 lockedUIOffset = new Vector3(0f, 1.8f, 0f);
+    [SerializeField] private KeySlotState state = KeySlotState.Default;
 
     public KeySlotState State => state;
-    public ItemSO StoredKeyItem => storedKeyItem;
 
     public UnityEvent OnSolved;
+
+    void Awake()
+    {
+        ApplyState();
+    }
 
     public override void Interact()
     {
         if (!canInteract) return;
 
         ItemSO selectedItem = PlayerHandItem.Instance?.SelectedItem;
+        bool isCorrect = correctKeyItem != null && selectedItem == correctKeyItem;
 
-        // Locker: rejeita mao vazia e itens que nao sejam o correto.
-        if (isLocker)
-        {
-            bool isCorrectItem = selectedItem != null
-                                 && selectedItem.type == ItemType.Key
-                                 && selectedItem == correctKeyItem;
-
-            if (!isCorrectItem)
-            {
-                KeySlotLockedUI.Instance?.Show(transform.position + lockedUIOffset);
-                return;
-            }
-        }
-        else
-        {
-            // Sem locker: mao vazia devolve o item guardado.
-            if (selectedItem == null)
-            {
-                if (storedKeyItem != null)
-                {
-                    InventoryManager.Instance.AddItem(storedKeyItem);
-                    storedKeyItem = null;
-                    state = KeySlotState.Null;
-                }
-                return;
-            }
-
-            if (selectedItem.type != ItemType.Key) return;
-        }
-
-        PlayerHandItem.Instance.DeliverTo(this);
-    }
-
-    public void ReceiveItem(ItemSO item)
-    {
-        if (item.type != ItemType.Key) return;
-
-        ItemSO previousStored = storedKeyItem;
-
-        InventoryManager.Instance.RemoveItem(item);
-        storedKeyItem = item;
-
-        if (previousStored != null)
-            InventoryManager.Instance.AddItem(previousStored);
-
-        EvaluateState();
-    }
-
-    private void EvaluateState()
-    {
-        if (storedKeyItem == null)
-        {
-            state = KeySlotState.Null;
-            return;
-        }
-
-        bool isCorrect = correctKeyItem != null && storedKeyItem == correctKeyItem;
-
+        // Mao vazia ou item errado: apenas mostra a dica, sem consumir nada.
         if (!isCorrect)
         {
-            state = KeySlotState.WrongKey;
+            ShowWrongMessage();
             return;
         }
 
-        if (solveIfCorrect)
-        {
-            SetState(KeySlotState.Solved);
+        InventoryManager.Instance.RemoveItem(selectedItem);
+        SetState(KeySlotState.Solved);
+    }
+
+    // Revela o slot, liberando a interacao. Chamado por sistemas externos.
+    public void Reveal()
+    {
+        if (state != KeySlotState.Hidden) return;
+        SetState(KeySlotState.Default);
+    }
+
+    private void SetState(KeySlotState newState)
+    {
+        state = newState;
+        ApplyState();
+
+        if (state == KeySlotState.Solved)
             OnSolved?.Invoke();
-        }
-        else
+    }
+
+    // Sincroniza a interacao e o icone com o estado atual.
+    private void ApplyState()
+    {
+        switch (state)
         {
-            state = KeySlotState.CorrectKey;
+            case KeySlotState.Default:
+                canInteract = true;
+                break;
+            case KeySlotState.Hidden:
+            case KeySlotState.Solved:
+                canInteract = false;
+                OnCantInteract();
+                break;
         }
     }
 
-    public void SetState(KeySlotState newState)
+    private void ShowWrongMessage()
     {
-        state = newState;
+        string message = !string.IsNullOrEmpty(wrongKeyMessage)
+            ? wrongKeyMessage
+            : HUDNotification.Instance?.WrongKeyMessage;
 
-        if (state == KeySlotState.Solved)
-        {
-            canInteract = false;
-            OnCantInteract();
-        }
+        HUDNotification.Instance?.Show(message);
     }
 }

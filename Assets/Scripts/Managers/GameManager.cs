@@ -27,20 +27,17 @@ public class GameManager : MonoBehaviour
     [Tooltip("Índice da cena de Menu principal.")]
     public int sceneMenu = 1;
 
-    [Tooltip("Índice da cena de Devmap (testes).")]
-    public int sceneDevmap = 2;
-
     [Tooltip("Índice da cena da Fase 1.")]
-    public int sceneFase1 = 3;
+    public int sceneFase1 = 2;
 
     [Tooltip("Índice da cena da Fase 2.")]
-    public int sceneFase2 = 4;
+    public int sceneFase2 = 3;
 
     [Tooltip("Índice da cena da Fase 3.")]
-    public int sceneFase3 = 5;
+    public int sceneFase3 = 4;
 
     [Tooltip("Índice da cena da Cutscene Final.")]
-    public int sceneCutscene = 6;
+    public int sceneCutscene = 5;
 
     [Header("Transition")]
     [Tooltip("Tempo de exibição da loading screen entre as fades.\n" +

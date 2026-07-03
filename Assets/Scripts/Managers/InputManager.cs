@@ -2,16 +2,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Global singleton (DontDestroyOnLoad).
-// Single point of action map switching.
-// Does not own the PlayerInput — each scene registers its own via RegisterPlayerInput().
+// Singleton global (DontDestroyOnLoad) e ponto unico de troca de Action Map.
 public class InputManager : MonoBehaviour
 {
     public static InputManager Instance { get; private set; }
 
     private const string MAP_PLAYER = "Player";
     private const string MAP_UI = "UI";
-    private const string MAP_CODEPROP = "CodeProp";
 
     private PlayerInput _playerInput;
     private Coroutine _switchCoroutine;
@@ -40,7 +37,6 @@ public class InputManager : MonoBehaviour
 
     public void SwitchToPlayer() => Switch(MAP_PLAYER);
     public void SwitchToUI() => Switch(MAP_UI);
-    public void SwitchToCodeProp() => Switch(MAP_CODEPROP);
 
     public string CurrentMap => _playerInput?.currentActionMap?.name;
 

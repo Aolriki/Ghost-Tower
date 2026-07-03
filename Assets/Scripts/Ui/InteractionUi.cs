@@ -5,8 +5,8 @@ using System.Collections;
 /// <summary>
 /// Singleton de CENA (sem DontDestroyOnLoad).
 /// Morre e renasce a cada cena de gameplay.
-/// Props e NPCs continuam acessando via InteractionUIManager.Instance —
-/// a diferença é que a instância agora é local da cena.
+/// Props e NPCs continuam acessando via InteractionUI.Instance —
+/// a diferenca e que a instancia agora e local da cena.
 /// </summary>
 public class InteractionUI : MonoBehaviour
 {
@@ -15,6 +15,15 @@ public class InteractionUI : MonoBehaviour
     [Header("World Space UI")]
     public Canvas interactionCanvas;
     public Image interactionIcon;
+
+    [Header("Icon Sprites")]
+    public Sprite defaultSprite;
+    public Sprite handSprite;
+    public Sprite padlockSprite;
+    public Sprite eyeSprite;
+    public Sprite cryptexSprite;
+    public Sprite crystalSprite;
+    public Sprite speechBubbleSprite;
 
     private Coroutine floatCoroutine;
     private Coroutine fadeCoroutine;
@@ -47,11 +56,12 @@ public class InteractionUI : MonoBehaviour
 
     // ── Public API ────────────────────────────────────────────────────────────
 
-    public void ShowAt(Transform target, Vector3 uiOffset)
+    public void ShowAt(Transform target, Vector3 uiOffset, InteractIcon icon = InteractIcon.Default)
     {
         currentTarget = target;
         currentOffset = uiOffset;
         interactionCanvas.transform.position = target.position + uiOffset;
+        SetIconSprite(icon);
         SetCanvasVisible(true);
         StartFloatEffect(uiOffset);
     }
@@ -74,6 +84,24 @@ public class InteractionUI : MonoBehaviour
             interactionCanvas.transform.position + mainCamera.transform.rotation * Vector3.forward,
             mainCamera.transform.rotation * Vector3.up
         );
+    }
+
+    // ── Icon ──────────────────────────────────────────────────────────────────
+
+    private void SetIconSprite(InteractIcon icon)
+    {
+        if (interactionIcon == null) return;
+
+        interactionIcon.sprite = icon switch
+        {
+            InteractIcon.Hand => handSprite,
+            InteractIcon.Padlock => padlockSprite,
+            InteractIcon.Eye => eyeSprite,
+            InteractIcon.Cryptex => cryptexSprite,
+            InteractIcon.Crystal => crystalSprite,
+            InteractIcon.SpeechBubble => speechBubbleSprite,
+            _ => defaultSprite
+        };
     }
 
     // ── Float ─────────────────────────────────────────────────────────────────

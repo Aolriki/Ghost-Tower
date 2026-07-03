@@ -35,7 +35,7 @@ public class MapManager : MonoBehaviour
     }
 
     // Finds the RoomTracker with the given id and increments its task counter.
-    // Called by UnityEvents from Collectables, KeySlots, CodeSlots, etc.
+    // Called by UnityEvents from KeyItemss, KeySlots, CodeSlots, etc.
     public void AddToRoomTracker(int roomId)
     {
         if (roomTrackers == null) return;

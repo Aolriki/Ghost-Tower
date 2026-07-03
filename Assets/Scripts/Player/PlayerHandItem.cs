@@ -11,6 +11,7 @@ public class PlayerHandItem : MonoBehaviour
         : null;
 
     private int _selectedIndex = -1;
+    private InventoryUI _inventoryUI;
 
     [SerializeField] private ItemSO _selectedItemDebug;
 
@@ -22,6 +23,8 @@ public class PlayerHandItem : MonoBehaviour
 
     void Start()
     {
+        _inventoryUI = FindAnyObjectByType<InventoryUI>();
+
         if (InventoryManager.Instance != null)
             InventoryManager.Instance.OnInventoryChanged += OnInventoryChanged;
 
@@ -59,17 +62,9 @@ public class PlayerHandItem : MonoBehaviour
     {
         if (!context.performed) return;
 
-        ItemSO selected = SelectedItem;
-        if (selected == null || selected.type != ItemType.Doc) return;
+        if (SelectedItem is not DocSO doc) return;
 
-        DocSlot source = DocSlot.FindByItem(selected);
-        if (source == null)
-        {
-            Debug.LogWarning("[PlayerHandItem] No DocSlot found for the selected item.");
-            return;
-        }
-
-        source.ReadMe();
+        ScreenManager.OpenDocItem(doc);
     }
 
     public void DeliverTo(IItemReceiver receiver)
@@ -98,6 +93,6 @@ public class PlayerHandItem : MonoBehaviour
     private void UpdateUI()
     {
         _selectedItemDebug = SelectedItem;
-        InventoryUI.Instance?.SetSelected(_selectedIndex);
+        _inventoryUI?.SetSelected(_selectedIndex);
     }
 }

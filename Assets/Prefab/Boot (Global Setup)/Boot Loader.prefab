@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15f63364c1b95cf42bc29518a7d781ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BootLoader
-  startDestination: 0
+  startDestination: 1

@@ -1,20 +1,25 @@
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Renders the player inventory slots and keeps the container centered.
+// Singleton global (junto ao ScreenManager) que renderiza os slots do inventario no HotbarContainer.
 public class InventoryUI : MonoBehaviour
 {
     public static InventoryUI Instance { get; private set; }
 
     [Header("References")]
+    [Tooltip("Prefab de slot de item. Deve conter um Image e um TextMeshProUGUI filho.")]
     public GameObject slotPrefab;
-    public Transform slotsContainer;
+    [Tooltip("Container dos slots. Atribuir no Inspector — deve ser filho do mesmo prefab.")]
+    public RectTransform slotsContainer;
 
     [Header("Settings")]
     public float slotSize = 120f;
     public float selectedScale = 1.2f;
 
+
     private Image[] _slotIcons = new Image[8];
+    private TMP_Text[] _slotLabels = new TMP_Text[8];
     private int _selectedIndex = -1;
 
     private InventoryManager _inventoryManager;
@@ -24,7 +29,8 @@ public class InventoryUI : MonoBehaviour
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
 
-        BuildSlots();
+        if (slotsContainer == null)
+            Debug.LogWarning("[InventoryUI] slotsContainer nao atribuido no Inspector.");
     }
 
     void OnDestroy()
@@ -33,15 +39,15 @@ public class InventoryUI : MonoBehaviour
         Unsubscribe();
     }
 
+    // Chamado pelo InventoryManager.Start de cada cena para reassinar os eventos locais.
     public void OnSceneReady()
     {
         Unsubscribe();
-
         _inventoryManager = InventoryManager.Instance;
-
         if (_inventoryManager == null) return;
 
         _inventoryManager.OnInventoryChanged += Refresh;
+        BuildSlots();
         Refresh();
     }
 
@@ -51,15 +57,29 @@ public class InventoryUI : MonoBehaviour
         ApplySelection();
     }
 
+    // ── Internal ──────────────────────────────────────────────────────────────
+
     private void BuildSlots()
     {
+        if (slotsContainer == null || slotPrefab == null) return;
+
+        // Limpa slots anteriores da cena anterior.
+        foreach (Transform child in slotsContainer)
+            Destroy(child.gameObject);
+
         for (int i = 0; i < 8; i++)
         {
             GameObject slot = Instantiate(slotPrefab, slotsContainer);
             slot.name = $"Slot_{i}";
+
             RectTransform rt = slot.GetComponent<RectTransform>();
             rt.sizeDelta = new Vector2(slotSize, slotSize);
+
             _slotIcons[i] = slot.GetComponentInChildren<Image>(true);
+            _slotLabels[i] = slot.GetComponentInChildren<TMP_Text>(true);
+
+            if (_slotLabels[i] != null)
+                _slotLabels[i].gameObject.SetActive(false);
         }
     }
 
@@ -92,7 +112,7 @@ public class InventoryUI : MonoBehaviour
 
     private void CenterContainer()
     {
-        if (_inventoryManager == null) return;
+        if (_inventoryManager == null || slotsContainer == null) return;
 
         RectTransform rt = slotsContainer.GetComponent<RectTransform>();
         if (rt == null) return;
@@ -112,7 +132,7 @@ public class InventoryUI : MonoBehaviour
 
     private void ApplySelection()
     {
-        if (_inventoryManager == null) return;
+        if (_inventoryManager == null || slotsContainer == null) return;
 
         var items = _inventoryManager.Items;
 
@@ -128,6 +148,13 @@ public class InventoryUI : MonoBehaviour
                 _slotIcons[i].sprite = selected && items[i].iconSelected != null
                     ? items[i].iconSelected
                     : items[i].icon;
+            }
+
+            if (_slotLabels[i] != null)
+            {
+                _slotLabels[i].gameObject.SetActive(selected && i < items.Count);
+                if (selected && i < items.Count)
+                    _slotLabels[i].text = items[i].itemName;
             }
         }
     }

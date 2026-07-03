@@ -1,14 +1,13 @@
 using UnityEngine;
 
+// Singleton de cena que agrega e expoe os modulos do player.
 public class PlayerCore : MonoBehaviour
 {
     // Singleton
 
     public static PlayerCore Instance { get; private set; }
 
-
     public PlayerMovement Movement { get; private set; }
-    public PlayerStaminaUI StaminaUI { get; private set; }
     public PlayerInteraction Interaction { get; private set; }
 
     void Awake()
@@ -23,12 +22,10 @@ public class PlayerCore : MonoBehaviour
         // DontDestroyOnLoad(gameObject); // descomente se precisar persistir entre cenas
 
         Movement = GetComponentInChildren<PlayerMovement>();
-        StaminaUI = GetComponentInChildren<PlayerStaminaUI>();
         Interaction = GetComponentInChildren<PlayerInteraction>();
 
-        if (Movement == null) Debug.LogWarning("[PlayerCore] PlayerMovement não encontrado.");
-        if (StaminaUI == null) Debug.LogWarning("[PlayerCore] PlayerStaminaUI não encontrado.");
-        if (Interaction == null) Debug.LogWarning("[PlayerCore] PlayerInteraction não encontrado.");
+        if (Movement == null) Debug.LogWarning("[PlayerCore] PlayerMovement nao encontrado.");
+        if (Interaction == null) Debug.LogWarning("[PlayerCore] PlayerInteraction nao encontrado.");
     }
 
     void OnDestroy()

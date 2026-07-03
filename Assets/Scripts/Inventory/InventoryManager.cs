@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Manages the player item list for the current scene.
+// Singleton local de cena que gerencia a lista de itens do jogador.
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance { get; private set; }
 
     public IReadOnlyList<ItemSO> Items => _items;
-
     public System.Action OnInventoryChanged;
 
     [SerializeField] List<ItemSO> _items = new List<ItemSO>(8);
@@ -21,9 +20,7 @@ public class InventoryManager : MonoBehaviour
 
     void Start()
     {
-        // Notify the global HUD systems that a new scene is ready.
-        // InventoryUI reconnects here because it lives on the global ScreenManager object
-        // and cannot rely on Start() ordering relative to this scene-local component.
+        // Notifica os sistemas globais de HUD que uma nova cena esta pronta.
         InventoryUI.Instance?.OnSceneReady();
         HUDIcons.Instance?.OnSceneReady();
     }

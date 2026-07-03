@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d9d9656f4da33d48a28beaf0dfd13df, type: 3}
   m_Name: Hair
   m_EditorClassIdentifier: EZhex1991.EZSoftBone::EZhex1991.EZSoftBone.EZSoftBoneMaterial
-  m_Damping: 0.28
+  m_Damping: 0.25
   m_DampingCurve:
     serializedVersion: 2
     m_Curve:
@@ -37,32 +37,41 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_Stiffness: 0.22
+  m_Stiffness: 0.365
   m_StiffnessCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.009576995
+      outSlope: -0.009576995
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.74583334
+    - serializedVersion: 3
+      time: 0.92057776
+      value: 0.4213614
+      inSlope: -1.6442944
+      outSlope: -1.6442944
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.7206855
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0.34046423
+      inSlope: -0.000005793572
+      outSlope: -0.000005793572
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.20833331
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_Resistance: 0.1
+  m_Resistance: 1
   m_ResistanceCurve:
     serializedVersion: 2
     m_Curve:

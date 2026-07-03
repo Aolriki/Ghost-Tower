@@ -9,6 +9,8 @@ using UnityEngine.Events;
 // Canal "Talk": inicia ou avanca o dialogo diretamente.
 public class NPCInteractable : Interactable, IItemReceiver
 {
+    public override InteractIcon Icon => InteractIcon.SpeechBubble;
+
     // ── Inspector: Identity ───────────────────────────────────────────────────
 
     [Header("Identity")]

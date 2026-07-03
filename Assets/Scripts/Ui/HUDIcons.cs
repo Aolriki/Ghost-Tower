@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,9 +14,10 @@ public class HUDIconEntry
 // Lives on the global ScreenManager GameObject (or a child of it).
 // Subscribes to PlayerContext events when a gameplay scene loads.
 // Three shared icon slots cover all action contexts:
-//   Default  -> To Take, Use Key, To Inspect, Try Unlock, Give Item
+//   Default  -> To Take, Use Key, To Inspect, Try Unlock, Place Item, Give Item
 //   ToTalk   -> To Talk
 //   ToRead   -> To Read
+// During LookContext.CodeMode, all normal icons hide and the code mode group appears.
 public class HUDIcons : MonoBehaviour
 {
     public static HUDIcons Instance { get; private set; }
@@ -31,6 +32,7 @@ public class HUDIcons : MonoBehaviour
     public string labelUseKey = "Use Key";
     public string labelToInspect = "To Inspect";
     public string labelTryUnlock = "Try Unlock";
+    public string labelPlaceItem = "Place Item";
     public string labelGiveItem = "Give Item";
 
     [Header("To Talk Icon")]
@@ -40,6 +42,16 @@ public class HUDIcons : MonoBehaviour
     [Header("To Read Icon")]
     public HUDIconEntry toReadIcon;
     public string labelToRead = "To Read";
+
+    [Header("Code Mode Group")]
+    [Tooltip("GameObject pai que agrupa os quatro icones do code mode. Comeca desativado.")]
+    public GameObject codeModeGroup;
+    public HUDIconEntry confirmIcon;
+    public HUDIconEntry rotateIcon;
+    public HUDIconEntry navigateIcon;
+    public string labelToConfirm = "To Confirm";
+    public string labelToRotate = "To Rotate";
+    public string labelToNavigate = "To Navigate";
 
     // Cached reference to the scene-local PlayerContext.
     private PlayerContext _context;
@@ -72,16 +84,58 @@ public class HUDIcons : MonoBehaviour
         _context.OnPropContextChanged += HandlePropContext;
         _context.OnNPCContextChanged += HandleNPCContext;
         _context.OnItemContextChanged += HandleItemContext;
+        _context.OnLookContextChanged += HandleLookContext;
 
         // Sync immediately with whatever state the context already has.
+        HandleLookContext(_context.CurrentLook);
         HandlePropContext(_context.CurrentProp);
         HandleNPCContext(_context.CurrentNPC);
         HandleItemContext(_context.CurrentItem);
     }
 
-    // Prop context drives the default icon and the To Talk icon.
+    // ── Look context ──────────────────────────────────────────────────────────
+
+    private void HandleLookContext(LookContext ctx)
+    {
+        bool inCode = ctx == LookContext.CodeMode;
+
+        // Esconde todos os icones normais ao entrar no code mode.
+        if (inCode)
+        {
+            SetIcon(defaultIcon, false);
+            SetIcon(toTalkIcon, false);
+            SetIcon(toReadIcon, false);
+            RebuildLayout();
+        }
+
+        // Ativa ou desativa o grupo de code mode.
+        if (codeModeGroup != null)
+            codeModeGroup.SetActive(inCode);
+
+        if (inCode)
+        {
+            ShowCodeIcon(confirmIcon, labelToConfirm);
+            ShowCodeIcon(rotateIcon, labelToRotate);
+            ShowCodeIcon(navigateIcon, labelToNavigate);
+        }
+
+        // Ao sair do code mode, forca o sync dos contextos — o PlayerContext nao
+        // dispara eventos quando os valores nao mudaram durante a sessao.
+        if (!inCode && _context != null)
+        {
+            HandlePropContext(_context.CurrentProp);
+            HandleNPCContext(_context.CurrentNPC);
+            HandleItemContext(_context.CurrentItem);
+        }
+    }
+
+    // ── Prop context ──────────────────────────────────────────────────────────
+
     private void HandlePropContext(PropContext ctx)
     {
+        // Ignora enquanto o code mode estiver ativo.
+        if (_context != null && _context.CurrentLook != LookContext.Null) return;
+
         switch (ctx)
         {
             case PropContext.ToTake:
@@ -100,6 +154,10 @@ public class HUDIcons : MonoBehaviour
                 ShowDefault(labelTryUnlock);
                 SetIcon(toTalkIcon, false);
                 break;
+            case PropContext.PlaceItem:
+                ShowDefault(labelPlaceItem);
+                SetIcon(toTalkIcon, false);
+                break;
             case PropContext.ToTalk:
                 SetIcon(defaultIcon, false);
                 ShowToTalk(labelToTalk);
@@ -116,6 +174,8 @@ public class HUDIcons : MonoBehaviour
     // NPC context overrides the default icon with Give Item when applicable.
     private void HandleNPCContext(NPCContext ctx)
     {
+        if (_context != null && _context.CurrentLook != LookContext.Null) return;
+
         if (ctx == NPCContext.GiveItem)
             ShowDefault(labelGiveItem);
 
@@ -125,6 +185,8 @@ public class HUDIcons : MonoBehaviour
     // Item context drives the To Read icon.
     private void HandleItemContext(ItemContext ctx)
     {
+        if (_context != null && _context.CurrentLook != LookContext.Null) return;
+
         bool show = ctx == ItemContext.ToRead;
         if (show)
             ShowToRead(labelToRead);
@@ -134,7 +196,8 @@ public class HUDIcons : MonoBehaviour
         RebuildLayout();
     }
 
-    // Shows the default icon with the given label text.
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
     private void ShowDefault(string text)
     {
         if (defaultIcon == null) return;
@@ -143,7 +206,6 @@ public class HUDIcons : MonoBehaviour
             defaultIcon.label.text = text;
     }
 
-    // Shows the To Talk icon with the given label text.
     private void ShowToTalk(string text)
     {
         if (toTalkIcon == null) return;
@@ -152,7 +214,6 @@ public class HUDIcons : MonoBehaviour
             toTalkIcon.label.text = text;
     }
 
-    // Shows the To Read icon with the given label text.
     private void ShowToRead(string text)
     {
         if (toReadIcon == null) return;
@@ -161,19 +222,26 @@ public class HUDIcons : MonoBehaviour
             toReadIcon.label.text = text;
     }
 
-    // Activates or deactivates a single icon root.
+    private void ShowCodeIcon(HUDIconEntry entry, string text)
+    {
+        if (entry == null) return;
+        SetIcon(entry, true);
+        if (entry.label != null)
+            entry.label.text = text;
+    }
+
     private void SetIcon(HUDIconEntry entry, bool active)
     {
         if (entry?.iconRoot != null)
             entry.iconRoot.SetActive(active);
     }
 
-    // Deactivates all icons.
     private void HideAll()
     {
         SetIcon(defaultIcon, false);
         SetIcon(toTalkIcon, false);
         SetIcon(toReadIcon, false);
+        if (codeModeGroup != null) codeModeGroup.SetActive(false);
         RebuildLayout();
     }
 
@@ -185,8 +253,6 @@ public class HUDIcons : MonoBehaviour
         HorizontalLayoutGroup hlg = iconsContainer.GetComponent<HorizontalLayoutGroup>();
         float spacing = hlg != null ? hlg.spacing : 0f;
 
-        // Uses sizeDelta to read the slot width as defined in the editor,
-        // independent of the layout rebuild cycle.
         float slotWidth = iconsContainer.childCount > 0
             ? ((RectTransform)iconsContainer.GetChild(0)).sizeDelta.x
             : 0f;
@@ -201,7 +267,6 @@ public class HUDIcons : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(iconsContainer);
     }
 
-    // Counts how many icon roots are currently active.
     private int CountActiveIcons()
     {
         int n = 0;
@@ -211,13 +276,13 @@ public class HUDIcons : MonoBehaviour
         return n;
     }
 
-    // Removes all subscriptions to avoid leaks when the context is destroyed.
     private void Unsubscribe()
     {
         if (_context == null) return;
         _context.OnPropContextChanged -= HandlePropContext;
         _context.OnNPCContextChanged -= HandleNPCContext;
         _context.OnItemContextChanged -= HandleItemContext;
+        _context.OnLookContextChanged -= HandleLookContext;
         _context = null;
     }
 }
