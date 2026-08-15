@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b312f7bc245c5b14e8e137609d4315b6, type: 3}
+  m_Name: Level Palette
+  m_EditorClassIdentifier: Assembly-CSharp::LevelPalette
+  floor: {fileID: 5857348036706570533, guid: 2956e79efc3778149b28240b63858544, type: 3}
+  wall: {fileID: 5519413684397773688, guid: 7f9700022fb8c2c47a3f8f008d1da516, type: 3}
+  windowWall: {fileID: 5811761549703690125, guid: f9959a1101fbae14c93d7646d1d65826, type: 3}
+  doorWall: {fileID: 2278286752159527497, guid: 4a37db1e16de36c4e8317d8e1e932afb, type: 3}
+  mainDoorWall: {fileID: 5017170613383996085, guid: 37a79938afe723248b2ff74038ce4b2a, type: 3}
+  outsideCorner: {fileID: 3251441712329608088, guid: 451ad73c70f87e8418caef7e4d95c46b, type: 3}
+  insideCorner: {fileID: 5792956888342670834, guid: f402fd8ba2d670e4297d8f37928fe5b1, type: 3}

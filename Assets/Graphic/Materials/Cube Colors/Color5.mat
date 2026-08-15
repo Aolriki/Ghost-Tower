@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Color5
-  m_Shader: {fileID: 4800000, guid: 389fe541613d7fe4eb22113fdeca66f5, type: 3}
+  m_Shader: {fileID: 4800000, guid: 96f681e2caa2c7b41b73ef87396006e1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
@@ -106,17 +106,20 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 1
     - _OcclusionStrength: 1
+    - _Opacity: 1
     - _OutlineOn: 0
     - _OutlineThickness: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _ReflectionIntensity: 3
+    - _ReflectionSmoothness: 1
     - _ShadeBlend: 1
     - _ShadeSoftness: 1
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecEnabled: 1
-    - _SpecIntensity: 5
+    - _SpecIntensity: 1
     - _SpecSmoothness: 0
     - _SpecSoftness: 1
     - _SpecularHighlights: 1

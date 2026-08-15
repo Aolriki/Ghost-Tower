@@ -10,6 +10,9 @@ public class LookMode : MonoBehaviour
     [Range(1f, 20f)]
     public float cameraMoveSpeed = 8f;
 
+    [Tooltip("Tempo que a camera fica parada no anchor antes de iniciar a transicao de volta, em segundos.")]
+    public float exitDelay = 0f;
+
     [Header("Player Body")]
     [Tooltip("Renderers do corpo da personagem ocultados durante a observacao.")]
     public Renderer[] playerBodyRenderers;
@@ -101,10 +104,7 @@ public class LookMode : MonoBehaviour
         _inputHeld = false;
 
         if (_camMoveCoroutine != null) StopCoroutine(_camMoveCoroutine);
-        _camMoveCoroutine = StartCoroutine(
-            MoveCameraTo(_savedCamPosition, _savedCamRotation,
-                onComplete: () => SetCameraFollowEnabled(true))
-        );
+        _camMoveCoroutine = StartCoroutine(ExitCameraRoutine());
 
         SetPlayerBodyVisible(true);
 
@@ -114,6 +114,15 @@ public class LookMode : MonoBehaviour
         ScreenManager.Instance?.ChangeScreen(Screens.Gameplay);
 
         prop.OnExitLook();
+    }
+
+    private IEnumerator ExitCameraRoutine()
+    {
+        if (exitDelay > 0f)
+            yield return new WaitForSeconds(exitDelay);
+
+        yield return MoveCameraTo(_savedCamPosition, _savedCamRotation,
+            onComplete: () => SetCameraFollowEnabled(true));
     }
 
     // ── Input repassado pelo UIInputRouter ────────────────────────────────────

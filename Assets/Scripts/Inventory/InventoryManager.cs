@@ -38,6 +38,7 @@ public class InventoryManager : MonoBehaviour
         return true;
     }
 
+    public void AddItem_Event(ItemSO item) => AddItem(item);
     public void RemoveItem(ItemSO item)
     {
         if (_items.Remove(item))

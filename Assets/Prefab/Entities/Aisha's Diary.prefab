@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5454084590791890820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3419588060308462703}
+  - component: {fileID: 5894933154491238130}
+  - component: {fileID: 2408150169311538871}
+  m_Layer: 0
+  m_Name: Aisha's Diary
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3419588060308462703
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454084590791890820}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.016704148, y: 0.99947053, z: -0.027917776, w: -0.00046658964}
+  m_LocalPosition: {x: -3.911, y: 0.409, z: 1.669}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4057791731552740601}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 3.2, y: 180, z: -1.915}
+--- !u!65 &5894933154491238130
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454084590791890820}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3, y: 0.1, z: 0.3}
+  m_Center: {x: 0, y: 0.05, z: 0}
+--- !u!114 &2408150169311538871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454084590791890820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e8205d974eaeb24199720d7f407bbe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DocItem
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  canInteract: 1
+  interactOffset: {x: 0, y: 1.8, z: 0}
+  item: {fileID: 11400000, guid: 0aae03c5e456de1418c3a69f8ee2ef74, type: 2}
+  isProp: 0
+--- !u!1001 &4601154251090723602
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3419588060308462703}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: b9bc93a603dd7ab47b121bd3e40890eb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b9bc93a603dd7ab47b121bd3e40890eb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b9bc93a603dd7ab47b121bd3e40890eb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b9bc93a603dd7ab47b121bd3e40890eb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b9bc93a603dd7ab47b121bd3e40890eb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b9bc93a603dd7ab47b121bd3e40890eb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b9bc93a603dd7ab47b121bd3e40890eb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b9bc93a603dd7ab47b121bd3e40890eb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 3.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b9bc93a603dd7ab47b121bd3e40890eb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 179.893
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b9bc93a603dd7ab47b121bd3e40890eb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -1.915
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b9bc93a603dd7ab47b121bd3e40890eb, type: 3}
+      propertyPath: m_Name
+      value: (Item)Aishas-Diary
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b9bc93a603dd7ab47b121bd3e40890eb, type: 3}
+--- !u!4 &4057791731552740601 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b9bc93a603dd7ab47b121bd3e40890eb, type: 3}
+  m_PrefabInstance: {fileID: 4601154251090723602}
+  m_PrefabAsset: {fileID: 0}
