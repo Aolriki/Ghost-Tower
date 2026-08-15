@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Movimentacao do player: leitura de input, gravidade e rotacao.
+// Movimentacao do player: leitura de input relativo a camera, gravidade e rotacao.
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _verticalVelocity;
 
     private Animator _animator;
+    private Transform _cameraTransform;
 
     // Inicializacao
 
@@ -35,6 +36,9 @@ public class PlayerMovement : MonoBehaviour
     {
         _cc = GetComponent<CharacterController>();
         _animator = GetComponentInChildren<Animator>();
+
+        if (Camera.main != null)
+            _cameraTransform = Camera.main.transform;
     }
 
     // Callbacks de Input (chamados pelo PlayerInput em modo Invoke Unity Events)
@@ -57,9 +61,10 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateMovement()
     {
         Vector2 input = MoveInput.magnitude > 1f ? MoveInput.normalized : MoveInput;
+        Vector3 moveDirection = ComputeMoveDirection(input);
 
         float speed = moveSpeed;
-        Vector3 move = new Vector3(input.x, 0f, input.y) * speed;
+        Vector3 move = moveDirection * speed;
 
         _currentSpeedDebug = speed;
 
@@ -71,13 +76,35 @@ public class PlayerMovement : MonoBehaviour
 
         _cc.Move(move * Time.deltaTime);
 
-        if (input.sqrMagnitude > 0.01f)
+        if (moveDirection.sqrMagnitude > 0.01f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(input.x, 0f, input.y));
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 720f * Time.deltaTime);
         }
 
         if (_animator != null)
             _animator.SetFloat("Speed", input.magnitude, 0.01f, Time.deltaTime);
+    }
+
+    // Converte o input (espaco da tela: X = direita, Y = frente) para o espaco do mundo,
+    // usando o forward e o right da camera projetados no plano horizontal.
+    private Vector3 ComputeMoveDirection(Vector2 input)
+    {
+        if (_cameraTransform == null)
+            return new Vector3(input.x, 0f, input.y);
+
+        Vector3 camForward = _cameraTransform.forward;
+        camForward.y = 0f;
+
+        Vector3 camRight = _cameraTransform.right;
+        camRight.y = 0f;
+
+        if (camForward.sqrMagnitude < 0.0001f || camRight.sqrMagnitude < 0.0001f)
+            return new Vector3(input.x, 0f, input.y);
+
+        camForward.Normalize();
+        camRight.Normalize();
+
+        return camRight * input.x + camForward * input.y;
     }
 }

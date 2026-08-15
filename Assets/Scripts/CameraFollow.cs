@@ -1,7 +1,8 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System.Collections.Generic;
 
-// Segue o player com angulo de pitch e distancia configuraveis como pivot.
+// Segue o player como pivot, com pitch fixo e orbita em Y controlada pelo analogico direito.
 public class CameraFollow : MonoBehaviour
 {
     [Header("References")]
@@ -11,6 +12,17 @@ public class CameraFollow : MonoBehaviour
     [Range(0f, 89f)]
     public float pitchAngle = 45f;
     public float distance = 12f;
+
+    [Header("Look / Orbit")]
+    public float lookRotateSpeed = 150f;
+    [Range(0f, 1f)]
+    public float lookDeadzone = 0.15f;
+    public float lookIdleDelay = 2f;
+    [Range(0f, 1f)]
+    public float moveStillThreshold = 0.05f;
+    [Range(1f, 10f)]
+    public float lookCorrectSpeed = 4f;
+    public bool invertYawInput = false;
 
     [Header("Wall Camera Fade")]
     public string wallFadeProperty = "_CameraFade";
@@ -28,6 +40,14 @@ public class CameraFollow : MonoBehaviour
 
     private MaterialPropertyBlock _propBlock;
     private int _fadePropertyID;
+
+    private PlayerMovement _playerMovement;
+    private Vector2 _lookInput;
+    private float _yaw;
+    private float _stillTimer;
+
+    [Header("Debug")]
+    [SerializeField] private float _yawDebug;
 
     private class FadeState
     {
@@ -49,6 +69,14 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         PrewarmWallStates();
+
+        if (player == null) return;
+
+        _yaw = player.eulerAngles.y;
+        _playerMovement = player.GetComponentInParent<PlayerMovement>();
+
+        if (_playerMovement == null)
+            Debug.LogWarning("[CameraFollow] PlayerMovement nao encontrado em player nem nos pais. Correcao automatica de yaw ficara desativada.");
     }
 
     void LateUpdate()
@@ -56,19 +84,31 @@ public class CameraFollow : MonoBehaviour
         if (player == null) return;
 
         UpdateFocus();
+        UpdateOrbit();
         MoveCamera();
         UpdateWallVisibility();
     }
 
+    // ---- Input ----
+    // Callback de Input (chamado pelo PlayerInput em modo Invoke Unity Events).
+    // Registre este metodo no evento Look do PlayerInput no Inspector.
+
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        _lookInput = context.ReadValue<Vector2>();
+    }
+
     // ---- Camera ----
 
-    // Calcula o offset de posicao a partir do pitch e da distancia.
+    // Calcula o offset de posicao a partir do pitch, da distancia e do yaw atual.
     private Vector3 ComputeOffset()
     {
         float pitchRad = pitchAngle * Mathf.Deg2Rad;
         float horizontal = Mathf.Cos(pitchRad);
         float vertical = Mathf.Sin(pitchRad);
-        return new Vector3(0f, vertical, -horizontal) * distance;
+
+        Vector3 baseOffset = new Vector3(0f, vertical, -horizontal) * distance;
+        return Quaternion.Euler(0f, _yaw, 0f) * baseOffset;
     }
 
     private void UpdateFocus()
@@ -80,6 +120,50 @@ public class CameraFollow : MonoBehaviour
     {
         transform.position = _focusPosition + ComputeOffset();
         transform.LookAt(_focusPosition);
+    }
+
+    // ---- Look / Orbit ----
+
+    // Analogico direito controla o yaw, sempre em torno de Y (pitch e roll nunca sao alterados por input).
+    // A correcao automatica so acontece com o player parado (sem input de movimento) por lookIdleDelay
+    // segundos seguidos, para nao girar a camera enquanto o player esta andando.
+    private void UpdateOrbit()
+    {
+        float x = Mathf.Abs(_lookInput.x) < lookDeadzone ? 0f : _lookInput.x;
+
+        if (invertYawInput)
+            x = -x;
+
+        bool isMoving = _playerMovement != null && _playerMovement.MoveInput.sqrMagnitude > moveStillThreshold * moveStillThreshold;
+
+        if (!Mathf.Approximately(x, 0f))
+        {
+            // Controle manual sempre tem prioridade, parado ou andando.
+            _yaw += x * lookRotateSpeed * Time.deltaTime;
+            _stillTimer = 0f;
+        }
+        else if (isMoving)
+        {
+            // Andando: nunca corrige, e reinicia a contagem de parado.
+            _stillTimer = 0f;
+        }
+        else
+        {
+            // Parado e sem input manual: acumula tempo parado antes de corrigir.
+            _stillTimer += Time.deltaTime;
+
+            if (_stillTimer >= lookIdleDelay)
+            {
+                float targetYaw = player.eulerAngles.y;
+                float t = 1f - Mathf.Exp(-lookCorrectSpeed * Time.deltaTime);
+                _yaw = Mathf.LerpAngle(_yaw, targetYaw, t);
+
+                if (Mathf.Abs(Mathf.DeltaAngle(_yaw, targetYaw)) < 0.05f)
+                    _yaw = targetYaw;
+            }
+        }
+
+        _yawDebug = _yaw;
     }
 
     // ---- Wall Camera Fade ----
