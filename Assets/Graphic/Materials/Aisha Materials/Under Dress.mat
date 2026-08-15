@@ -73,10 +73,10 @@ Material:
     - _SpecSmoothness: 0
     - _SpecSoftness: 1
     m_Colors:
-    - _BaseColor: {r: 0.9056604, g: 0.49127805, b: 0.5929913, a: 1}
+    - _BaseColor: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShadeColor: {r: 0.08235294, g: 0, b: 0.1882353, a: 1}
+    - _ShadeColor: {r: 0.6509434, g: 0.26099145, b: 0.32867292, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4871413928280373729
