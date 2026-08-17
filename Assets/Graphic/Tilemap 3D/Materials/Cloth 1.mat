@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Golden
-  m_Shader: {fileID: 4800000, guid: 96f681e2caa2c7b41b73ef87396006e1, type: 3}
+  m_Name: Cloth 1
+  m_Shader: {fileID: 4800000, guid: 389fe541613d7fe4eb22113fdeca66f5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -85,14 +85,14 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _BackLightEnabled: 1
+    - _BackLightEnabled: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
     - _CameraFade: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _Cull: 2
+    - _Cull: 0
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
@@ -101,7 +101,7 @@ Material:
     - _EmissionOn: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 1
-    - _Glossiness: 0.6666667
+    - _Glossiness: 0.21161824
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
@@ -112,16 +112,14 @@ Material:
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ReflectionIntensity: 1.5
-    - _ReflectionSmoothness: 0
     - _ShadeBlend: 0.9
     - _ShadeSoftness: 0.06
-    - _Smoothness: 0.6666667
+    - _Smoothness: 0.21161824
     - _SmoothnessTextureChannel: 0
     - _SpecEnabled: 1
-    - _SpecIntensity: 1.6
-    - _SpecSmoothness: 0.032
-    - _SpecSoftness: 0.067
+    - _SpecIntensity: 0.05
+    - _SpecSmoothness: 0
+    - _SpecSoftness: 1
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
@@ -131,15 +129,15 @@ Material:
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 0.70075935, b: 0.2783019, a: 1}
-    - _Color: {r: 0.78079647, g: 0.55316263, b: 0.020304523, a: 1}
+    - _BaseColor: {r: 0.7264151, g: 0.28439835, b: 0.61434186, a: 1}
+    - _Color: {r: 0.17315456, g: 0.44303182, b: 0.5787061, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
-    - _ShadeColor: {r: 0.08190051, g: 0, b: 0.18867922, a: 1}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ShadeColor: {r: 0.12951797, g: 0, b: 0.2264151, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &3298138741567062908
+--- !u!114 &8043737088786533722
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

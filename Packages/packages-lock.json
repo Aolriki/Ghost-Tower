@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "com.ezhex1991.ezsoftbone": {
-      "version": "file:C:/Users/Eduardo/Downloads/EZSoftBone-master",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,

@@ -75,7 +75,7 @@ Material:
     - _ShadeSoftness: 0.15
     - _SpecEnabled: 1
     - _SpecIntensity: 5
-    - _SpecSmoothness: 0.243
+    - _SpecSmoothness: 0.207
     - _SpecSoftness: 0.922
     m_Colors:
     - _BaseColor: {r: 1, g: 0, b: 0.23993576, a: 1}

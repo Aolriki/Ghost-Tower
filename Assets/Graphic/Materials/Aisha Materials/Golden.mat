@@ -68,15 +68,15 @@ Material:
     - _OutlineThickness: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReflectionIntensity: 3
+    - _ReflectionIntensity: 1.5
     - _ReflectionSmoothness: 1
     - _SHADOWS_SOFT: 0
     - _ShadeBlend: 0.9
     - _ShadeSoftness: 0.06
     - _SpecEnabled: 1
-    - _SpecIntensity: 1.25
-    - _SpecSmoothness: 0
-    - _SpecSoftness: 0.18
+    - _SpecIntensity: 2.75
+    - _SpecSmoothness: 0.239
+    - _SpecSoftness: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 0.7019608, b: 0.2784314, a: 1}
     - _EmissionColor: {r: 2.9960785, g: 0.9154608, b: 0, a: 1}
