@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hair2
-  m_Shader: {fileID: 4800000, guid: 389fe541613d7fe4eb22113fdeca66f5, type: 3}
+  m_Shader: {fileID: 4800000, guid: ce3e625c48ef35a49ab7d887b360a663, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,8 +16,9 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -28,7 +29,39 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -50,30 +83,49 @@ Material:
     - _ADDITIONAL_LIGHT_SHADOWS: 0
     - _AlphaClip: 0
     - _BackLightEnabled: 1
+    - _BumpScale: 1
     - _CAMERAFADEENABLED: 0
     - _CameraFade: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _CuttOff: 0
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
     - _EMISSION: 0
     - _EmissionOn: 0
     - _FORWARD_PLUS: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
     - _MAIN_LIGHT_SHADOWS: 0
     - _MAIN_LIGHT_SHADOWS_CASCADE: 0
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
     - _Opacity: 1
     - _OutlineOn: 0
     - _OutlineThickness: 0.5
+    - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _ReflectionIntensity: 1
+    - _ReflectionSmoothness: 0.85
     - _SHADOWS_SOFT: 0
     - _ShadeBlend: 0.8
     - _ShadeSoftness: 0.05
+    - _SmoothnessTextureChannel: 0
     - _SpecEnabled: 1
     - _SpecIntensity: 0.5
     - _SpecSmoothness: 0.125
     - _SpecSoftness: 0.315
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SurfaceType: 0
+    - _UVSec: 0
+    - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 0.67407185, b: 0.504717, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _ShadeColor: {r: 0.08235294, g: 0, b: 0.1882353, a: 1}

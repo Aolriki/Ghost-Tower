@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: White Cloath
-  m_Shader: {fileID: 4800000, guid: 389fe541613d7fe4eb22113fdeca66f5, type: 3}
+  m_Shader: {fileID: 4800000, guid: ce3e625c48ef35a49ab7d887b360a663, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,8 +16,9 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -112,6 +113,8 @@ Material:
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _ReflectionIntensity: 1
+    - _ReflectionSmoothness: 0.85
     - _ShadeBlend: 0.9
     - _ShadeSoftness: 0.06
     - _Smoothness: 0.21161824
@@ -124,12 +127,13 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _SurfaceType: 0
     - _UVSec: 0
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.8165162, g: 0.6813618, b: 0.58984023, a: 1}
+    - _BaseColor: {r: 0.8490566, g: 0.77627635, b: 0.7249021, a: 1}
     - _Color: {r: 0.8165162, g: 0.6813618, b: 0.58984023, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}

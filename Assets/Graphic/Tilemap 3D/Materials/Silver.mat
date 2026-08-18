@@ -8,16 +8,18 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Silver
-  m_Shader: {fileID: 4800000, guid: 96f681e2caa2c7b41b73ef87396006e1, type: 3}
+  m_Shader: {fileID: 4800000, guid: ce3e625c48ef35a49ab7d887b360a663, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SURFACE_METALLIC
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -119,13 +121,14 @@ Material:
     - _Smoothness: 0.6666667
     - _SmoothnessTextureChannel: 0
     - _SpecEnabled: 0
-    - _SpecIntensity: 1.25
-    - _SpecSmoothness: 0
-    - _SpecSoftness: 0.18
+    - _SpecIntensity: 0.9
+    - _SpecSmoothness: 0.15
+    - _SpecSoftness: 0.35
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _SurfaceType: 1
     - _UVSec: 0
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1

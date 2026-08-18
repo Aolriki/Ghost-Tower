@@ -32,23 +32,6 @@ float ToonSpecularRamp(float value, float softness)
 }
 
 // ----------------------------------------------------------------
-// Bayer matrix 4x4 para dither em screen space.
-// ----------------------------------------------------------------
-float BayerDither4x4(float2 pixelPos)
-{
-    const float bayer[16] =
-    {
-        0.0 / 16.0, 8.0 / 16.0, 2.0 / 16.0, 10.0 / 16.0,
-        12.0 / 16.0, 4.0 / 16.0, 14.0 / 16.0, 6.0 / 16.0,
-         3.0 / 16.0, 11.0 / 16.0, 1.0 / 16.0, 9.0 / 16.0,
-        15.0 / 16.0, 7.0 / 16.0, 13.0 / 16.0, 5.0 / 16.0
-    };
-    int2 p = int2(fmod(pixelPos, 4.0));
-    int idx = p.x + p.y * 4;
-    return bayer[idx];
-}
-
-// ----------------------------------------------------------------
 // Contribuicao de UMA luz toon.
 // Retorna a cor que esta luz adiciona (diffuse difuso + specular).
 //
@@ -122,7 +105,6 @@ void CalculateToonLighting_float(
     float SpecSoftness,
     float SpecEnabled,
     float BackLightEnabled,
-    float CameraFade,
     out float3 Color)
 {
 #ifdef SHADERGRAPH_PREVIEW
@@ -194,14 +176,6 @@ void CalculateToonLighting_float(
         float rim = pow(saturate(1.0 - dot(NormalWS, ViewDirWS)), max(_BackLightPower, 0.01));
         float facing = saturate(dot(NormalWS, -_BackLightDirWS.xyz));
         accum += _BackLightColor.rgb * rim * facing * _BackLightIntensity;
-    }
-
-    // ---- Camera Fade (dither em screen space) ----
-    if (CameraFade > 0.001)
-    {
-        float2 pixelPos = ScreenPos.xy * _ScreenParams.xy;
-        float threshold = BayerDither4x4(pixelPos);
-        clip(threshold - CameraFade);
     }
 
     Color = accum;

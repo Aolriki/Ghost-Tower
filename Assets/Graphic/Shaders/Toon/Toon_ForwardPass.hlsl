@@ -1,7 +1,10 @@
 #ifndef TOON_FORWARD_PASS_INCLUDED
 #define TOON_FORWARD_PASS_INCLUDED
 
-// Vertex e fragment do pass principal, compartilhado entre Opaque, Transparent e Metallic.
+// Vertex e fragment do pass principal do shader unificado Toon Standard.
+// O comportamento por modo de superficie (Opaque, Metallic, Transparent)
+// e controlado pelas keywords _SURFACE_METALLIC e _SURFACE_TRANSPARENT,
+// que sao ligadas pelo ToonStandardShaderGUI de acordo com _SurfaceType.
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/GlobalIllumination.hlsl"
@@ -58,7 +61,7 @@ half4 Fragment(Varyings IN) : SV_Target
     #endif
 
     half outputAlpha;
-    #ifdef _TRANSPARENT_ON
+    #ifdef _SURFACE_TRANSPARENT
         outputAlpha = albedo.a * _Opacity;
     #else
         outputAlpha = 1.0;
@@ -68,14 +71,12 @@ half4 Fragment(Varyings IN) : SV_Target
     float3 viewDirWS = GetWorldSpaceNormalizeViewDir(IN.positionWS);
     float4 screenPosNormalized = float4(IN.screenPos.xy / IN.screenPos.w, IN.screenPos.zw);
 
-    // Parametros que mudam por shader.
-    #ifdef _METALLIC_ON
-        // Metal sempre tem specular ligado e nao usa camera fade.
+    // Parametros que mudam por modo de superficie.
+    #ifdef _SURFACE_METALLIC
+        // Metallic sempre tem specular ligado.
         float specEnabledParam = 1.0;
-        float cameraFadeParam  = 0.0;
     #else
         float specEnabledParam = _SpecEnabled;
-        float cameraFadeParam  = _CameraFade;
     #endif
 
     float3 litColor;
@@ -93,12 +94,11 @@ half4 Fragment(Varyings IN) : SV_Target
         _SpecSoftness,
         specEnabledParam,
         _BackLightEnabled,
-        cameraFadeParam,
         litColor
     );
 
-    // Reflexo de ambiente (reflection probe / skybox), apenas no Metallic.
-    #ifdef _METALLIC_ON
+    // Reflexo de ambiente (reflection probe / skybox), apenas no modo Metallic.
+    #ifdef _SURFACE_METALLIC
         // Vetor de reflexo: direcao da camera refletida em torno da normal.
         float3 reflectVec = reflect(-viewDirWS, normalWS);
 
