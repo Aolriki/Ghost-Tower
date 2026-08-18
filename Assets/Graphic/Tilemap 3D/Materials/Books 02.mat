@@ -126,16 +126,16 @@ Material:
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ReflectionIntensity: 1
-    - _ReflectionSmoothness: 0.85
+    - _ReflectionIntensity: 0.172
+    - _ReflectionSmoothness: 1
     - _ShadeBlend: 0.9
     - _ShadeSoftness: 0.06
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecEnabled: 1
-    - _SpecIntensity: 0.33
-    - _SpecSmoothness: 0.034
-    - _SpecSoftness: 0.587
+    - _SpecIntensity: 0.5
+    - _SpecSmoothness: 0.026
+    - _SpecSoftness: 1
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
