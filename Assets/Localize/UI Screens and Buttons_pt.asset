@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: UI Screens & Buttons_en-US
+  m_Name: UI Screens and Buttons_pt
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
   m_LocaleId:
-    m_Code: en-US
+    m_Code: pt
   m_SharedData: {fileID: 11400000, guid: 65ae19d1bc05ec74686508ef12dee144, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
   - m_Id: 413341659136
-    m_Localized: Awake...
+    m_Localized: Acordar...
     m_Metadata:
       m_Items: []
   - m_Id: 8259953307648
-    m_Localized: Configuration
+    m_Localized: "Configura\xE7\xF5es"
     m_Metadata:
       m_Items: []
   - m_Id: 8566280105984
-    m_Localized: Gallery
+    m_Localized: Galeria
     m_Metadata:
       m_Items: []
   - m_Id: 8665135656960
-    m_Localized: Close the Game
+    m_Localized: Fechar o Jogo
     m_Metadata:
       m_Items: []
   references:

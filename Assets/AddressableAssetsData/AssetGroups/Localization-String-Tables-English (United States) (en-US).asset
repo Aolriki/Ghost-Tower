@@ -22,7 +22,7 @@ MonoBehaviour:
     - Locale-en-US
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 791dbed28fec32d4bbfecafee5962944
-    m_Address: Messages & Thoughts_en-US
+    m_Address: Messages and Thoughts_en-US
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en-US
@@ -46,7 +46,7 @@ MonoBehaviour:
     - Locale-en-US
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d098085c7a7d1d741accfc4e8880a12b
-    m_Address: UI Screens & Buttons_en-US
+    m_Address: UI Screens and Buttons_en-US
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en-US

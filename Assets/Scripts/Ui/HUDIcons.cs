@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 // Groups a shared icon image with its label text below it.
@@ -28,20 +29,20 @@ public class HUDIcons : MonoBehaviour
 
     [Header("Default Input Icon")]
     public HUDIconEntry defaultIcon;
-    public string labelToTake = "To Take";
-    public string labelUseKey = "Use Key";
-    public string labelToInspect = "To Inspect";
-    public string labelTryUnlock = "Try Unlock";
-    public string labelPlaceItem = "Place Item";
-    public string labelGiveItem = "Give Item";
+    public LocalizedString labelToTake;
+    public LocalizedString labelUseKey;
+    public LocalizedString labelToInspect;
+    public LocalizedString labelTryUnlock;
+    public LocalizedString labelPlaceItem;
+    public LocalizedString labelGiveItem;
 
     [Header("To Talk Icon")]
     public HUDIconEntry toTalkIcon;
-    public string labelToTalk = "To Talk";
+    public LocalizedString labelToTalk;
 
     [Header("To Read Icon")]
     public HUDIconEntry toReadIcon;
-    public string labelToRead = "To Read";
+    public LocalizedString labelToRead;
 
     [Header("Code Mode Group")]
     [Tooltip("GameObject pai que agrupa os quatro icones do code mode. Comeca desativado.")]
@@ -49,9 +50,9 @@ public class HUDIcons : MonoBehaviour
     public HUDIconEntry confirmIcon;
     public HUDIconEntry rotateIcon;
     public HUDIconEntry navigateIcon;
-    public string labelToConfirm = "To Confirm";
-    public string labelToRotate = "To Rotate";
-    public string labelToNavigate = "To Navigate";
+    public LocalizedString labelToConfirm;
+    public LocalizedString labelToRotate;
+    public LocalizedString labelToNavigate;
 
     // Cached reference to the scene-local PlayerContext.
     private PlayerContext _context;
@@ -198,36 +199,36 @@ public class HUDIcons : MonoBehaviour
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
-    private void ShowDefault(string text)
+    private void ShowDefault(LocalizedString text)
     {
         if (defaultIcon == null) return;
         SetIcon(defaultIcon, true);
         if (defaultIcon.label != null)
-            defaultIcon.label.text = text;
+            defaultIcon.label.text = text.GetLocalizedString();
     }
 
-    private void ShowToTalk(string text)
+    private void ShowToTalk(LocalizedString text)
     {
         if (toTalkIcon == null) return;
         SetIcon(toTalkIcon, true);
         if (toTalkIcon.label != null)
-            toTalkIcon.label.text = text;
+            toTalkIcon.label.text = text.GetLocalizedString();
     }
 
-    private void ShowToRead(string text)
+    private void ShowToRead(LocalizedString text)
     {
         if (toReadIcon == null) return;
         SetIcon(toReadIcon, true);
         if (toReadIcon.label != null)
-            toReadIcon.label.text = text;
+            toReadIcon.label.text = text.GetLocalizedString();
     }
 
-    private void ShowCodeIcon(HUDIconEntry entry, string text)
+    private void ShowCodeIcon(HUDIconEntry entry, LocalizedString text)
     {
         if (entry == null) return;
         SetIcon(entry, true);
         if (entry.label != null)
-            entry.label.text = text;
+            entry.label.text = text.GetLocalizedString();
     }
 
     private void SetIcon(HUDIconEntry entry, bool active)

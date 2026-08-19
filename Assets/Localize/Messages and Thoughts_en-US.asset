@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: Messages & Thoughts_pt
+  m_Name: Messages and Thoughts_en-US
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
   m_LocaleId:
-    m_Code: pt
+    m_Code: en-US
   m_SharedData: {fileID: 11400000, guid: 6a4346a87430fe541ac0ef09db627437, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
   - m_Id: 119560024064
-    m_Localized: "Tente outra combina\xE7\xE3o !"
+    m_Localized: Try another combination !
     m_Metadata:
       m_Items: []
   - m_Id: 329170366464
-    m_Localized: "\"Uhnn... T\xE1 trancado...\""
+    m_Localized: '"Uhnn... it''s locked..."'
     m_Metadata:
       m_Items: []
   - m_Id: 1295156326400
-    m_Localized: "\"N\xE3o h\xE1 muito que eu possa fazer com isso agora...\""
+    m_Localized: '"There isn''t much I can do with this right now..."'
     m_Metadata:
       m_Items: []
   - m_Id: 3189312401408
-    m_Localized: "\"Est\xE1 Enferrujado? Preciso de algo para desemperrar.\""
+    m_Localized: '"Is it rusty? I need something to unstick it."'
     m_Metadata:
       m_Items: []
   references:

@@ -34,7 +34,7 @@ MonoBehaviour:
     - Locale-pt
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8abd0cb03702d894e9ec4f02a30887d5
-    m_Address: Messages & Thoughts_pt
+    m_Address: Messages and Thoughts_pt
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pt
@@ -46,7 +46,7 @@ MonoBehaviour:
     - Locale-pt
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f9c668cbc167f954fa3327c434cb4e3a
-    m_Address: UI Screens & Buttons_pt
+    m_Address: UI Screens and Buttons_pt
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pt

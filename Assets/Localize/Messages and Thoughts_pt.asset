@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: UI Screens & Buttons_pt
+  m_Name: Messages and Thoughts_pt
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
   m_LocaleId:
     m_Code: pt
-  m_SharedData: {fileID: 11400000, guid: 65ae19d1bc05ec74686508ef12dee144, type: 2}
+  m_SharedData: {fileID: 11400000, guid: 6a4346a87430fe541ac0ef09db627437, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 413341659136
-    m_Localized: Acordar...
+  - m_Id: 119560024064
+    m_Localized: "Tente outra combina\xE7\xE3o !"
     m_Metadata:
       m_Items: []
-  - m_Id: 8259953307648
-    m_Localized: "Configura\xE7\xF5es"
+  - m_Id: 329170366464
+    m_Localized: "\"Uhnn... T\xE1 trancado...\""
     m_Metadata:
       m_Items: []
-  - m_Id: 8566280105984
-    m_Localized: Galeria
+  - m_Id: 1295156326400
+    m_Localized: "\"N\xE3o h\xE1 muito que eu possa fazer com isso agora...\""
     m_Metadata:
       m_Items: []
-  - m_Id: 8665135656960
-    m_Localized: Fechar o Jogo
+  - m_Id: 3189312401408
+    m_Localized: "\"Est\xE1 Enferrujado? Preciso de algo para desemperrar.\""
     m_Metadata:
       m_Items: []
   references:
