@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Documents_pt
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: pt
+  m_SharedData: {fileID: 11400000, guid: f9586eab124baa342a5778d34950dc78, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 6410285056
+    m_Localized: "Minha querida Aisha, entendo a situa\xE7\xE3o que est\xE1 passando,
+      e sabe o quanto \xE9 difcil para mim tamb\xE9m. \n\nMas n\xE3o posso deixa-la
+      sozinha agora, para o seu proprio bem. \n\nEstarei enviando servi\xE7ais para
+      o topo da torre para que cuidem de voc\xEA por um tempo. At\xE9 l\xE1, fique
+      ai e aguarde, n\xE3o quero novas surpresas, entendido?\n\nVai ficar tudo bem.\n\nCom
+      amor, \nPapai."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29340545024
+    m_Localized: "Talvez eu tenha exagarado na senha do porta joias, ent\xE3o por
+      seguran\xE7a, para caso eu esque\xE7a, aqui vai uma charada que s\xF3 eu consigo
+      decifrar:\n\n\"O primeiro \xE9 aquela que <b>s\xF3 est\xE1 presente</b> em
+      apenas um deles\"\n\n\"No meio, <b>a quantidade</b> das minha favoritas\"\n\n\"Por
+      fim, <b>a forma que lembra o nome</b> do meu pai\"\n"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

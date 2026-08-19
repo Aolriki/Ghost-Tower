@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UI Action Labels_en-US
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en-US
+  m_SharedData: {fileID: 11400000, guid: 64555db14f307ce478718ec0396ff304, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 5448200957952
+    m_Localized: Take
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5893883506688
+    m_Localized: Use Key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6351507238912
+    m_Localized: Inspect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8756944777216
+    m_Localized: Try Unlock
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9250916347904
+    m_Localized: Place It
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15474797916160
+    m_Localized: Read
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15904449835008
+    m_Localized: Talk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16436786704384
+    m_Localized: Give Item
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17950905282560
+    m_Localized: Confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18022946648064
+    m_Localized: Rotate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18422315692032
+    m_Localized: Navigate
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

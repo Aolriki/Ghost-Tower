@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Documents_en-US
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en-US
+  m_SharedData: {fileID: 11400000, guid: f9586eab124baa342a5778d34950dc78, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 6410285056
+    m_Localized: 'My dearest Aisha, I understand the situation you are going through,
+      and you know how difficult this is for me, too.
+
+
+      But I cannot leave
+      you alone right now, for your own good.
+
+
+      I will be sending servants
+      to the top of the tower to take care of you for a while. Until then, stay put
+      and wait. I don''t want any more surprises, understood?
+
+
+      Everything
+      is going to be alright.
+
+
+      Love,
+
+      Dad'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29340545024
+    m_Localized: 'Maybe I went a bit overboard with the jewelry box password, so
+      just to be safe, in case I forget, here is a riddle that only I can decipher:
+
+      
+
+      "The
+      first is the one that <b>is only present</b> in just one of them"
+
+      
+
+      "In
+      the middle, <b>the number</b> of my favorites"
+
+      
+
+      "Lastly, <b>the
+      shape that resembles</b> my father''s name"'
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

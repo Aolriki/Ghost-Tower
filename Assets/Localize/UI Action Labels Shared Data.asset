@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: UI Action Labels Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: UI Action Labels
+  m_TableCollectionNameGuidString: 64555db14f307ce478718ec0396ff304
+  m_Entries:
+  - m_Id: 5448200957952
+    m_Key: Collect-Item_Label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5893883506688
+    m_Key: Unlock-Keyslot_Label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6351507238912
+    m_Key: Lock-Item/Prop_Label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8756944777216
+    m_Key: Try-Cryptex_Label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9250916347904
+    m_Key: Mesh-Item_Label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15474797916160
+    m_Key: Read-Item_Label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15904449835008
+    m_Key: NPC-Talk_Label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16436786704384
+    m_Key: NPC-Give_Label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17950905282560
+    m_Key: Confirm_Label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18022946648064
+    m_Key: Rotate_Label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18422315692032
+    m_Key: Navigate_Label
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 7954227082720444679
+  references:
+    version: 2
+    RefIds:
+    - rid: 7954227082720444679
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1787093893135

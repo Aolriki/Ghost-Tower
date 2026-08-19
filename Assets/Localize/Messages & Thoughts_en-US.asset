@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Messages & Thoughts_en-US
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en-US
+  m_SharedData: {fileID: 11400000, guid: 6a4346a87430fe541ac0ef09db627437, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 119560024064
+    m_Localized: Try another combination !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 329170366464
+    m_Localized: '"Uhnn... it''s locked..."'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1295156326400
+    m_Localized: '"There isn''t much I can do with this right now..."'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3189312401408
+    m_Localized: '"Is it rusty? I need something to unstick it."'
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
