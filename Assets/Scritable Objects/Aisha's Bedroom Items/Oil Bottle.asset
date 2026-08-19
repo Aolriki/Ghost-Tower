@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93936641dcd75894388aa53715c30f3a, type: 3}
   m_Name: Oil Bottle
   m_EditorClassIdentifier: Assembly-CSharp::KeySO
-  icon: {fileID: 21300000, guid: c79602ec7a66e14448a1226a982a2573, type: 3}
-  iconSelected: {fileID: 21300000, guid: 75a8bca312dcc054999a895263a8acba, type: 3}
+  icon: {fileID: 21300000, guid: d9c9dd57255b66548900326744113df3, type: 3}
+  iconSelected: {fileID: 21300000, guid: 979f270e52056c94597aa94a2622180f, type: 3}
   itemName: Oil Bottle

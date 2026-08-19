@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9214f2253b8a321429fce6cd68d046b2, type: 3}
   m_Name: King's Letter
   m_EditorClassIdentifier: Assembly-CSharp::DocSO
-  icon: {fileID: 21300000, guid: c0b571509a6aba9499b3d8c43ebef915, type: 3}
-  iconSelected: {fileID: 21300000, guid: 42ef45868bd03c045bc1f048fa2e7aea, type: 3}
+  icon: {fileID: 21300000, guid: d6ffc4a051939a94e90576bae3c9903b, type: 3}
+  iconSelected: {fileID: 21300000, guid: 15615b507d28c274e8001596a63532f4, type: 3}
   itemName: King's Letter
   docPagePrefab: {fileID: 1366434716278061428, guid: f566ec25ba8824c45b2c6b366522566c, type: 3}

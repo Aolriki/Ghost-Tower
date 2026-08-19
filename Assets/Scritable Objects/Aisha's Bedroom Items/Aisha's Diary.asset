@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9214f2253b8a321429fce6cd68d046b2, type: 3}
   m_Name: Aisha's Diary
   m_EditorClassIdentifier: Assembly-CSharp::DocSO
-  icon: {fileID: 21300000, guid: 0f5cf9f98616335418bd66702a6b9099, type: 3}
-  iconSelected: {fileID: 21300000, guid: ae6ad807b17222d4ea8c88832d460166, type: 3}
+  icon: {fileID: 21300000, guid: 7444ffc5726ab714499c6e3e225bf7b8, type: 3}
+  iconSelected: {fileID: 21300000, guid: 0a8d6fb163ef3ec428696849aba065fc, type: 3}
   itemName: Aisha's Diary
   docPagePrefab: {fileID: 1366434716278061428, guid: 7262484c4f449c04c87fb902ef0f8a1b, type: 3}

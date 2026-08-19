@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93936641dcd75894388aa53715c30f3a, type: 3}
   m_Name: Main Door Key
   m_EditorClassIdentifier: Assembly-CSharp::KeySO
-  icon: {fileID: 21300000, guid: 637d8b8b9ece996489974ba41702e87c, type: 3}
-  iconSelected: {fileID: 21300000, guid: 1c5f7223eb1eb4a4fb8dbea9063ae13a, type: 3}
+  icon: {fileID: 21300000, guid: 2c80351f1ee663e4d8754a881298e169, type: 3}
+  iconSelected: {fileID: 21300000, guid: 43e2d7edb30ee8d4d80b8503702edb6f, type: 3}
   itemName: Main Door Key

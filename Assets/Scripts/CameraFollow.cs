@@ -14,6 +14,7 @@ public class CameraFollow : MonoBehaviour
 
     [Header("Look / Orbit")]
     public float lookRotateSpeed = 150f;
+    public float mouseSensitivity = 0.5f; // NOVO: Sensibilidade separada para o mouse
     [Range(0f, 1f)]
     public float lookDeadzone = 0.15f;
     public float lookIdleDelay = 2f;
@@ -31,6 +32,8 @@ public class CameraFollow : MonoBehaviour
     private Vector2 _lookInput;
     private float _yaw;
     private float _stillTimer;
+
+    private bool _isMouseInput; // NOVO: Flag para identificar se o input atual vem do mouse
 
     [Header("Debug")]
     [SerializeField] private float _yawDebug;
@@ -70,6 +73,8 @@ public class CameraFollow : MonoBehaviour
     public void OnLook(InputAction.CallbackContext context)
     {
         _lookInput = context.ReadValue<Vector2>();
+        // NOVO: Verifica dinamicamente se o dispositivo utilizado na ação é um mouse
+        _isMouseInput = context.control.device is Mouse;
     }
 
     // ---- Camera ----
@@ -103,7 +108,12 @@ public class CameraFollow : MonoBehaviour
     // segundos seguidos, para nao girar a camera enquanto o player esta andando.
     private void UpdateOrbit()
     {
-        float x = Mathf.Abs(_lookInput.x) < lookDeadzone ? 0f : _lookInput.x;
+        // NOVO: Removemos a deadzone caso o input seja do mouse para não perder movimentos sutis
+        float x = _lookInput.x;
+        if (!_isMouseInput && Mathf.Abs(x) < lookDeadzone)
+        {
+            x = 0f;
+        }
 
         if (invertYawInput)
             x = -x;
@@ -113,7 +123,19 @@ public class CameraFollow : MonoBehaviour
         if (!Mathf.Approximately(x, 0f))
         {
             // Controle manual sempre tem prioridade, parado ou andando.
-            _yaw += x * lookRotateSpeed * Time.deltaTime;
+
+            // NOVO: Cálculo diferenciado dependendo do dispositivo
+            if (_isMouseInput)
+            {
+                // Mouse já entrega um Delta (deslocamento), não precisa de Time.deltaTime
+                _yaw += x * mouseSensitivity;
+            }
+            else
+            {
+                // Analógico é um valor contínuo, exige Time.deltaTime
+                _yaw += x * lookRotateSpeed * Time.deltaTime;
+            }
+
             _stillTimer = 0f;
         }
         else if (isMoving)

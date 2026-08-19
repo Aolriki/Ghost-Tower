@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93936641dcd75894388aa53715c30f3a, type: 3}
   m_Name: Empty Bottle
   m_EditorClassIdentifier: Assembly-CSharp::KeySO
-  icon: {fileID: 21300000, guid: 0dfd1a1ca183037458157d7cc077522e, type: 3}
-  iconSelected: {fileID: 21300000, guid: 0aad78b7d4db36941a917e42c93f5906, type: 3}
+  icon: {fileID: 21300000, guid: 88f9a430fa3e2034fbe945961b1d361d, type: 3}
+  iconSelected: {fileID: 21300000, guid: 15cc8a2f12cc9434094b5d82d219f30b, type: 3}
   itemName: Empty Bottle
