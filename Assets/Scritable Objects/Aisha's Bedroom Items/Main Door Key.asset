@@ -14,4 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KeySO
   icon: {fileID: 21300000, guid: 2c80351f1ee663e4d8754a881298e169, type: 3}
   iconSelected: {fileID: 21300000, guid: 43e2d7edb30ee8d4d80b8503702edb6f, type: 3}
-  itemName: Main Door Key
+  itemName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8bc26d7ffab887548ae3aaabd6b7e02c
+    m_TableEntryReference:
+      m_KeyId: 767894564864
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []

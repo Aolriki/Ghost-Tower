@@ -14,4 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KeySO
   icon: {fileID: 21300000, guid: d9c9dd57255b66548900326744113df3, type: 3}
   iconSelected: {fileID: 21300000, guid: 979f270e52056c94597aa94a2622180f, type: 3}
-  itemName: Oil Bottle
+  itemName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8bc26d7ffab887548ae3aaabd6b7e02c
+    m_TableEntryReference:
+      m_KeyId: 256474689536
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []

@@ -23,7 +23,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5893883506688
-    m_Localized: Use Key
+    m_Localized: Interact
     m_Metadata:
       m_Items: []
   - m_Id: 6351507238912
@@ -31,7 +31,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8756944777216
-    m_Localized: Try Unlock
+    m_Localized: Decode
     m_Metadata:
       m_Items: []
   - m_Id: 9250916347904

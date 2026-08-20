@@ -23,7 +23,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5893883506688
-    m_Localized: Usar Chave
+    m_Localized: Interagir
     m_Metadata:
       m_Items: []
   - m_Id: 6351507238912
@@ -31,7 +31,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8756944777216
-    m_Localized: Tentar Destrancar
+    m_Localized: Decifrar
     m_Metadata:
       m_Items: []
   - m_Id: 9250916347904

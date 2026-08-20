@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Localization;
 
 // Tipos possiveis de item no inventario.
 public enum ItemType { Key, Doc, Mesh }
@@ -8,7 +9,7 @@ public abstract class ItemSO : ScriptableObject
 {
     public Sprite icon;
     public Sprite iconSelected;
-    public string itemName;
+    public LocalizedString itemName;
 
     // Tipo constante, definido por cada subclasse.
     public abstract ItemType type { get; }

@@ -72,7 +72,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 240, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3920254450058850202
 CanvasRenderer:
@@ -1219,10 +1219,10 @@ RectTransform:
   - {fileID: 4570220777814306659}
   m_Father: {fileID: 3488685443582491958}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1240, y: -100}
+  m_SizeDelta: {x: 240, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2145708899896309764
 GameObject:
@@ -1686,7 +1686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6299177117283018110
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1703,10 +1703,10 @@ RectTransform:
   - {fileID: 2937053213516036225}
   m_Father: {fileID: 4253131633665409661}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 680, y: -100}
+  m_SizeDelta: {x: 240, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3171470518068510181
 GameObject:
@@ -1955,7 +1955,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -375}
-  m_SizeDelta: {x: 600, y: 100}
+  m_SizeDelta: {x: 1920, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8751984629122672665
 CanvasRenderer:
@@ -2092,7 +2092,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 240, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6202324818375001149
 CanvasRenderer:
@@ -2431,7 +2431,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -2577,10 +2577,10 @@ RectTransform:
   - {fileID: 8641638176387114855}
   m_Father: {fileID: 3488685443582491958}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 680, y: -100}
+  m_SizeDelta: {x: 240, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5077674340800311081
 GameObject:
@@ -3271,10 +3271,10 @@ RectTransform:
   - {fileID: 6614249620846330410}
   m_Father: {fileID: 3488685443582491958}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 960, y: -100}
+  m_SizeDelta: {x: 240, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7489466781577476042
 GameObject:
@@ -3450,7 +3450,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 240, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4163410325040767637
 CanvasRenderer:
@@ -3846,10 +3846,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2560, y: 1440}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -4429,8 +4429,6 @@ MonoBehaviour:
   dialoguePanel: {fileID: 8721662919383876107}
   pausePanel: {fileID: 5077674340800311081}
   mapContent: {fileID: 3494833197117388654}
-  wrongCodeLabel: {fileID: 7695005059471335836}
-  wrongCodeMessage: Try Another Code...
   blackScreenPanel: {fileID: 4965022990791435843}
   blackScreenFadeDuration: 1
   loadingPanel: {fileID: 6441238189092625437}
@@ -4451,22 +4449,86 @@ MonoBehaviour:
     iconRoot: {fileID: 2923152981576893987}
     iconImage: {fileID: 3588332155464124790}
     label: {fileID: 6343902140556456978}
-  labelToTake: To Take
-  labelUseKey: Use Key
-  labelToInspect: To Inspect
-  labelTryUnlock: Try Unlock
-  labelPlaceItem: Place Item
-  labelGiveItem: Give Item
+  labelToTake:
+    m_TableReference:
+      m_TableCollectionName: GUID:64555db14f307ce478718ec0396ff304
+    m_TableEntryReference:
+      m_KeyId: 5448200957952
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  labelUseKey:
+    m_TableReference:
+      m_TableCollectionName: GUID:64555db14f307ce478718ec0396ff304
+    m_TableEntryReference:
+      m_KeyId: 5893883506688
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  labelToInspect:
+    m_TableReference:
+      m_TableCollectionName: GUID:64555db14f307ce478718ec0396ff304
+    m_TableEntryReference:
+      m_KeyId: 6351507238912
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  labelTryUnlock:
+    m_TableReference:
+      m_TableCollectionName: GUID:64555db14f307ce478718ec0396ff304
+    m_TableEntryReference:
+      m_KeyId: 8756944777216
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  labelPlaceItem:
+    m_TableReference:
+      m_TableCollectionName: GUID:64555db14f307ce478718ec0396ff304
+    m_TableEntryReference:
+      m_KeyId: 9250916347904
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  labelGiveItem:
+    m_TableReference:
+      m_TableCollectionName: GUID:64555db14f307ce478718ec0396ff304
+    m_TableEntryReference:
+      m_KeyId: 16436786704384
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   toTalkIcon:
     iconRoot: {fileID: 9148401503808691429}
     iconImage: {fileID: 356432972037585729}
     label: {fileID: 8120697038442135566}
-  labelToTalk: To Talk
+  labelToTalk:
+    m_TableReference:
+      m_TableCollectionName: GUID:64555db14f307ce478718ec0396ff304
+    m_TableEntryReference:
+      m_KeyId: 15904449835008
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   toReadIcon:
     iconRoot: {fileID: 9021545005957141928}
     iconImage: {fileID: 3298750352182634605}
     label: {fileID: 619222987943217556}
-  labelToRead: To Read
+  labelToRead:
+    m_TableReference:
+      m_TableCollectionName: GUID:64555db14f307ce478718ec0396ff304
+    m_TableEntryReference:
+      m_KeyId: 15474797916160
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   codeModeGroup: {fileID: 2145708899896309764}
   confirmIcon:
     iconRoot: {fileID: 2100139156479720287}
@@ -4480,9 +4542,36 @@ MonoBehaviour:
     iconRoot: {fileID: 4986929633919604785}
     iconImage: {fileID: 575020323037634712}
     label: {fileID: 7858256902746212573}
-  labelToConfirm: Confirm
-  labelToRotate: Rotate
-  labelToNavigate: Navigate
+  labelToConfirm:
+    m_TableReference:
+      m_TableCollectionName: GUID:64555db14f307ce478718ec0396ff304
+    m_TableEntryReference:
+      m_KeyId: 17950905282560
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  labelToRotate:
+    m_TableReference:
+      m_TableCollectionName: GUID:64555db14f307ce478718ec0396ff304
+    m_TableEntryReference:
+      m_KeyId: 18022946648064
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  labelToNavigate:
+    m_TableReference:
+      m_TableCollectionName: GUID:64555db14f307ce478718ec0396ff304
+    m_TableEntryReference:
+      m_KeyId: 18422315692032
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &4348891859611323665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4514,8 +4603,44 @@ MonoBehaviour:
   notificationLabel: {fileID: 7695005059471335836}
   holdDuration: 1
   fadeDuration: 0.5
-  wrongCodeMessage: Try Another Key...
-  wrongKeyMessage: '"It''s locked..."'
+  wrongCodeMessage:
+    m_TableReference:
+      m_TableCollectionName: GUID:6a4346a87430fe541ac0ef09db627437
+    m_TableEntryReference:
+      m_KeyId: 119560024064
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  wrongKeyMessage:
+    m_TableReference:
+      m_TableCollectionName: GUID:6a4346a87430fe541ac0ef09db627437
+    m_TableEntryReference:
+      m_KeyId: 329170366464
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  keySlotMessages:
+  - m_TableReference:
+      m_TableCollectionName: GUID:6a4346a87430fe541ac0ef09db627437
+    m_TableEntryReference:
+      m_KeyId: 3189312401408
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  - m_TableReference:
+      m_TableCollectionName: GUID:6a4346a87430fe541ac0ef09db627437
+    m_TableEntryReference:
+      m_KeyId: 1295156326400
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &8659373197197387715
 GameObject:
   m_ObjectHideFlags: 0
@@ -4815,7 +4940,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1758210705664459584
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4832,10 +4957,10 @@ RectTransform:
   - {fileID: 2049424584199626286}
   m_Father: {fileID: 4253131633665409661}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1100, y: -100}
+  m_SizeDelta: {x: 240, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &9148401503808691429
 GameObject:
@@ -4852,7 +4977,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5688077256334501105
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4869,10 +4994,10 @@ RectTransform:
   - {fileID: 2693851038208122785}
   m_Father: {fileID: 4253131633665409661}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 820, y: -100}
+  m_SizeDelta: {x: 240, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &9193058399577987284
 GameObject:

@@ -1,6 +1,22 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
+
+public enum KeySlotMessageId
+{
+    None,
+    GreatLightningJar,
+    AishaChestLocked,
+}
+
+// Pairs a KeySlotMessageId with its localized text. Order in the Inspector list does not matter.
+[System.Serializable]
+public struct KeySlotMessageEntry
+{
+    public KeySlotMessageId id;
+    public LocalizedString message;
+}
 
 // Singleton global (DontDestroyOnLoad). Exibe notificacoes de feedback na HUD com fade de saida.
 // Chamado por qualquer sistema que precise notificar o jogador de forma nao bloqueante.
@@ -19,12 +35,16 @@ public class HUDNotification : MonoBehaviour
 
     [Header("Default Messages")]
     [Tooltip("Mensagem exibida pelo CodeSlot ao errar a senha.")]
-    [SerializeField] private string wrongCodeMessage = "Wrong combination.";
-    [Tooltip("Mensagem exibida pelo KeySlot ao tentar um item errado, quando o slot nao tiver texto customizado.")]
-    [SerializeField] private string wrongKeyMessage = "This key does not fit.";
+    [SerializeField] private LocalizedString wrongCodeMessage;
+    [Tooltip("Mensagem padrao exibida pelo KeySlot quando messageId for None ou nao existir na lista abaixo.")]
+    [SerializeField] private LocalizedString wrongKeyMessage;
 
-    public string WrongCodeMessage => wrongCodeMessage;
-    public string WrongKeyMessage => wrongKeyMessage;
+    [Header("Key Slot Custom Messages")]
+    [Tooltip("Cada entrada associa um KeySlotMessageId ao seu texto. A ordem na lista nao importa.")]
+    [SerializeField] private KeySlotMessageEntry[] keySlotMessages;
+
+    public string WrongCodeMessage => wrongCodeMessage.GetLocalizedString();
+    public string WrongKeyMessage => wrongKeyMessage.GetLocalizedString();
 
     private Coroutine _showCoroutine;
     private bool _isShowing;
@@ -37,6 +57,24 @@ public class HUDNotification : MonoBehaviour
 
         if (notificationLabel != null)
             notificationLabel.gameObject.SetActive(false);
+    }
+
+    // Retorna a mensagem customizada associada ao id, ou a mensagem padrao
+    // se o id for None, nao existir na lista, ou a entrada estiver vazia.
+    public string GetKeySlotMessage(KeySlotMessageId id)
+    {
+        if (id == KeySlotMessageId.None) return WrongKeyMessage;
+
+        if (keySlotMessages != null)
+        {
+            foreach (KeySlotMessageEntry entry in keySlotMessages)
+            {
+                if (entry.id == id && !entry.message.IsEmpty)
+                    return entry.message.GetLocalizedString();
+            }
+        }
+
+        return WrongKeyMessage;
     }
 
     // Exibe a notificacao com o texto fornecido.

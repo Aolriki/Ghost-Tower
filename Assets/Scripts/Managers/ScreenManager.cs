@@ -46,12 +46,6 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private Transform mapContent;
 
-    [Header("Look")]
-    [Tooltip("Texto exibido quando o jogador confirma uma combinacao errada no CodeSlot.")]
-    [SerializeField] private TMP_Text wrongCodeLabel;
-    [Tooltip("Mensagem padrao ao errar a senha. Edite aqui para versoes traduzidas.")]
-    [SerializeField] private string wrongCodeMessage = "Wrong combination.";
-
     [Header("Black Screen")]
     [SerializeField] private CanvasGroup blackScreenPanel;
     [SerializeField] private float blackScreenFadeDuration = 1f;
@@ -72,7 +66,6 @@ public class ScreenManager : MonoBehaviour
         loadingPanel?.SetActive(false);
         uiModePanel?.SetActive(false);
         exitGroup?.SetActive(false);
-        wrongCodeLabel?.gameObject.SetActive(false);
     }
 
     void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
@@ -255,21 +248,6 @@ public class ScreenManager : MonoBehaviour
             Destroy(_currentMapInstance);
             _currentMapInstance = null;
         }
-    }
-
-    // ── Wrong Code Message ────────────────────────────────────────────────────
-
-    public void ShowWrongCodeMessage()
-    {
-        if (wrongCodeLabel == null) return;
-        wrongCodeLabel.text = wrongCodeMessage;
-        wrongCodeLabel.gameObject.SetActive(true);
-    }
-
-    public void HideWrongCodeMessage()
-    {
-        if (wrongCodeLabel == null) return;
-        wrongCodeLabel.gameObject.SetActive(false);
     }
 
     // ── Fade ──────────────────────────────────────────────────────────────────

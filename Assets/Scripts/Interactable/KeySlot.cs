@@ -5,16 +5,16 @@ using UnityEngine.Events;
 public class KeySlot : Interactable
 {
     public enum KeySlotState { Hidden, Default, Solved }
+
     public override InteractIcon Icon => InteractIcon.Padlock;
 
     [Header("Key Slot")]
     public KeySO correctKeyItem;
 
-    [Tooltip("Mensagem exibida em qualquer tentativa que nao seja a chave correta. Se vazio, usa o texto padrao do HUDNotification.")]
-    [SerializeField] private string wrongKeyMessage;
+    [Tooltip("Mensagem customizada exibida em tentativas erradas. None usa o texto padrao do HUDNotification.")]
+    [SerializeField] private KeySlotMessageId messageId = KeySlotMessageId.None;
 
     [SerializeField] private KeySlotState state = KeySlotState.Default;
-
     public KeySlotState State => state;
 
     public UnityEvent OnSolved;
@@ -76,10 +76,9 @@ public class KeySlot : Interactable
 
     private void ShowWrongMessage()
     {
-        string message = !string.IsNullOrEmpty(wrongKeyMessage)
-            ? wrongKeyMessage
-            : HUDNotification.Instance?.WrongKeyMessage;
+        if (HUDNotification.Instance == null) return;
 
-        HUDNotification.Instance?.Show(message);
+        string message = HUDNotification.Instance.GetKeySlotMessage(messageId);
+        HUDNotification.Instance.Show(message);
     }
 }

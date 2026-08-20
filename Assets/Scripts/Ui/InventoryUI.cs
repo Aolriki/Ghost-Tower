@@ -154,7 +154,7 @@ public class InventoryUI : MonoBehaviour
             {
                 _slotLabels[i].gameObject.SetActive(selected && i < items.Count);
                 if (selected && i < items.Count)
-                    _slotLabels[i].text = items[i].itemName;
+                    _slotLabels[i].text = items[i].itemName.GetLocalizedString();
             }
         }
     }

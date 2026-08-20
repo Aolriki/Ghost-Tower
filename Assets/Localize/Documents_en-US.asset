@@ -45,20 +45,18 @@ MonoBehaviour:
     m_Localized: 'Maybe I went a bit overboard with the jewelry box password, so
       just to be safe, in case I forget, here is a riddle that only I can decipher:
 
-      
+
 
       "The
       first is the one that <b>is only present</b> in just one of them"
 
-      
 
       "In
       the middle, <b>the number</b> of my favorites"
 
-      
 
-      "Lastly, <b>the
-      shape that resembles</b> my father''s name"'
+      "Lastly, <b>the shape
+      that resembles</b> my father''s name"'
     m_Metadata:
       m_Items: []
   references:
