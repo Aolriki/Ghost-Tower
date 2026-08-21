@@ -33,12 +33,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-pt
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8abd0cb03702d894e9ec4f02a30887d5
-    m_Address: Messages and Thoughts_pt
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-pt
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a8205c5f66c6dc740b9e2241529359b0
     m_Address: Dialogues_pt
     m_ReadOnly: 1

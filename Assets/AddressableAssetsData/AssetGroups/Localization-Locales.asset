@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: 209e48597fe30c04c8fe39320258bc31
   m_SerializeEntries:
   - m_GUID: c2b05aa77c70c1e44a1fc3e1f6462f7b
-    m_Address: Portuguese (PT-BR)
+    m_Address: "Portugu\xEAs (PT-BR)"
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale

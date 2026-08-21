@@ -21,12 +21,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-en-US
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 791dbed28fec32d4bbfecafee5962944
-    m_Address: Messages and Thoughts_en-US
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en-US
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9ea5b018ee0442b4bb21b416076f5edc
     m_Address: Item Names_en-US
     m_ReadOnly: 1
