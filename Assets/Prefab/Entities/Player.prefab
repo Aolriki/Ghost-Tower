@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 909b27bfa6ae6444e80d64ff49a82529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 4
+  moveSpeed: 3
   gravity: -40
   _currentSpeedDebug: 0
 --- !u!114 &7705133705713924073
@@ -157,7 +157,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 405969276338198428}
+  - component: {fileID: 2525390613029678204}
   - component: {fileID: 513221443592684519}
+  - component: {fileID: 3458625475117438662}
   m_Layer: 0
   m_Name: Player Interection
   m_TagString: Untagged
@@ -180,6 +182,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7211848915591954074}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &2525390613029678204
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6426003962703484940}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Height: 2.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &513221443592684519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,6 +218,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
   playerRoot: {fileID: 7211848915591954074}
+--- !u!54 &3458625475117438662
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6426003962703484940}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 1
 --- !u!1 &8553112456266969534
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,6 +505,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d0313bd3b16f5964bb7865e208ad1560, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d0313bd3b16f5964bb7865e208ad1560, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5361195365898353462, guid: d0313bd3b16f5964bb7865e208ad1560, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
