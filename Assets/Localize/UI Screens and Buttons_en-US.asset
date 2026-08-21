@@ -34,6 +34,10 @@ MonoBehaviour:
     m_Localized: Close the Game
     m_Metadata:
       m_Items: []
+  - m_Id: 698812424597504
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

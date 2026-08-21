@@ -30,6 +30,9 @@ public class ScreenManager : MonoBehaviour
     [Header("Main Menu")]
     [SerializeField] private GameObject mainMenuPanel;
 
+    [Header("Config")]
+    [SerializeField] private GameObject configPanel;
+
     [Header("Gameplay")]
     [SerializeField] private GameObject hudPanel;
     [Tooltip("Botao de fechar/sair, visivel em todas as telas exceto Gameplay e MainMenu.")]
@@ -65,6 +68,7 @@ public class ScreenManager : MonoBehaviour
         blackScreenPanel?.gameObject.SetActive(false);
         loadingPanel?.SetActive(false);
         uiModePanel?.SetActive(false);
+        configPanel?.SetActive(false);
         exitGroup?.SetActive(false);
     }
 
@@ -151,6 +155,12 @@ public class ScreenManager : MonoBehaviour
     // Use this as the single close/back action for all UI panels.
     public void CloseCurrentScreen()
     {
+        if (configPanel != null && configPanel.activeSelf)
+        {
+            CloseConfig();
+            return;
+        }
+
         switch (CurrentScreen)
         {
             case Screens.Pause:
@@ -181,6 +191,21 @@ public class ScreenManager : MonoBehaviour
     {
         if (CurrentScreen == Screens.Gameplay) ChangeScreen(Screens.Pause);
         else if (CurrentScreen == Screens.Pause) ChangeScreen(Screens.Gameplay);
+    }
+
+    // ── Config Panel ──────────────────────────────────────────────────────────
+
+    // Config is a sub panel of the Main Menu screen, it does not change CurrentScreen.
+    public void OpenConfig()
+    {
+        configPanel?.SetActive(true);
+        exitGroup?.SetActive(true);
+    }
+
+    public void CloseConfig()
+    {
+        configPanel?.SetActive(false);
+        exitGroup?.SetActive(false);
     }
 
     // ── Doc Page ──────────────────────────────────────────────────────────────
@@ -260,6 +285,7 @@ public class ScreenManager : MonoBehaviour
     private void DeactivateAllPanels()
     {
         mainMenuPanel?.SetActive(false);
+        configPanel?.SetActive(false);
         hudPanel?.SetActive(false);
         uiModePanel?.SetActive(false);
         pausePanel?.SetActive(false);

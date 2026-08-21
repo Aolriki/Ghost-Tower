@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3430278814072083988}
   - component: {fileID: 7749541241934484125}
+  - component: {fileID: 8582578694397694674}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -46,9 +47,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   sceneBoot: 0
   sceneMenu: 1
-  sceneDevmap: 2
   sceneFase1: 2
   sceneFase2: 3
   sceneFase3: 4
   sceneCutscene: 5
   loadingScreenDuration: 1
+--- !u!114 &8582578694397694674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845031287009807897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f2f81e025bcf254784839acc515679d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsManager
+  languageDropdown: {fileID: 0}

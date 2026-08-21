@@ -31,6 +31,10 @@ MonoBehaviour:
     m_Key: Close-Game_Button
     m_Metadata:
       m_Items: []
+  - m_Id: 698812424597504
+    m_Key: Language_Header
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -59,6 +59,14 @@ MonoBehaviour:
     m_Key: Navigate_Label
     m_Metadata:
       m_Items: []
+  - m_Id: 659870065176576
+    m_Key: Close_Label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 661535354859520
+    m_Key: Main-Menu_Label
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
