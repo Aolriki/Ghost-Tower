@@ -212,12 +212,27 @@ public class CodeSlot : LookProp
                 if (_shakeCoroutine != null) StopCoroutine(_shakeCoroutine);
                 _shakeCoroutine = StartCoroutine(ShakeRoutine());
                 OnWrongCode?.Invoke();
+
+                // NOVO: Toca o som de falha junto com o tremor visual
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlaySFX(SFXType.FalhaDestrancar);
                 break;
-            case CodeSlotState.CorrectCode: OnCorrectCode?.Invoke(); break;
+
+            case CodeSlotState.CorrectCode:
+                OnCorrectCode?.Invoke();
+                // NOVO: Opcional - Tocar som de sucesso aqui também, caso o puzzle tenha múltiplas etapas
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlaySFX(SFXType.SucessoDestrancar);
+                break;
+
             case CodeSlotState.Solved:
                 canInteract = false;
                 OnCantInteract();
                 OnSolved?.Invoke();
+
+                // NOVO: Som de sucesso ao concluir o puzzle e travar a interação
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlaySFX(SFXType.SucessoDestrancar);
                 break;
         }
         Debug.Log($"[CodeSlot] {gameObject.name} -> {_state}");

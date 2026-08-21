@@ -35,10 +35,20 @@ public class KeySlot : Interactable
         if (!isCorrect)
         {
             ShowWrongMessage();
+
+            // NOVO: Som de falha ao tentar destrancar com a chave errada ou mão vazia
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX(SFXType.FalhaDestrancar);
+
             return;
         }
 
         InventoryManager.Instance.RemoveItem(selectedItem);
+
+        // NOVO: Som de sucesso antes de mudar o estado para resolvido
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX(SFXType.SucessoDestrancar);
+
         SetState(KeySlotState.Solved);
     }
 

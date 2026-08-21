@@ -27,6 +27,11 @@ public abstract class Collectable : Interactable
         bool added = InventoryManager.Instance.AddItem(item);
         if (!added) return false;
 
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(SFXType.ColetarItem);
+        }
+
         OnCantInteract();
         gameObject.SetActive(false);
         Destroy(gameObject, 0.5f);

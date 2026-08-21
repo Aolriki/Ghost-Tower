@@ -29,5 +29,10 @@ public class DocItem : Collectable
         }
 
         ScreenManager.OpenDocItem(doc);
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(SFXType.AbrirDocumento);  
+        }
     }
 }
