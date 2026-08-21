@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6903001516044695257}
   - component: {fileID: 7980517606005717231}
   - component: {fileID: 6472342292265267608}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: World Canva
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1200, y: 1200}
+  m_SizeDelta: {x: 600, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6903001516044695257
 Canvas:
@@ -151,12 +151,13 @@ MonoBehaviour:
   interactionCanvas: {fileID: 6903001516044695257}
   interactionIcon: {fileID: 829901733534423041}
   defaultSprite: {fileID: 21300000, guid: af235099469bd5d43b68e84c0ff71e80, type: 3}
-  handSprite: {fileID: 21300000, guid: af235099469bd5d43b68e84c0ff71e80, type: 3}
-  padlockSprite: {fileID: 21300000, guid: af235099469bd5d43b68e84c0ff71e80, type: 3}
-  eyeSprite: {fileID: 21300000, guid: af235099469bd5d43b68e84c0ff71e80, type: 3}
-  cryptexSprite: {fileID: 21300000, guid: af235099469bd5d43b68e84c0ff71e80, type: 3}
-  crystalSprite: {fileID: 21300000, guid: af235099469bd5d43b68e84c0ff71e80, type: 3}
-  speechBubbleSprite: {fileID: 21300000, guid: af235099469bd5d43b68e84c0ff71e80, type: 3}
+  handSprite: {fileID: 21300000, guid: ca4d03609e5dfc341a8b892d79a0edc7, type: 3}
+  padlockSprite: {fileID: 21300000, guid: 413e284beef21f24cb16b397e8d08eb5, type: 3}
+  eyeSprite: {fileID: 21300000, guid: 8a358b89f9f1f434b92e29887d1cf788, type: 3}
+  cryptexSprite: {fileID: 21300000, guid: 3ac879af8c8dc1a4cbb05f9e67bb168e, type: 3}
+  crystalSprite: {fileID: 21300000, guid: 4941cd45a0a9bc24faadbbaf87d0ea7f, type: 3}
+  speechBubbleSprite: {fileID: 21300000, guid: f36ae1d9f7e496c419581f6b7f66568c, type: 3}
+  iconColor: {r: 0.3066038, g: 1, b: 0.8924086, a: 1}
 --- !u!1 &3582329999250248463
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +245,7 @@ GameObject:
   - component: {fileID: 6639677225965575407}
   - component: {fileID: 5032399848895178899}
   - component: {fileID: 829901733534423041}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Interactable Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +269,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 600}
+  m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5032399848895178899
 CanvasRenderer:
@@ -291,14 +292,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 2100000, guid: ba2773e78ac89eb4a8dbb445445f626f, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.3066038, g: 1, b: 0.8924086, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5538cf76defa4bf48b22e2a45a9d0dc2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8a358b89f9f1f434b92e29887d1cf788, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -388,7 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LookMode
   cameraMoveSpeed: 8
-  exitDelay: 0
+  exitDelay: 0.5
   playerBodyRenderers:
   - {fileID: 0}
   - {fileID: 0}

@@ -25,6 +25,11 @@ public class InteractionUI : MonoBehaviour
     public Sprite crystalSprite;
     public Sprite speechBubbleSprite;
 
+    [Header("Icon Tint")]
+    [Tooltip("Tints every interaction icon at once. Alpha is controlled separately by the fade system.")]
+    [ColorUsage(showAlpha: false)]
+    public Color iconColor = Color.white;
+
     private Coroutine floatCoroutine;
     private Coroutine fadeCoroutine;
     private Camera mainCamera;
@@ -41,12 +46,19 @@ public class InteractionUI : MonoBehaviour
 
         mainCamera = Camera.main;
 
+        ApplyIconColor();
+
         if (interactionCanvas != null)
         {
             interactionCanvas.renderMode = RenderMode.WorldSpace;
             interactionCanvas.worldCamera = mainCamera;
             SetCanvasVisible(false, instant: true);
         }
+    }
+
+    private void OnValidate()
+    {
+        ApplyIconColor();
     }
 
     private void OnDestroy()
@@ -102,6 +114,18 @@ public class InteractionUI : MonoBehaviour
             InteractIcon.SpeechBubble => speechBubbleSprite,
             _ => defaultSprite
         };
+    }
+
+    // Applies the tint RGB without touching the alpha the fade system controls.
+    private void ApplyIconColor()
+    {
+        if (interactionIcon == null) return;
+
+        Color c = interactionIcon.color;
+        c.r = iconColor.r;
+        c.g = iconColor.g;
+        c.b = iconColor.b;
+        interactionIcon.color = c;
     }
 
     // ── Float ─────────────────────────────────────────────────────────────────
