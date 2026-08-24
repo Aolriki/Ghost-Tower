@@ -19,7 +19,8 @@ public abstract class Collectable : Interactable
     protected abstract bool TryInteract();
 
     // Tenta adicionar o item ao inventario. Se bem-sucedido, desativa o GameObject e o destroi apos um delay.
-    protected bool Collect()
+    // NOVO: Adicionado parâmetro opcional playSound, que por padrão é true
+    protected bool Collect(bool playSound = true)
     {
         if (item == null) return false;
         if (InventoryManager.Instance == null) return false;
@@ -27,7 +28,8 @@ public abstract class Collectable : Interactable
         bool added = InventoryManager.Instance.AddItem(item);
         if (!added) return false;
 
-        if (AudioManager.Instance != null)
+        // NOVO: Agora só toca o som genérico se playSound for verdadeiro
+        if (playSound && AudioManager.Instance != null)
         {
             AudioManager.Instance.PlaySFX(SFXType.ColetarItem);
         }
