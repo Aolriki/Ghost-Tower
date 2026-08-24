@@ -374,6 +374,14 @@ PrefabInstance:
       propertyPath: OnSolved.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: AddItem_Event
       objectReference: {fileID: 0}
+    - target: {fileID: 1577442596609108958, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
+      propertyPath: interactOffset.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1577442596609108958, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
+      propertyPath: interactOffset.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3968690461319438383, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -417,6 +425,14 @@ PrefabInstance:
     - target: {fileID: 5694666703782106605, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
       propertyPath: m_Name
       value: Aisha's Room (Props)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672282833743541999, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.002
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672282833743541999, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
