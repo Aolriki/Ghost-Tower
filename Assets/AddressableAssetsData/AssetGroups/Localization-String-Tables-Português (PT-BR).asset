@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: "Localization-String-Tables-Portugu\xEAs (PT-BR)"
   m_GUID: e8e2911b0fe0d5b468e05c25543803b8
   m_SerializeEntries:
+  - m_GUID: 1b0f9f465d4e12e439dee9c1d88ca4d6
+    m_Address: Documents_pt
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8abd0cb03702d894e9ec4f02a30887d5
     m_Address: Messages and Thoughts_pt
     m_ReadOnly: 1

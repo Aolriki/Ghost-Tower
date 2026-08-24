@@ -44,7 +44,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 13
   m_Type: 1
-  m_Color: {r: 1, g: 0.5907618, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.9191024, b: 0.8235294, a: 1}
   m_Intensity: 0.1
   m_Range: 10
   m_SpotAngle: 30
@@ -141,6 +141,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackLightController
   eulerAngles: {x: -45, y: 45, z: 0}
-  color: {r: 0.42895338, g: 0.1511659, b: 0.745283, a: 1}
-  intensity: 1.04
-  power: 2.85
+  color: {r: 0, g: 0.33085215, b: 1, a: 1}
+  intensity: 2.94
+  power: 4.38
