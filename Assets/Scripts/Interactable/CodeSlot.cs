@@ -254,6 +254,13 @@ public class CodeSlot : LookProp
             int dir = input.x > 0f ? 1 : -1;
             _selectedSlot = Mathf.Clamp(_selectedSlot + dir, 0, SlotCount - 1);
             ResetBlink();
+
+            // NOVO: Som ao navegar entre os slots (Esquerda / Direita)
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySFX(SFXType.GirarCodeSlot);
+            }
+
             return;
         }
 
@@ -266,6 +273,12 @@ public class CodeSlot : LookProp
             SetValue(_selectedSlot, next);
             OnSlotVisualUpdate(_selectedSlot, next);
             RotateSlot(_selectedSlot, dir);
+
+            // NOVO: Som ao girar os números do cilindro (Cima / Baixo)
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySFX(SFXType.GirarCodeSlot);
+            }
         }
     }
 

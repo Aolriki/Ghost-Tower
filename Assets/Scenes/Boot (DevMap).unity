@@ -638,13 +638,65 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
+      propertyPath: sfxLibrary.Array.data[0].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
+      propertyPath: sfxLibrary.Array.data[1].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
+      propertyPath: sfxLibrary.Array.data[2].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
+      propertyPath: sfxLibrary.Array.data[3].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
+      propertyPath: sfxLibrary.Array.data[4].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
+      propertyPath: sfxLibrary.Array.data[5].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
+      propertyPath: sfxLibrary.Array.data[6].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
       propertyPath: sfxLibrary.Array.data[3].clips.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
       propertyPath: sfxLibrary.Array.data[4].clips.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
+      propertyPath: sfxLibrary.Array.data[5].clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
+      propertyPath: sfxLibrary.Array.data[6].clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
+      propertyPath: 'sfxLibrary.Array.data[3].clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 579e982f30bb9cb4480bbddc5d5692e6, type: 3}
+    - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
+      propertyPath: 'sfxLibrary.Array.data[4].clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 01e2722b0af8c384d8524c1527cdf9de, type: 3}
+    - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
+      propertyPath: 'sfxLibrary.Array.data[5].clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 573e7669016e67b4fad03b276c7b9583, type: 3}
+    - target: {fileID: 6621596364786118372, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
+      propertyPath: 'sfxLibrary.Array.data[6].clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: a8f71f367be01c4449f39110476ffd5d, type: 3}
     - target: {fileID: 6907627638132318534, guid: 09b0f0ddf690aeb4d9d96e8337b5d4bd, type: 3}
       propertyPath: m_Name
       value: Audio Manager
