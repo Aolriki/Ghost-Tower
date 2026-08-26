@@ -235,10 +235,6 @@ public class ScreenManager : MonoBehaviour
 
         Instance?.OpenDoc(item.docPagePrefab);
 
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlaySFX(SFXType.AbrirDocumento);
-        }
     }
 
     public void CloseDoc()

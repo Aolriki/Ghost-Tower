@@ -14,5 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DocSO
   icon: {fileID: 0}
   iconSelected: {fileID: 0}
-  itemName: 
+  itemName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   docPagePrefab: {fileID: 1366434716278061428, guid: efcaed03eb88e9b4ab676e1b1ea2bc98, type: 3}
+  somDeAbertura: 7
+  references:
+    version: 2
+    RefIds: []

@@ -174,7 +174,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: ec7c9bf01156db74ab34e80549258df9, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.75
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -412,7 +412,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6907627638132318534}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1368.4016, y: 489.33527, z: 99.10339}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -441,27 +441,30 @@ MonoBehaviour:
   sfxLibrary:
   - type: 0
     clips: []
-    volume: 0
+    volume: 1
   - type: 1
     clips:
     - {fileID: 8300000, guid: f01ffe18637525a46b4f7de4e606da2f, type: 3}
-    volume: 0
+    volume: 1
   - type: 2
     clips:
     - {fileID: 8300000, guid: b87d4f1de3a4b2b4bae7b63556947d63, type: 3}
-    volume: 0
+    volume: 1
   - type: 3
     clips:
     - {fileID: 8300000, guid: 579e982f30bb9cb4480bbddc5d5692e6, type: 3}
-    volume: 0
+    volume: 1
   - type: 4
     clips:
-    - {fileID: 8300000, guid: 399c180c78269ae45b5971cfb0f7f692, type: 3}
-    volume: 0
+    - {fileID: 8300000, guid: 7ca22f4a4696f394daf12aaab2188f31, type: 3}
+    volume: 1
   - type: 5
-    clips: []
-    volume: 0
+    clips:
+    - {fileID: 8300000, guid: 4d1a5efa66e32e248851b7d32e4bb96f, type: 3}
+    - {fileID: 8300000, guid: 01644f6e5ab66094ba1b0dd4e5897e6f, type: 3}
+    volume: 1
   - type: 6
-    clips: []
-    volume: 0
+    clips:
+    - {fileID: 8300000, guid: a8f71f367be01c4449f39110476ffd5d, type: 3}
+    volume: 1
   sfxPitchVariance: 0.1
