@@ -32,7 +32,7 @@ public class DocItem : Collectable
 
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.PlaySFX(SFXType.AbrirDocumento);
+            AudioManager.Instance.PlaySFX(doc.somDeAbertura);
         }
     }
 }

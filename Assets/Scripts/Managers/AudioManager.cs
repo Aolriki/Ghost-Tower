@@ -11,7 +11,8 @@ public enum SFXType
     GirarCodeSlot,
     FalhaDestrancar,
     SucessoDestrancar,
-    ConcluirFase
+    ConcluirFase,
+    Vento
 }
 
 [Serializable]
@@ -74,26 +75,37 @@ public class AudioManager : MonoBehaviour
 
     // ── Feedback Sonoro (SFX) ─────────────────────────────────────────────────
 
-    // NOVO: Toca pelo Enum, sem precisar referenciar AudioClip em outros scripts
-    public void PlaySFX(SFXType type)
+    public void PlaySFX(SFXType type, int clipIndex = -1)
     {
         if (sfxSource == null) return;
 
-        SoundEffect? soundEffect = Array.Find(sfxLibrary, s => s.type == type);
+        // O jeito mais seguro de buscar struct em array é procurando a posição dele
+        int index = Array.FindIndex(sfxLibrary, s => s.type == type);
 
-        if (soundEffect.HasValue && soundEffect.Value.clips.Length > 0)
+        // Se o index for diferente de -1, significa que o som existe na lista
+        if (index != -1)
         {
-            // Escolhe um áudio aleatório caso haja mais de um (ótimo para passos)
-            AudioClip clipToPlay = soundEffect.Value.clips[UnityEngine.Random.Range(0, soundEffect.Value.clips.Length)];
+            // Agora pegamos o struct diretamente pela posição na lista
+            SoundEffect soundEffect = sfxLibrary[index];
 
-            // Randomiza levemente o pitch para não ficar robótico
-            sfxSource.pitch = 1f + UnityEngine.Random.Range(-sfxPitchVariance, sfxPitchVariance);
+            if (soundEffect.clips != null && soundEffect.clips.Length > 0)
+            {
+                AudioClip clipToPlay;
 
-            sfxSource.PlayOneShot(clipToPlay, soundEffect.Value.volume);
-        }
-        else
-        {
-            Debug.LogWarning($"[AudioManager] Som do tipo {type} não encontrado na biblioteca!");
+                // Se o índice for válido (0, 1, 2...), toca exatamente ele
+                if (clipIndex >= 0 && clipIndex < soundEffect.clips.Length)
+                {
+                    clipToPlay = soundEffect.clips[clipIndex];
+                }
+                // Se for -1 (ou um número inválido), sorteia aleatoriamente
+                else
+                {
+                    int randomIndex = UnityEngine.Random.Range(0, soundEffect.clips.Length);
+                    clipToPlay = soundEffect.clips[randomIndex];
+                }
+
+                sfxSource.PlayOneShot(clipToPlay); // Exemplo de como estava antes
+            }
         }
     }
 

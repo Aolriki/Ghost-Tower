@@ -244,6 +244,7 @@ MonoBehaviour:
   audioMappings:
   - triggerName: 1
     soundType: 1
+    specificClipIndex: 0
 --- !u!1 &360901965 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1714928243211094640, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
@@ -264,6 +265,7 @@ MonoBehaviour:
   audioMappings:
   - triggerName: 1
     soundType: 6
+    specificClipIndex: 0
 --- !u!1001 &1272809827
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -341,8 +343,10 @@ MonoBehaviour:
   audioMappings:
   - triggerName: 1
     soundType: 4
+    specificClipIndex: 0
   - triggerName: 2
     soundType: 5
+    specificClipIndex: 0
 --- !u!1001 &1609940795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -459,6 +463,10 @@ PrefabInstance:
     - target: {fileID: 730624837294356722, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
       propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1283035355692508972, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
+      propertyPath: audioMappings.Array.data[0].specificClipIndex
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1285482532162607901, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
       propertyPath: OnFail.m_PersistentCalls.m_Calls.Array.size
@@ -792,9 +800,37 @@ PrefabInstance:
       propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5527538546649598656, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
+      propertyPath: m_Size.x
+      value: 1.8000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5527538546649598656, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
+      propertyPath: m_Size.y
+      value: 0.75773066
+      objectReference: {fileID: 0}
+    - target: {fileID: 5527538546649598656, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
+      propertyPath: m_Center.y
+      value: 0.37886533
+      objectReference: {fileID: 0}
     - target: {fileID: 5694666703782106605, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
       propertyPath: m_Name
       value: Aisha's Room (Props)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923697749451306076, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
+      propertyPath: m_Size.x
+      value: 1.9255805
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923697749451306076, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
+      propertyPath: m_Size.y
+      value: 0.83946186
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923697749451306076, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
+      propertyPath: m_Center.x
+      value: 0.025165875
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923697749451306076, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
+      propertyPath: m_Center.y
+      value: 0.41973093
       objectReference: {fileID: 0}
     - target: {fileID: 7300285790792728456, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
       propertyPath: OnSolved.m_PersistentCalls.m_Calls.Array.size
@@ -890,10 +926,13 @@ MonoBehaviour:
   audioMappings:
   - triggerName: 0
     soundType: 4
+    specificClipIndex: 0
   - triggerName: 1
     soundType: 5
+    specificClipIndex: 0
   - triggerName: 2
     soundType: 3
+    specificClipIndex: 0
 --- !u!114 &1626334042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -909,6 +948,7 @@ MonoBehaviour:
   audioMappings:
   - triggerName: Pegar
     soundType: 1
+    specificClipIndex: 0
 --- !u!1001 &1648855445
 PrefabInstance:
   m_ObjectHideFlags: 0

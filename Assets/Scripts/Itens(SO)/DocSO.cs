@@ -8,4 +8,9 @@ public class DocSO : ItemSO
 
     [Header("Doc")]
     public GameObject docPagePrefab;
+
+    [Header("Configuração de Áudio")]
+    [Tooltip("O som que tocará quando esta tela for aberta")]
+    public SFXType somDeAbertura = SFXType.AbrirDocumento; // Já deixamos o papel como padrão!
+
 }
