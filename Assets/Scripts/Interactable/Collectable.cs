@@ -33,10 +33,6 @@ public abstract class Collectable : Interactable
         _collected = true;
         canInteract = false;
 
-        if (playSound && AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlaySFX(SFXType.ColetarItem);
-        }
 
         OnCantInteract();
         gameObject.SetActive(false);
