@@ -25,6 +25,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _OUTLINE_ON
   - _SURFACE_TRANSPARENT
   m_InvalidKeywords:
   - _GLOSSYREFLECTIONS_OFF
@@ -73,6 +74,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -134,10 +139,12 @@ Material:
     - _MAIN_LIGHT_SHADOWS_CASCADE: 0
     - _Metallic: 0
     - _Mode: 0
+    - _NormalIntensity: 1
+    - _NormalMapOn: 0
     - _OcclusionStrength: 1
     - _Opacity: 1
-    - _OutlineOn: 0
-    - _OutlineThickness: 1
+    - _OutlineOn: 1
+    - _OutlineThickness: 0.5
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -161,13 +168,15 @@ Material:
     - _SurfaceType: 2
     - _UVSec: 0
     - _WorkflowMode: 1
+    - _WorldTilingOn: 0
+    - _WorldTilingScale: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 0
     m_Colors:
     - _BaseColor: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor: {r: 0.16981131, g: 0.053666778, b: 0.053666778, a: 1}
     - _ShadeColor: {r: 0.29999995, g: 0.19999993, b: 0.45, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
