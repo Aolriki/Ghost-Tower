@@ -134,8 +134,8 @@ Material:
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
     - _SpecEnabled: 1
-    - _SpecIntensity: 0.21
-    - _SpecSmoothness: 0.351
+    - _SpecIntensity: 0.64
+    - _SpecSmoothness: 0.2
     - _SpecSoftness: 1
     - _SpecSource: 0
     - _SpecularHighlights: 1
