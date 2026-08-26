@@ -667,6 +667,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Screen Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 8552242110023483910, guid: d5b460577ee7be5489fd4cf07b579dd9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8623860080562485604, guid: d5b460577ee7be5489fd4cf07b579dd9, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
