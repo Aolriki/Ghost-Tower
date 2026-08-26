@@ -79,6 +79,7 @@ public class CodeSlot : LookProp
     public UnityEvent OnWrongCode;
     public UnityEvent OnCorrectCode;
     public UnityEvent OnSolved;
+    public UnityEvent OnNavigate; // NOVO: Evento para quando o jogador gira as peças
 
     // ── State: combinacao ─────────────────────────────────────────────────────────
 
@@ -213,26 +214,18 @@ public class CodeSlot : LookProp
                 _shakeCoroutine = StartCoroutine(ShakeRoutine());
                 OnWrongCode?.Invoke();
 
-                // NOVO: Toca o som de falha junto com o tremor visual
-                if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlaySFX(SFXType.FalhaDestrancar);
+
                 break;
 
             case CodeSlotState.CorrectCode:
                 OnCorrectCode?.Invoke();
-                // NOVO: Opcional - Tocar som de sucesso aqui também, caso o puzzle tenha múltiplas etapas
-                if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlaySFX(SFXType.SucessoDestrancar);
+
                 break;
 
             case CodeSlotState.Solved:
                 canInteract = false;
                 OnCantInteract();
                 OnSolved?.Invoke();
-
-                // NOVO: Som de sucesso ao concluir o puzzle e travar a interação
-                if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlaySFX(SFXType.SucessoDestrancar);
                 break;
         }
         Debug.Log($"[CodeSlot] {gameObject.name} -> {_state}");
@@ -255,12 +248,7 @@ public class CodeSlot : LookProp
             _selectedSlot = Mathf.Clamp(_selectedSlot + dir, 0, SlotCount - 1);
             ResetBlink();
 
-            // NOVO: Som ao navegar entre os slots (Esquerda / Direita)
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlaySFX(SFXType.GirarCodeSlot);
-            }
-
+            OnNavigate?.Invoke(); // NOVO: Dispara o evento visualmente
             return;
         }
 
@@ -274,11 +262,7 @@ public class CodeSlot : LookProp
             OnSlotVisualUpdate(_selectedSlot, next);
             RotateSlot(_selectedSlot, dir);
 
-            // NOVO: Som ao girar os números do cilindro (Cima / Baixo)
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlaySFX(SFXType.GirarCodeSlot);
-            }
+            OnNavigate?.Invoke(); // NOVO: Dispara o evento visualmente
         }
     }
 

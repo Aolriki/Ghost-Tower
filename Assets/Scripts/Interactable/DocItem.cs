@@ -13,9 +13,7 @@ public class DocItem : Collectable
         // Modo prop nao coleta, apenas abre o documento.
         if (!isProp)
         {
-            // NOVO: Passa 'false' para silenciar o plim genérico.
-            // O som do papel será tocado logo em seguida pelo ScreenManager!
-            if (!Collect(false)) return false;
+            if (!Collect()) return false;
         }
 
         ReadMe();
@@ -31,5 +29,10 @@ public class DocItem : Collectable
         }
 
         ScreenManager.OpenDocItem(doc);
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(SFXType.AbrirDocumento);
+        }
     }
 }

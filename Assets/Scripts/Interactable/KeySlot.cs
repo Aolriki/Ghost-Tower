@@ -18,6 +18,7 @@ public class KeySlot : Interactable
     public KeySlotState State => state;
 
     public UnityEvent OnSolved;
+    public UnityEvent OnFail; // NOVO: Evento específico para quando o jogador erra a chave
 
     void Awake()
     {
@@ -35,20 +36,11 @@ public class KeySlot : Interactable
         if (!isCorrect)
         {
             ShowWrongMessage();
-
-            // NOVO: Som de falha ao tentar destrancar com a chave errada ou mão vazia
-            if (AudioManager.Instance != null)
-                AudioManager.Instance.PlaySFX(SFXType.FalhaDestrancar);
-
+            OnFail?.Invoke(); // NOVO: Dispara o evento de erro para o Inspector
             return;
         }
 
         InventoryManager.Instance.RemoveItem(selectedItem);
-
-        // NOVO: Som de sucesso antes de mudar o estado para resolvido
-        if (AudioManager.Instance != null)
-            AudioManager.Instance.PlaySFX(SFXType.SucessoDestrancar);
-
         SetState(KeySlotState.Solved);
     }
 
