@@ -370,18 +370,6 @@ PrefabInstance:
       propertyPath: OnSolved.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 2017768248}
-    - target: {fileID: 1285482532162607901, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
-      propertyPath: OnSolved.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: AddItem_Event
-      objectReference: {fileID: 0}
-    - target: {fileID: 1577442596609108958, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
-      propertyPath: interactOffset.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1577442596609108958, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
-      propertyPath: interactOffset.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3968690461319438383, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -425,14 +413,6 @@ PrefabInstance:
     - target: {fileID: 5694666703782106605, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
       propertyPath: m_Name
       value: Aisha's Room (Props)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672282833743541999, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -5.002
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672282833743541999, guid: 072ff02c29b52a14f9d7056a361d9569, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -544,6 +524,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1724006016467663223, guid: 042c8a80d6768a54f83a7b11f64fbe34, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7c2c1afee1698354cbb0c9b70a400f60, type: 2}
+    - target: {fileID: 1724006016467663223, guid: 042c8a80d6768a54f83a7b11f64fbe34, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: da6da9a655d4537438356abd0e95b79d, type: 2}
+    - target: {fileID: 3579702131338992428, guid: 042c8a80d6768a54f83a7b11f64fbe34, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7c2c1afee1698354cbb0c9b70a400f60, type: 2}
+    - target: {fileID: 3579702131338992428, guid: 042c8a80d6768a54f83a7b11f64fbe34, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: da6da9a655d4537438356abd0e95b79d, type: 2}
     - target: {fileID: 9121484201888977039, guid: 042c8a80d6768a54f83a7b11f64fbe34, type: 3}
       propertyPath: m_Name
       value: Level Root

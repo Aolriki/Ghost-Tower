@@ -11,9 +11,11 @@ Material:
   m_Shader: {fileID: 4800000, guid: ce3e625c48ef35a49ab7d887b360a663, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _NORMALMAP_ON
+  - _WORLD_TILING_ON
   m_InvalidKeywords:
-  - _GLOSSYREFLECTIONS_OFF
+  - _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -27,11 +29,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: dba18b4b3a18aa244b3f39bed9125b80, type: 3}
+        m_Texture: {fileID: 2800000, guid: e84b1ae32433c32428bb9195c5d70016, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f683dba0a9617ad4ead67e23b3937491, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -51,11 +53,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: e84b1ae32433c32428bb9195c5d70016, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: f683dba0a9617ad4ead67e23b3937491, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -87,9 +93,10 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _BackLightEnabled: 0
+    - _BackLightEnabled: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
+    - _BlendOp: 0
     - _BumpScale: 1
     - _CameraFade: 0
     - _ClearCoatMask: 0
@@ -104,9 +111,12 @@ Material:
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
+    - _GlossinessSource: 0
     - _GlossyReflections: 0
     - _Metallic: 0
     - _Mode: 0
+    - _NormalIntensity: 0.47
+    - _NormalMapOn: 1
     - _OcclusionStrength: 1
     - _Opacity: 1
     - _OutlineOn: 0
@@ -116,14 +126,18 @@ Material:
     - _ReceiveShadows: 1
     - _ReflectionIntensity: 1
     - _ReflectionSmoothness: 0.85
-    - _ShadeBlend: 0.9
-    - _ShadeSoftness: 0.06
+    - _SampleGI: 0
+    - _ShadeBlend: 0.5
+    - _ShadeSoftness: 0.02
+    - _Shininess: 0
     - _Smoothness: 0.5
+    - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
     - _SpecEnabled: 1
-    - _SpecIntensity: 0.05
-    - _SpecSmoothness: 0
+    - _SpecIntensity: 0.21
+    - _SpecSmoothness: 0.351
     - _SpecSoftness: 1
+    - _SpecSource: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
@@ -131,14 +145,16 @@ Material:
     - _SurfaceType: 0
     - _UVSec: 0
     - _WorkflowMode: 1
+    - _WorldTilingOn: 1
+    - _WorldTilingScale: 0.3
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.754717, g: 0.66696817, b: 0.5517978, a: 1}
+    - _BaseColor: {r: 0.6039216, g: 0.5254902, b: 0.5845861, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShadeColor: {r: 0.12951797, g: 0, b: 0.2264151, a: 1}
+    - _ShadeColor: {r: 0.08235294, g: 0, b: 0.1882353, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

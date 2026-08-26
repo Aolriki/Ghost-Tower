@@ -51,6 +51,28 @@ public class ToonStandardShaderGUI : ShaderGUI
         }
 
         EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Normal Map", EditorStyles.boldLabel);
+        DrawProperty("_NormalMapOn", "Enable Normal Map");
+        if (IsEnabled("_NormalMapOn"))
+        {
+            DrawProperty("_NormalMap", "Normal Map");
+            DrawProperty("_NormalIntensity", "Normal Intensity");
+        }
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Global Tiling", EditorStyles.boldLabel);
+        DrawProperty("_WorldTilingOn", "Enable Global Tiling");
+        if (IsEnabled("_WorldTilingOn"))
+        {
+            DrawProperty("_WorldTilingScale", "World Tiling Scale");
+            EditorGUILayout.HelpBox(
+                "Usa a posicao no mundo (X e Z) como UV. Ideal para chao; " +
+                "superficies verticais ficam esticadas. O Tiling/Offset da " +
+                "Base Map e ignorado nesse modo.",
+                MessageType.Info);
+        }
+
+        EditorGUILayout.Space();
         EditorGUILayout.LabelField("Shading", EditorStyles.boldLabel);
         DrawProperty("_ShadeColor", "Shade Color");
         DrawProperty("_ShadeBlend", "Shade Blend");
@@ -58,17 +80,23 @@ public class ToonStandardShaderGUI : ShaderGUI
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Specular", EditorStyles.boldLabel);
+        bool specularActive;
         if (surfaceType == SurfaceType.Metallic)
         {
             EditorGUILayout.HelpBox("Specular esta sempre ligado no modo Metallic.", MessageType.None);
+            specularActive = true;
         }
         else
         {
             DrawProperty("_SpecEnabled", "Enable Specular");
+            specularActive = IsEnabled("_SpecEnabled");
         }
-        DrawProperty("_SpecIntensity", "Specular Intensity");
-        DrawProperty("_SpecSmoothness", "Specular Smoothness");
-        DrawProperty("_SpecSoftness", "Specular Softness");
+        if (specularActive)
+        {
+            DrawProperty("_SpecIntensity", "Specular Intensity");
+            DrawProperty("_SpecSmoothness", "Specular Smoothness");
+            DrawProperty("_SpecSoftness", "Specular Softness");
+        }
 
         EditorGUILayout.Space();
         DrawProperty("_BackLightEnabled", "Enable Back Light");
@@ -76,14 +104,20 @@ public class ToonStandardShaderGUI : ShaderGUI
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Emission", EditorStyles.boldLabel);
         DrawProperty("_EmissionOn", "Enable Emission");
-        DrawTextureAndColor("_EmissionMap", "Emission Map", "_EmissionColor");
+        if (IsEnabled("_EmissionOn"))
+        {
+            DrawTextureAndColor("_EmissionMap", "Emission Map", "_EmissionColor");
+        }
 
         if (surfaceType != SurfaceType.Transparent)
         {
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Alpha Clip", EditorStyles.boldLabel);
             DrawProperty("_AlphaClip", "Enable Alpha Clip");
-            DrawProperty("_Cutoff", "Alpha Cutoff");
+            if (IsEnabled("_AlphaClip"))
+            {
+                DrawProperty("_Cutoff", "Alpha Cutoff");
+            }
         }
 
         EditorGUILayout.Space();
@@ -93,8 +127,11 @@ public class ToonStandardShaderGUI : ShaderGUI
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Outline", EditorStyles.boldLabel);
         DrawProperty("_OutlineOn", "Enable Outline");
-        DrawProperty("_OutlineColor", "Outline Color");
-        DrawProperty("_OutlineThickness", "Outline Thickness");
+        if (IsEnabled("_OutlineOn"))
+        {
+            DrawProperty("_OutlineColor", "Outline Color");
+            DrawProperty("_OutlineThickness", "Outline Thickness");
+        }
 
         if (surfaceTypeChanged)
         {
@@ -121,6 +158,12 @@ public class ToonStandardShaderGUI : ShaderGUI
         {
             materialEditor.ShaderProperty(property, label);
         }
+    }
+
+    private bool IsEnabled(string propertyName)
+    {
+        MaterialProperty property = FindProperty(propertyName, properties, false);
+        return property != null && property.floatValue > 0.5f;
     }
 
     private void DrawTextureAndColor(string texturePropertyName, string label, string colorPropertyName)

@@ -59,19 +59,19 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 4d7714d361a0ec14c93cbd156ce0878b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: da6da9a655d4537438356abd0e95b79d, type: 2}
+      objectReference: {fileID: 2100000, guid: 7c2c1afee1698354cbb0c9b70a400f60, type: 2}
     - target: {fileID: -7511558181221131132, guid: 4d7714d361a0ec14c93cbd156ce0878b, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 2100000, guid: 00bcb1633c8d0dd409b9f6b9b9b155a2, type: 2}
+      objectReference: {fileID: 2100000, guid: da6da9a655d4537438356abd0e95b79d, type: 2}
     - target: {fileID: -7511558181221131132, guid: 4d7714d361a0ec14c93cbd156ce0878b, type: 3}
       propertyPath: 'm_Materials.Array.data[2]'
       value: 
-      objectReference: {fileID: 2100000, guid: 466c2ffc094745b4abbd913e9d609b19, type: 2}
+      objectReference: {fileID: 2100000, guid: 00bcb1633c8d0dd409b9f6b9b9b155a2, type: 2}
     - target: {fileID: -7511558181221131132, guid: 4d7714d361a0ec14c93cbd156ce0878b, type: 3}
       propertyPath: 'm_Materials.Array.data[3]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7c2c1afee1698354cbb0c9b70a400f60, type: 2}
+      objectReference: {fileID: 2100000, guid: 466c2ffc094745b4abbd913e9d609b19, type: 2}
     - target: {fileID: 919132149155446097, guid: 4d7714d361a0ec14c93cbd156ce0878b, type: 3}
       propertyPath: m_Name
       value: MainDoor-Wall_3D

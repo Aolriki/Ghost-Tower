@@ -18,6 +18,25 @@ Shader "Toon/Standard"
         [MainColor]   _BaseColor("Base Color", Color) = (1, 1, 1, 1)
 
         // -----------------------------------------------
+        // Normal Map - Normal Map/Normal Intensity visiveis apenas
+        // quando Enable Normal Map estiver ligado.
+        // -----------------------------------------------
+        [Header(Normal Map)] [Space(5)]
+        [Toggle(_NORMALMAP_ON)] _NormalMapOn("Enable Normal Map", Float) = 0
+        _NormalMap("Normal Map", 2D) = "bump" {}
+        _NormalIntensity("Normal Intensity", Range(0, 3)) = 1
+
+        // -----------------------------------------------
+        // Global Tiling - usa a posicao no mundo (plano XZ) como UV
+        // em vez do UV da malha. Evita textura quebrada em pecas de
+        // chao rotacionadas. So fica correto em superficies horizontais.
+        // World Tiling Scale visivel apenas quando ligado.
+        // -----------------------------------------------
+        [Header(Global Tiling)] [Space(5)]
+        [Toggle(_WORLD_TILING_ON)] _WorldTilingOn("Enable Global Tiling", Float) = 0
+        _WorldTilingScale("World Tiling Scale", Float) = 1
+
+        // -----------------------------------------------
         // Transparency - visivel apenas quando Surface Type = Transparent
         // -----------------------------------------------
         [Header(Transparency)] [Space(5)]
@@ -107,6 +126,8 @@ Shader "Toon/Standard"
 
             #pragma shader_feature_local_fragment _SURFACE_METALLIC
             #pragma shader_feature_local_fragment _SURFACE_TRANSPARENT
+            #pragma shader_feature_local_fragment _NORMALMAP_ON
+            #pragma shader_feature_local_fragment _WORLD_TILING_ON
             #pragma shader_feature_local _EMISSION_ON
             #pragma shader_feature_local _ALPHATEST_ON
 

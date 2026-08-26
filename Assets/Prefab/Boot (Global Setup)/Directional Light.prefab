@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3da47a1f75d9fe4792bb293365691fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackLightController
-  eulerAngles: {x: -45, y: 45, z: 0}
-  color: {r: 0, g: 0.33085215, b: 1, a: 1}
-  intensity: 2.94
-  power: 4.38
+  eulerAngles: {x: 2.32, y: 45, z: 0}
+  color: {r: 1, g: 0.45435536, b: 0, a: 1}
+  intensity: 0.51
+  power: 2.73
